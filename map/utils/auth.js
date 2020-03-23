@@ -4,11 +4,15 @@ import {Text} from 'native-base';
 import {storeData} from './asyncStorage';
 import {Actions} from 'react-native-router-flux';
 
+import io from 'socket.io-client';
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const socket = user && io('http://127.0.0.1:8888?username=' + user.username);
 
   useEffect(() => {
     request
@@ -46,7 +50,7 @@ export const AuthProvider = ({children}) => {
   };
 
   return (
-    <AuthContext.Provider value={{user, signin, signup}}>
+    <AuthContext.Provider value={{user, signin, signup, socket}}>
       {children}
     </AuthContext.Provider>
   );

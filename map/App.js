@@ -9,7 +9,7 @@ import Signin from './components/autentification/Signin';
 import Signup from './components/autentification/Signup';
 import Game from './components/partie/Game';
 import Map from './components/map/Map';
-import Test from './Test';
+import Teams from './components/partie/Teams';
 import {AuthProvider} from './utils/auth';
 import {Router, Stack, Scene} from 'react-native-router-flux';
 
@@ -47,11 +47,10 @@ const App = () => {
     <AuthProvider>
       <Router>
         <Stack key="root">
-          {/*<Scene key="test" component={Test} title="Test" initial /> */}
           <Scene
             key="Signin"
             component={Signin}
-            title="Signin"
+            title="Connexion"
             navigationBarStyle={styles.header}
             titleStyle={styles.titleColor}
             initial
@@ -59,7 +58,7 @@ const App = () => {
           <Scene
             key="Signup"
             component={Signup}
-            title="Signup"
+            title="Inscription"
             navigationBarStyle={styles.header}
             titleStyle={styles.titleColor}
           />
@@ -70,14 +69,16 @@ const App = () => {
             navigationBarStyle={styles.header}
             titleStyle={styles.titleColor}
           />
-          <Scene key="map" component={Map} hideNavBar={true} />
+          <Scene key="Map" component={Map} />
+          <Scene
+            key="Teams"
+            component={Teams}
+            title="Equipes"
+            navigationBarStyle={styles.header}
+            titleStyle={styles.titleColor}
+          />
         </Stack>
       </Router>
-      {/*<Signup />
-      {/*<Container>
-        {/*<OpenStreetMapScreen />*/}
-      {/*<Signin />
-      </Container> */}
     </AuthProvider>
   );
 };

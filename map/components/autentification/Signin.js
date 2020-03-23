@@ -6,6 +6,8 @@ import {Actions} from 'react-native-router-flux';
 
 import {useAuth} from '../../utils/auth';
 
+import {stylesSigninSignup} from '../../css/style';
+
 const Signin = () => {
   const {signin} = useAuth();
 
@@ -23,84 +25,39 @@ const Signin = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={stylesSigninSignup.container}>
       <TextInput
-        style={styles.input}
-        placeholder="Username"
+        style={stylesSigninSignup.input}
+        placeholder="Nom d'utilisateur"
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
         onChangeText={e => setUsername(e)}
       />
       <TextInput
-        style={styles.input}
+        style={stylesSigninSignup.input}
         secureTextEntry={true}
-        placeholder="Password"
+        placeholder="Mot de passe"
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
         onChangeText={e => setPassword(e)}
       />
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Submit</Text>
+      <TouchableOpacity
+        style={stylesSigninSignup.submitButton}
+        onPress={handleSubmit}>
+        <Text style={stylesSigninSignup.submitButtonText}>Se connecter</Text>
       </TouchableOpacity>
 
-      <Text style={styles.textRegister}>Pas encore inscrit ?</Text>
+      <Text style={stylesSigninSignup.textRegister}>Pas encore inscrit ?</Text>
 
       <Button
-        style={styles.btnRegister}
+        style={stylesSigninSignup.btnRegister}
         onPress={() => {
           Actions.Signup();
         }}>
-        <Text style={styles.btnRegisterColor}>S'inscrire</Text>
+        <Text style={stylesSigninSignup.btnRegisterColor}>S'inscrire</Text>
       </Button>
     </View>
   );
 };
 
 export default Signin;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 10,
-    backgroundColor: '#26292F',
-  },
-  input: {
-    margin: 15,
-    height: 50,
-    backgroundColor: '#1B1E22',
-    borderRadius: 5,
-    color: '#FFFFFF',
-    paddingLeft: 20,
-
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-
-    elevation: 20,
-  },
-  submitButton: {
-    backgroundColor: '#68B684',
-    padding: 10,
-    borderRadius: 5,
-    alignSelf: 'center',
-  },
-  submitButtonText: {
-    color: '#FFFFFF',
-  },
-  btnRegister: {
-    backgroundColor: 'transparent',
-    alignSelf: 'center',
-  },
-  btnRegisterColor: {
-    color: '#68B684',
-  },
-  textRegister: {
-    alignSelf: 'center',
-    color: '#FFFFFF',
-    marginTop: 20,
-  },
-});
