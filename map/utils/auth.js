@@ -12,7 +12,8 @@ export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const socket = user && io('http://127.0.0.1:8888?username=' + user.username);
+  const socket =
+    user && io('http://192.168.43.120:8888?username=' + user.username);
 
   useEffect(() => {
     request
