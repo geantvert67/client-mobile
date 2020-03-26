@@ -30,7 +30,7 @@ const Teams = () => {
     socket.on('getTeams', t => setTeams(t));
   }, []);
 
-  !gameStarted && socket.emit('addTeamPlayer');
+  !gameStarted && socket.emit('getTeams') && socket.emit('addTeamPlayer');
 
   return teams ? (
     <>
