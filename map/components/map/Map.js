@@ -7,23 +7,22 @@ import {useAuth} from '../../utils/auth';
 import {formatZone, formatForbiddenZone} from '../../utils/game';
 
 import Geolocation from '@react-native-community/geolocation';
+import {useSocket} from '../../utils/socket';
+import {acceptGeoloc} from '../../utils/geoloc';
 
 const Map = () => {
-  const {socket, user} = useAuth();
-
+  const {user} = useAuth();
+  const {socket} = useSocket();
   const [areas, setAreas] = useState([]);
-
   const [capturedFlags, setCapturedFlags] = useState([]);
-
   const [teamMarkers, setTeamMarkers] = useState([]);
-
   const [teamPlayers, setTeamPlayers] = useState([]);
-
   const [timer, setTimer] = useState(0);
-
   const [error, setError] = useState('');
 
   useEffect(() => {
+    acceptGeoloc();
+    console.log(socket);
     socket.on('getAreas', a => {
       setAreas(a);
     });
@@ -43,10 +42,7 @@ const Map = () => {
     const watchId = Geolocation.watchPosition(
       pos => {
         setError('');
-        socket.emit('routine', {
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
-        });
+        socket.emit('routine', [pos.coords.latitude, pos.coords.longitude]);
       },
       e => setError(e.message),
     );
@@ -75,24 +71,27 @@ const Map = () => {
           fillColor="rgba(0, 255, 0, 0.3)"
         />
 
-        {teamPlayers.map(player => {
-          return (
-            player.username !== user.username && (
-              <MapView.Marker
-                coordinate={player.coordinates}
-                title={player.username}
-              />
-            )
-          );
-        })}
+        {teamPlayers.length > 0 &&
+          teamPlayers.map(player => {
+            return (
+              player.username !== user.username && (
+                <MapView.Marker
+                  coordinate={player.coordinates}
+                  title={player.username}
+                />
+              )
+            );
+          })}
 
-        {capturedFlags.map(flag => {
-          return <MapView.Marker coordinate={flag.coordinates} />;
-        })}
+        {capturedFlags.length > 0 &&
+          capturedFlags.map(flag => {
+            return <MapView.Marker coordinate={flag.coordinates} />;
+          })}
 
-        {teamMarkers.map(marker => {
-          return <MapView.Marker coordinate={marker.coordinates} />;
-        })}
+        {teamMarkers.length > 0 &&
+          teamMarkers.map(marker => {
+            return <MapView.Marker coordinate={marker.coordinates} />;
+          })}
       </MapView>
     </View>
   );

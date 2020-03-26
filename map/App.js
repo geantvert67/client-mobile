@@ -1,8 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {Container} from 'native-base';
-//import OpenStreetMapScreen from './OpenStreetMap';
-import Geolocation from '@react-native-community/geolocation';
-//import {View, Text, PermissionsAndroid, Platform} from 'react-native';
 import {StyleSheet} from 'react-native';
 
 import Signin from './components/autentification/Signin';
@@ -12,73 +8,48 @@ import Map from './components/map/Map';
 import Teams from './components/partie/Teams';
 import {AuthProvider} from './utils/auth';
 import {Router, Stack, Scene} from 'react-native-router-flux';
+import {SocketProvider} from './utils/socket';
 
 const App = () => {
-  // Test pour savoir si l'OS du téléphone est android ou IOS pour demander les droits de géolocalisations
-  //if (Platform.OS === 'android') {
-  //  requestLocationPermission();
-  //} else if (Platform.OS === 'ios') {
-  //  Geolocation.requestAuthorization();
-  //}
-
-  // Fonction qui demande les droit de géolocalisation sous android
-  /*async function requestLocationPermission() {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Example App',
-          message: 'Example App access to your location ',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can use the location');
-        //alert('You can use the location');
-      } else {
-        console.log('location permission denied');
-        //alert('Location permission denied');
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  }*/
-
   // Scene hideNavBar={true}
   return (
     <AuthProvider>
-      <Router>
-        <Stack key="root">
-          <Scene
-            key="Signin"
-            component={Signin}
-            title="Connexion"
-            navigationBarStyle={styles.header}
-            titleStyle={styles.titleColor}
-            initial
-          />
-          <Scene
-            key="Signup"
-            component={Signup}
-            title="Inscription"
-            navigationBarStyle={styles.header}
-            titleStyle={styles.titleColor}
-          />
-          <Scene
-            key="Game"
-            component={Game}
-            title="Partie"
-            navigationBarStyle={styles.header}
-            titleStyle={styles.titleColor}
-          />
-          <Scene key="Map" component={Map} />
-          <Scene
-            key="Teams"
-            component={Teams}
-            title="Equipes"
-            navigationBarStyle={styles.header}
-            titleStyle={styles.titleColor}
-          />
-        </Stack>
-      </Router>
+      <SocketProvider>
+        <Router>
+          <Stack key="root">
+            <Scene
+              key="Signin"
+              component={Signin}
+              title="Connexion"
+              navigationBarStyle={styles.header}
+              titleStyle={styles.titleColor}
+              initial
+            />
+            <Scene
+              key="Signup"
+              component={Signup}
+              title="Inscription"
+              navigationBarStyle={styles.header}
+              titleStyle={styles.titleColor}
+            />
+            <Scene
+              key="Game"
+              component={Game}
+              title="Partie"
+              navigationBarStyle={styles.header}
+              titleStyle={styles.titleColor}
+            />
+            <Scene key="Map" component={Map} />
+            <Scene
+              key="Teams"
+              component={Teams}
+              title="Equipes"
+              navigationBarStyle={styles.header}
+              titleStyle={styles.titleColor}
+            />
+          </Stack>
+        </Router>
+      </SocketProvider>
     </AuthProvider>
   );
 };

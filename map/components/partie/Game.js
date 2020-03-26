@@ -15,15 +15,16 @@ import io from 'socket.io-client';
 import {useAuth} from '../../utils/auth';
 
 import {stylesGame} from '../../css/style';
+import {useSocket} from '../../utils/socket';
+import PrivateGame from './PrivateGame';
 
 const Game = () => {
-  const {user, socket} = useAuth();
+  const {user} = useAuth();
+  const {socket, setSocket} = useSocket();
 
   const [games, setGames] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  //const socket = io('http://127.0.0.1:8888?username=Toto');
 
   useEffect(() => {
     setLoading(true);
@@ -43,56 +44,14 @@ const Game = () => {
       });
   }, []);
 
-  const redirectTeams = (team, teams) => {
-    //Actions.Map();
-    //console.log(teams);
-    Actions.Teams(teams);
-    Alert.alert(
-      'Vous êtes connecté à la partie !',
-      "Vous faites désormais partie de l'équipe " + team,
-    );
-  };
-
-  const handleGame = () => {
-    let affectedTeam = '';
-    socket.on('getTeams', teams => {
-      teams.map(team => {
-        team.players.map(
-          player =>
-            player.username === user.username && (affectedTeam = team.name),
-        );
-      });
-      affectedTeam === ''
-        ? socket.emit('addTeamPlayer')
-        : redirectTeams(affectedTeam, teams);
-    });
-    socket.emit('getTeams');
+  const handleGame = (ip, port) => {
+    setSocket(io(`http://${ip}:${port}?username=${user.username}`));
+    Actions.Teams();
   };
 
   return (
     <View style={stylesGame.container}>
-      <View>
-        <Text style={stylesGame.gameText}>Partie privée</Text>
-        <View style={stylesGame.row}>
-          <TextInput
-            style={stylesGame.input1}
-            placeholder="Adresse IP"
-            placeholderTextColor="#D2D2D2"
-            autoCapitalize="none"
-          />
-          <TextInput
-            style={stylesGame.input2}
-            placeholder="Port"
-            placeholderTextColor="#D2D2D2"
-            autoCapitalize="none"
-          />
-        </View>
-        <TouchableOpacity
-          style={stylesGame.submitButton}
-          onPress={() => Actions.Map()}>
-          <Text style={stylesGame.submitButtonText}>Jouer</Text>
-        </TouchableOpacity>
-      </View>
+      <PrivateGame handleGame={handleGame} />
       <View>
         <Text style={stylesGame.gameText}>Parties publiques</Text>
         {loading ? (
@@ -106,7 +65,9 @@ const Game = () => {
                 keyExtractor={item => item.id}
                 data={games}
                 renderItem={({item}) => (
-                  <Text style={stylesGame.item} onPress={handleGame}>
+                  <Text
+                    style={stylesGame.item}
+                    onPress={() => handleGame(item.ip, item.port)}>
                     <Text style={stylesGame.gameNameText}>
                       {item.Config.name} - {}
                     </Text>
