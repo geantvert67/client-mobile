@@ -7,22 +7,20 @@ import {Actions} from 'react-native-router-flux';
 import {useAuth} from '../../utils/auth';
 
 import {stylesSigninSignup} from '../../css/style';
+import {Popup} from '../Toast';
 
 const Signin = () => {
   const {signin} = useAuth();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    signin({username, password}).catch(err => {
-      setUsername('');
-      setPassword('');
-      setMessage(err.message);
-    });
+  const handleSubmit = () => {
+    signin({username, password}, setError);
   };
+
+  error !== '' && Popup(error) && setError('');
 
   return (
     <View style={stylesSigninSignup.container}>

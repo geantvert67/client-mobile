@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {View, TextInput, TouchableOpacity} from 'react-native';
 import {Text} from 'native-base';
 
 import {useAuth} from '../../utils/auth';
 
 import {stylesSigninSignup} from '../../css/style';
+import {Popup} from '../Toast';
 
 const Signup = () => {
   const {signup} = useAuth();
@@ -12,20 +13,18 @@ const Signup = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   const formValid = username && password && password === passwordCheck;
 
   const handleSubmit = e => {
     e.preventDefault();
-    formValid &&
-      signup({username, password}).catch(err => {
-        setUsername('');
-        setPassword('');
-        setPasswordCheck('');
-        setMessage(err.message);
-      });
+    formValid
+      ? signup({username, password}, setError)
+      : Popup('Les mots de passe ne coïncident pas.');
   };
+
+  error !== '' && Popup(error) && setError('');
 
   return (
     <View style={stylesSigninSignup.container}>
