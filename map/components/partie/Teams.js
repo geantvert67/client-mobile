@@ -12,17 +12,14 @@ import {stylesSigninSignup} from '../../css/style';
 import {useSocket} from '../../utils/socket';
 
 const Teams = () => {
-  const [gameStarted, setGameStarted] = useState(false);
+  const [gameStarted, setGameStarted] = useState(null);
   const [teams, setTeams] = useState(null);
-  console.log('teams :');
-  console.log(teams);
 
   const {socket} = useSocket();
-  console.log(socket);
+  console.log('Socket  ' + socket);
 
   const checkStart = () => {
     socket.on('getConfig', config => {
-      console.log('getTeams');
       setGameStarted(config.launched);
     });
     socket.emit('getConfig');
@@ -31,8 +28,9 @@ const Teams = () => {
   useEffect(() => {
     gameStarted || checkStart();
     socket.on('getTeams', t => setTeams(t));
-    socket.emit('addTeamPlayer');
   }, []);
+
+  !gameStarted && socket.emit('addTeamPlayer');
 
   return teams ? (
     <>

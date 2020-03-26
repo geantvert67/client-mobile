@@ -17,6 +17,7 @@ import {useAuth} from '../../utils/auth';
 import {stylesGame} from '../../css/style';
 import {useSocket} from '../../utils/socket';
 import PrivateGame from './PrivateGame';
+import {Popup} from '../Toast';
 
 const Game = () => {
   const {user} = useAuth();

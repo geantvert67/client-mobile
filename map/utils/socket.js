@@ -1,10 +1,10 @@
 import React, {createContext, useState, useContext} from 'react';
+import {Popup} from '../components/Toast';
 
 const SocketContext = createContext();
 
 export const SocketProvider = ({children}) => {
   const [socket, setSocket] = useState(null);
-  console.log(socket);
 
   return (
     <SocketContext.Provider value={{socket, setSocket}}>

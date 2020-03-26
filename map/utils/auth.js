@@ -23,7 +23,7 @@ export const AuthProvider = ({children}) => {
     return <Text h4>Loading...</Text>;
   }
 
-  const signin = credentials => {
+  const signin = (credentials, setError) => {
     return request
       .post('/signin', credentials)
       .then(res => {
@@ -31,10 +31,13 @@ export const AuthProvider = ({children}) => {
         setUser(res.data.user);
         Actions.Game();
       })
-      .catch(e => console.log(e));
+      .catch(err => {
+        if (err.response.status === 401) setError('Mauvais identifiants');
+        else setError('Une erreur est survenue');
+      });
   };
 
-  const signup = credentials => {
+  const signup = (credentials, setError) => {
     return request
       .post('/signup', credentials)
       .then(res => {
@@ -42,7 +45,11 @@ export const AuthProvider = ({children}) => {
         setUser(res.data.user);
         Actions.Signin();
       })
-      .catch(e => console.log(e));
+      .catch(err => {
+        if (err.response.status === 409)
+          setError("Ce nom d'utilisateur existe déjà");
+        else setError('Une erreur est survenue');
+      });
   };
 
   return (
