@@ -16,7 +16,6 @@ const Teams = () => {
   const [teams, setTeams] = useState(null);
 
   const {socket} = useSocket();
-  console.log('Socket  ' + socket);
 
   const checkStart = () => {
     socket.on('getConfig', config => {

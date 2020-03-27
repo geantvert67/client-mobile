@@ -1,24 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Platform} from 'react-native';
 
-import MapView, {MAP_TYPES, Polygon} from 'react-native-maps';
+import MapView, {MAP_TYPES, Polygon, Marker} from 'react-native-maps';
 
-import {useAuth} from '../../utils/auth';
 import {formatZone, formatForbiddenZone} from '../../utils/game';
 
 import Geolocation from '@react-native-community/geolocation';
 import {useSocket} from '../../utils/socket';
 import {acceptGeoloc} from '../../utils/geoloc';
+import Markers from '../marker/Markers';
+import mapStyle from '../../css/map';
 
 const Map = () => {
-  const {user} = useAuth();
   const {socket} = useSocket();
   const [areas, setAreas] = useState([]);
-  const [capturedFlags, setCapturedFlags] = useState([]);
+  const [flags, setFlags] = useState([]);
   const [teamMarkers, setTeamMarkers] = useState([]);
-  const [teamPlayers, setTeamPlayers] = useState([]);
+  const [players, setPlayers] = useState([]);
   const [timer, setTimer] = useState(0);
   const [error, setError] = useState('');
+  const [position, setPosition] = useState([]);
 
   useEffect(() => {
     acceptGeoloc();
@@ -28,9 +29,9 @@ const Map = () => {
     });
     socket.emit('getAreas');
     socket.on('routine', routine => {
-      setCapturedFlags(routine.flags);
+      setFlags(routine.flags);
       setTeamMarkers(routine.markers);
-      setTeamPlayers(routine.players);
+      setPlayers(routine.players);
     });
   }, []);
 
@@ -41,7 +42,9 @@ const Map = () => {
   useEffect(() => {
     const watchId = Geolocation.watchPosition(
       pos => {
+        console.log(pos);
         setError('');
+        setPosition([pos.coords.latitude, pos.coords.longitude]);
         socket.emit('routine', [pos.coords.latitude, pos.coords.longitude]);
       },
       e => setError(e.message),
@@ -49,51 +52,41 @@ const Map = () => {
     return () => Geolocation.clearWatch(watchId);
   }, [timer]);
 
-  console.log(capturedFlags);
-
+  console.log(players);
   return (
-    <View>
-      <MapView
-        provider={null}
-        rotateEnabled={true}
-        mapType={
-          Platform.OS === 'android' ? MAP_TYPES.STANDARD : MAP_TYPES.NONE
-        }
-        userLocationUpdateInterval={1000}
-        followsUserLocation
-        showsCompass
-        style={{flex: 1}}
-        style={styles.map}
-        showsUserLocation>
-        <Polygon
-          coordinates={formatZone(areas)}
-          holes={formatForbiddenZone(areas)}
-          fillColor="rgba(0, 255, 0, 0.3)"
-        />
-
-        {teamPlayers.length > 0 &&
-          teamPlayers.map(player => {
-            return (
-              player.username !== user.username && (
-                <MapView.Marker
-                  coordinate={player.coordinates}
-                  title={player.username}
-                />
-              )
-            );
-          })}
-
-        {capturedFlags.length > 0 &&
-          capturedFlags.map(flag => {
-            return <MapView.Marker coordinate={flag.coordinates} />;
-          })}
-
-        {teamMarkers.length > 0 &&
-          teamMarkers.map(marker => {
-            return <MapView.Marker coordinate={marker.coordinates} />;
-          })}
-      </MapView>
-    </View>
+    position.length > 0 && (
+      <View>
+        <MapView
+          provider={null}
+          initialRegion={{
+            latitude: position[0],
+            longitude: position[1],
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          }}
+          rotateEnabled={true}
+          mapType={
+            Platform.OS === 'android' ? MAP_TYPES.STANDARD : MAP_TYPES.NONE
+          }
+          customMapStyle={mapStyle}
+          userLocationUpdateInterval={1000}
+          followsUserLocation
+          showsCompass
+          style={{flex: 1}}
+          style={styles.map}
+          showsUserLocation>
+          {areas.length > 0 && (
+            <Polygon
+              strokeColor="rgba(0, 255, 0, 0.3)"
+              coordinates={formatZone(areas)}
+              holes={formatForbiddenZone(areas)}
+              fillColor="rgba(0, 255, 0, 0.1)"
+            />
+          )}
+          <Markers players={players} flags={flags} />
+        </MapView>
+      </View>
+    )
   );
 };
 

@@ -3,6 +3,7 @@ export const formatZone = areas => {
   areas.map(area => {
     !area.forbidden &&
       area.coordinates[0].map(point => {
+        console.log(point);
         zone.push({latitude: point[0], longitude: point[1]});
       });
   });

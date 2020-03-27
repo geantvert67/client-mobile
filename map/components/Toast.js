@@ -1,9 +1,8 @@
 import Toast from 'react-native-root-toast';
 import React from 'react';
-import {Reducer} from 'react-native-router-flux';
 
 export const Popup = message => {
-  return (toast = Toast.show(message, {
+  return Toast.show(message, {
     duration: Toast.durations.LONG,
     position: Toast.positions.BOTTOM,
     shadow: true,
@@ -23,7 +22,7 @@ export const Popup = message => {
     onHidden: () => {
       // calls on toast\`s hide animation end.
     },
-  }));
+  });
 
   // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
   setTimeout(function() {
