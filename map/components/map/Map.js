@@ -17,18 +17,21 @@ const Map = () => {
   const [flags, setFlags] = useState([]);
   const [teamMarkers, setTeamMarkers] = useState([]);
   const [players, setPlayers] = useState([]);
+  const [unknowns, setUnknowns] = useState([]);
   const [timer, setTimer] = useState(0);
   const [error, setError] = useState('');
   const [position, setPosition] = useState([]);
 
+  console.log(unknowns);
+
   useEffect(() => {
     acceptGeoloc();
-    console.log(socket);
     socket.on('getAreas', a => {
       setAreas(a);
     });
     socket.emit('getAreas');
     socket.on('routine', routine => {
+      setUnknowns(routine.unknowns);
       setFlags(routine.flags);
       setTeamMarkers(routine.markers);
       setPlayers(routine.players);
@@ -42,7 +45,6 @@ const Map = () => {
   useEffect(() => {
     const watchId = Geolocation.watchPosition(
       pos => {
-        console.log(pos);
         setError('');
         setPosition([pos.coords.latitude, pos.coords.longitude]);
         socket.emit('routine', [pos.coords.latitude, pos.coords.longitude]);
@@ -52,7 +54,6 @@ const Map = () => {
     return () => Geolocation.clearWatch(watchId);
   }, [timer]);
 
-  console.log(players);
   return (
     position.length > 0 && (
       <View>
@@ -74,7 +75,8 @@ const Map = () => {
           showsCompass
           style={{flex: 1}}
           style={styles.map}
-          showsUserLocation>
+          showsUserLocation={true}
+          onUserLocationChange={e => console.log(e)}>
           {areas.length > 0 && (
             <Polygon
               strokeColor="rgba(0, 255, 0, 0.3)"
@@ -83,7 +85,7 @@ const Map = () => {
               fillColor="rgba(0, 255, 0, 0.1)"
             />
           )}
-          <Markers players={players} flags={flags} />
+          <Markers players={players} flags={flags} unknowns={unknowns} />
         </MapView>
       </View>
     )
