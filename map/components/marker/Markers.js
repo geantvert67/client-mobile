@@ -5,11 +5,11 @@ import {useSocket} from '../../utils/socket';
 import Svg, {Image} from 'react-native-svg';
 import Logo from '../../img/location-arrow-solid.svg';
 
-const Markers = ({players, flags, unknowns}) => {
+const Markers = ({players, flags, unknowns, playerTeam}) => {
   return (
     <>
       <PlayerMarker players={players} />
-      <FlagMarker flags={flags} />
+      <FlagMarker flags={flags} playerTeam={playerTeam} />
       <UnknownMarker unknowns={unknowns} />
     </>
   );
@@ -42,11 +42,11 @@ const PlayerMarker = ({players}) => {
   );
 };
 
-const FlagMarker = ({flags}) => {
+const FlagMarker = ({flags, playerTeam}) => {
   const {socket} = useSocket();
 
   const captureFlag = idFlag => {
-    socket.emit('captureFlag', {flagId: idFlag, teamId: 2});
+    socket.emit('captureFlag', {flagId: idFlag, teamId: playerTeam.id});
   };
 
   return (
@@ -54,13 +54,19 @@ const FlagMarker = ({flags}) => {
     flags.map(f => {
       return (
         <Marker
-          title={f.team ? 'Cristal capturé' : 'Cristal libre'}
-          pinColor="gold"
-          image={require('../../img/crystal.gif')}
+          title={
+            f.team ? `Cristal capturé par ${f.team.name}` : 'Cristal libre'
+          }
+          image={
+            f.capturedUntil
+              ? require('../../img/crystal_locked.png')
+              : require('../../img/crystal.gif')
+          }
           coordinate={{
             latitude: f.coordinates[0],
             longitude: f.coordinates[1],
           }}
+          style={{width: 500, height: 500}}
           onPress={() => captureFlag(f.id)}
         />
       );
@@ -74,8 +80,8 @@ const UnknownMarker = ({unknowns}) => {
     unknowns.map(u => {
       return (
         <Marker
-          title="Objet inconnu"
-          pinColor="indigo"
+          title="Inconnu"
+          image={require('../../img/unknown.png')}
           coordinate={{
             latitude: u.coordinates[0],
             longitude: u.coordinates[1],

@@ -1,17 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Platform} from 'react-native';
 
-import MapView, {MAP_TYPES, Polygon, Marker} from 'react-native-maps';
-
-import {formatZone, formatForbiddenZone} from '../../utils/game';
-
+import MapView, {MAP_TYPES} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import {useSocket} from '../../utils/socket';
 import {acceptGeoloc} from '../../utils/geoloc';
 import Markers from '../marker/Markers';
 import mapStyle from '../../css/map';
+import Polygons from './Polygons';
 
-const Map = () => {
+const Map = ({playerTeam}) => {
   const {socket} = useSocket();
   const [areas, setAreas] = useState([]);
   const [flags, setFlags] = useState([]);
@@ -21,8 +19,6 @@ const Map = () => {
   const [timer, setTimer] = useState(0);
   const [error, setError] = useState('');
   const [position, setPosition] = useState([]);
-
-  console.log(unknowns);
 
   useEffect(() => {
     acceptGeoloc();
@@ -77,15 +73,14 @@ const Map = () => {
           style={styles.map}
           showsUserLocation={true}
           onUserLocationChange={e => console.log(e)}>
-          {areas.length > 0 && (
-            <Polygon
-              strokeColor="rgba(0, 255, 0, 0.3)"
-              coordinates={formatZone(areas)}
-              holes={formatForbiddenZone(areas)}
-              fillColor="rgba(0, 255, 0, 0.1)"
-            />
-          )}
-          <Markers players={players} flags={flags} unknowns={unknowns} />
+          {areas.length > 0 && <Polygons areas={areas} />}
+
+          <Markers
+            players={players}
+            flags={flags}
+            unknowns={unknowns}
+            playerTeam={playerTeam}
+          />
         </MapView>
       </View>
     )
