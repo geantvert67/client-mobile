@@ -70,11 +70,9 @@ const Game = () => {
                     style={stylesGame.item}
                     onPress={() => handleGame(item.ip, item.port)}>
                     <Text style={stylesGame.gameNameText}>
-                      {item.Config.name} - {}
+                      {item.name} - {}
                     </Text>
-                    <Text style={stylesGame.gameModeText}>
-                      {item.Config.gameMode}
-                    </Text>
+                    <Text style={stylesGame.gameModeText}>{item.gameMode}</Text>
                   </Text>
                 )}
               />
