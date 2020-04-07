@@ -9,6 +9,7 @@ import Teams from './components/partie/Teams';
 import {AuthProvider} from './utils/auth';
 import {Router, Stack, Scene} from 'react-native-router-flux';
 import {SocketProvider} from './utils/socket';
+import BackButton from './components/BackButton';
 
 const App = () => {
   // Scene hideNavBar={true}
@@ -23,6 +24,7 @@ const App = () => {
               title="Connexion"
               navigationBarStyle={styles.header}
               titleStyle={styles.titleColor}
+              renderBackButton={() => <BackButton />}
               initial
             />
             <Scene
@@ -31,6 +33,7 @@ const App = () => {
               title="Inscription"
               navigationBarStyle={styles.header}
               titleStyle={styles.titleColor}
+              renderBackButton={() => <BackButton />}
             />
             <Scene
               key="Game"
@@ -38,14 +41,23 @@ const App = () => {
               title="Partie"
               navigationBarStyle={styles.header}
               titleStyle={styles.titleColor}
+              renderBackButton={() => <BackButton />}
             />
-            <Scene key="Map" component={Map} />
+
+            <Scene
+              key="Map"
+              navigationBarStyle={styles.header}
+              titleStyle={styles.titleColor}
+              component={Map}
+              renderBackButton={() => <BackButton />}
+            />
             <Scene
               key="Teams"
               component={Teams}
               title="Equipes"
               navigationBarStyle={styles.header}
               titleStyle={styles.titleColor}
+              renderBackButton={() => <BackButton disconnect={true} />}
             />
           </Stack>
         </Router>

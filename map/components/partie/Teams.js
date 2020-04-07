@@ -29,7 +29,9 @@ const Teams = () => {
 
   useEffect(() => {
     gameStarted || checkStart();
-    socket.on('getTeams', t => setTeams(t));
+    socket.on('getTeams', t => {
+      setTeams(t);
+    });
   }, []);
 
   useEffect(() => {
@@ -60,13 +62,6 @@ const Teams = () => {
           onPress={() => Actions.Map({playerTeam})}
           disabled={!gameStarted}>
           <Text>Jouer</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={stylesSigninSignup.submitButton}
-          onPress={() => {
-            socket.emit('launchGame');
-          }}>
-          <Text>Lancer</Text>
         </TouchableOpacity>
       </View>
     </>

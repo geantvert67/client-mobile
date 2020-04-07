@@ -2,8 +2,11 @@ import React from 'react';
 import {useAuth} from '../../utils/auth';
 import {Marker} from 'react-native-maps';
 import {useSocket} from '../../utils/socket';
-import Svg, {Image} from 'react-native-svg';
-import Logo from '../../img/location-arrow-solid.svg';
+import {Svg} from 'react-native-svg';
+import {View, Image} from 'react-native';
+import CrystalLocked from '../../img/crystal-locked.svg';
+import Crystal from '../../img/crystal.svg';
+import Teammate from '../../img/location-arrow-solid.svg';
 
 const Markers = ({players, flags, unknowns, playerTeam}) => {
   return (
@@ -19,10 +22,6 @@ const PlayerMarker = ({players}) => {
   const {user} = useAuth();
   const img = require('../../img/crystal.gif');
 
-  /** <Svg>
-            <Logo width={120} height={40} fill={'red'} />
-          </Svg>
-  */
   return (
     players.length > 0 &&
     players.map(p => {
@@ -31,11 +30,12 @@ const PlayerMarker = ({players}) => {
         p.coordinates.length > 0 && (
           <Marker
             title={p.username}
-            image={require('../../img/alien.gif')}
             coordinate={{
               latitude: p.coordinates[0],
               longitude: p.coordinates[1],
-            }}></Marker>
+            }}>
+            <Teammate fill={p.teamColor} />
+          </Marker>
         )
       );
     })
@@ -57,18 +57,19 @@ const FlagMarker = ({flags, playerTeam}) => {
           title={
             f.team ? `Cristal capturé par ${f.team.name}` : 'Cristal libre'
           }
-          image={
-            f.capturedUntil
-              ? require('../../img/crystal_locked.png')
-              : require('../../img/crystal.gif')
-          }
           coordinate={{
             latitude: f.coordinates[0],
             longitude: f.coordinates[1],
           }}
-          style={{width: 500, height: 500}}
-          onPress={() => captureFlag(f.id)}
-        />
+          onPress={() => captureFlag(f.id)}>
+          <View>
+            {f.capturedUntil ? (
+              <CrystalLocked fill={f.team ? f.team.color : 'grey'} />
+            ) : (
+              <Crystal fill={f.team ? f.team.color : 'grey'} />
+            )}
+          </View>
+        </Marker>
       );
     })
   );
@@ -81,12 +82,16 @@ const UnknownMarker = ({unknowns}) => {
       return (
         <Marker
           title="Inconnu"
-          image={require('../../img/unknown.png')}
           coordinate={{
             latitude: u.coordinates[0],
             longitude: u.coordinates[1],
-          }}
-        />
+          }}>
+          <Image
+            source={require('../../img/unknown.png')}
+            style={{width: 40, height: 40}}
+            resizeMode="contain"
+          />
+        </Marker>
       );
     })
   );

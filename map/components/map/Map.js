@@ -72,7 +72,7 @@ const Map = ({playerTeam}) => {
           style={{flex: 1}}
           style={styles.map}
           showsUserLocation={true}
-          onUserLocationChange={e => console.log(e)}>
+          showsMyLocationButton={true}>
           {areas.length > 0 && <Polygons areas={areas} />}
 
           <Markers
