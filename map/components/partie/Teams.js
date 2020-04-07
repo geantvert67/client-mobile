@@ -10,13 +10,15 @@ import {Text} from 'native-base';
 
 import {stylesSigninSignup} from '../../css/style';
 import {useSocket} from '../../utils/socket';
+import {useAuth} from '../../utils/auth';
 
 const Teams = () => {
   const [gameStarted, setGameStarted] = useState(null);
   const [teams, setTeams] = useState(null);
+  const [playerTeam, setPlayerTeam] = useState(null);
+  const {user} = useAuth();
 
   const {socket} = useSocket();
-  console.log('Socket  ' + socket);
 
   const checkStart = () => {
     socket.on('getConfig', config => {
@@ -27,8 +29,19 @@ const Teams = () => {
 
   useEffect(() => {
     gameStarted || checkStart();
-    socket.on('getTeams', t => setTeams(t));
+    socket.on('getTeams', t => {
+      setTeams(t);
+    });
   }, []);
+
+  useEffect(() => {
+    let team = null;
+    teams &&
+      teams.map(t =>
+        t.players.map(p => p.username === user.username && (team = t)),
+      );
+    setPlayerTeam(team);
+  }, [teams]);
 
   !gameStarted && socket.emit('getTeams') && socket.emit('addTeamPlayer');
 
@@ -46,16 +59,9 @@ const Teams = () => {
         )}
         <TouchableOpacity
           style={stylesSigninSignup.submitButton}
-          onPress={() => Actions.Map()}
+          onPress={() => Actions.Map({playerTeam})}
           disabled={!gameStarted}>
           <Text>Jouer</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={stylesSigninSignup.submitButton}
-          onPress={() => {
-            socket.emit('launchGame');
-          }}>
-          <Text>Lancer</Text>
         </TouchableOpacity>
       </View>
     </>

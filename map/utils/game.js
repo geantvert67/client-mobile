@@ -1,3 +1,12 @@
+export const formatArea = area => {
+  const zone = [];
+  area.coordinates[0].map(point => {
+    zone.push({latitude: point[0], longitude: point[1]});
+  });
+
+  return zone;
+};
+
 export const formatZone = areas => {
   const zone = [];
   areas.map(area => {
