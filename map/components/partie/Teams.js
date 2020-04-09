@@ -11,11 +11,13 @@ import {Text} from 'native-base';
 import {stylesSigninSignup} from '../../css/style';
 import {useSocket} from '../../utils/socket';
 import {useAuth} from '../../utils/auth';
+import {useConfig} from '../../utils/config';
 
 const Teams = () => {
   const [gameStarted, setGameStarted] = useState(null);
   const [teams, setTeams] = useState(null);
   const [playerTeam, setPlayerTeam] = useState(null);
+  const {setConfig} = useConfig();
   const {user} = useAuth();
 
   const {socket} = useSocket();
@@ -23,6 +25,7 @@ const Teams = () => {
   const checkStart = () => {
     socket.on('getConfig', config => {
       setGameStarted(config.launched);
+      setConfig(config);
     });
     socket.emit('getConfig');
   };
@@ -52,13 +55,17 @@ const Teams = () => {
           return <TeamItem team={team} />;
         })}
         {gameStarted || (
-          <Text>
+          <Text style={stylesSigninSignup.submitButtonText}>
             Le maître du jeu n'a pas encore lancé la partie. Veuillez patienter
             !
           </Text>
         )}
         <TouchableOpacity
-          style={stylesSigninSignup.submitButton}
+          style={
+            gameStarted
+              ? stylesSigninSignup.submitButton
+              : stylesSigninSignup.submitButtonDisabled
+          }
           onPress={() => Actions.Map({playerTeam})}
           disabled={!gameStarted}>
           <Text>Jouer</Text>

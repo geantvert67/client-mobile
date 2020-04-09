@@ -1,5 +1,4 @@
 import React, {createContext, useState, useContext} from 'react';
-import {Popup} from '../components/Toast';
 
 const SocketContext = createContext();
 

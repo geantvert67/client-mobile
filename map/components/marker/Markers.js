@@ -7,12 +7,15 @@ import {View, Image} from 'react-native';
 import CrystalLocked from '../../img/crystal-locked.svg';
 import Crystal from '../../img/crystal.svg';
 import Teammate from '../../img/location-arrow-solid.svg';
+import {useConfig} from '../../utils/config';
+import {inRadius} from '../../utils/calcul';
+import {Popup} from '../Toast';
 
-const Markers = ({players, flags, unknowns, playerTeam}) => {
+const Markers = ({players, flags, unknowns, playerTeam, position}) => {
   return (
     <>
       <PlayerMarker players={players} />
-      <FlagMarker flags={flags} playerTeam={playerTeam} />
+      <FlagMarker flags={flags} playerTeam={playerTeam} position={position} />
       <UnknownMarker unknowns={unknowns} />
     </>
   );
@@ -42,11 +45,19 @@ const PlayerMarker = ({players}) => {
   );
 };
 
-const FlagMarker = ({flags, playerTeam}) => {
+const FlagMarker = ({flags, playerTeam, position}) => {
   const {socket} = useSocket();
+  const {config} = useConfig();
 
-  const captureFlag = idFlag => {
-    socket.emit('captureFlag', {flagId: idFlag, teamId: playerTeam.id});
+  const captureFlag = flag => {
+    flag.team.id === playerTeam.id
+      ? Popup('Crystal déjà capturé', 'rgba(255, 165, 0, 0.5)')
+      : flag.capturedUntil
+      ? Popup('Crystal vérouillé', 'rgba(255, 165, 0, 0.5)')
+      : inRadius(flag.coordinates, position, config.flagActionRadius)
+      ? socket.emit('captureFlag', {flagId: flag.id, teamId: playerTeam.id}) &&
+        Popup('Capture en cours...', 'rgba(0, 255,255, 0.5)')
+      : Popup('Crystal trop éloigné !');
   };
 
   return (
@@ -61,9 +72,10 @@ const FlagMarker = ({flags, playerTeam}) => {
             latitude: f.coordinates[0],
             longitude: f.coordinates[1],
           }}
-          onPress={() => captureFlag(f.id)}>
+          onPress={() => captureFlag(f)}>
           <View>
-            {f.capturedUntil ? (
+            {f.capturedUntil &&
+            inRadius(f.coordinates, position, config.flagActionRadius) ? (
               <CrystalLocked fill={f.team ? f.team.color : 'grey'} />
             ) : (
               <Crystal fill={f.team ? f.team.color : 'grey'} />

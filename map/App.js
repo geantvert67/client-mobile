@@ -11,66 +11,69 @@ import {AuthProvider} from './utils/auth';
 import {Router, Stack, Scene} from 'react-native-router-flux';
 import {SocketProvider} from './utils/socket';
 import BackButton from './components/BackButton';
+import {ConfigProvider} from './utils/config';
 
 const App = () => {
   // Scene hideNavBar={true}
   return (
     <AuthProvider>
       <SocketProvider>
-        <Router>
-          <Stack key="root">
-            <Scene
-              key="Signin"
-              component={Signin}
-              title="Connexion"
-              navigationBarStyle={styles.header}
-              titleStyle={styles.titleColor}
-              renderBackButton={() => <BackButton />}
-              initial
-            />
-            <Scene
-              key="Signup"
-              component={Signup}
-              title="Inscription"
-              navigationBarStyle={styles.header}
-              titleStyle={styles.titleColor}
-              renderBackButton={() => <BackButton />}
-            />
-            <Scene
-              key="Game"
-              component={Game}
-              title="Trouver une partie"
-              navigationBarStyle={styles.header}
-              titleStyle={styles.titleColor}
-              renderBackButton={() => <BackButton />}
-            />
+        <ConfigProvider>
+          <Router>
+            <Stack key="root">
+              <Scene
+                key="Signin"
+                component={Signin}
+                title="Connexion"
+                navigationBarStyle={styles.header}
+                titleStyle={styles.titleColor}
+                renderBackButton={() => <BackButton />}
+                initial
+              />
+              <Scene
+                key="Signup"
+                component={Signup}
+                title="Inscription"
+                navigationBarStyle={styles.header}
+                titleStyle={styles.titleColor}
+                renderBackButton={() => <BackButton />}
+              />
+              <Scene
+                key="Game"
+                component={Game}
+                title="Trouver une partie"
+                navigationBarStyle={styles.header}
+                titleStyle={styles.titleColor}
+                renderBackButton={() => <BackButton />}
+              />
 
-            <Scene
-              key="MyGames"
-              component={MyGames}
-              title="Mes parties"
-              navigationBarStyle={styles.header}
-              titleStyle={styles.titleColor}
-              renderBackButton={() => <BackButton />}
-            />
+              <Scene
+                key="MyGames"
+                component={MyGames}
+                title="Mes parties"
+                navigationBarStyle={styles.header}
+                titleStyle={styles.titleColor}
+                renderBackButton={() => <BackButton />}
+              />
 
-            <Scene
-              key="Map"
-              navigationBarStyle={styles.header}
-              titleStyle={styles.titleColor}
-              component={Map}
-              renderBackButton={() => <BackButton />}
-            />
-            <Scene
-              key="Teams"
-              component={Teams}
-              title="Equipes"
-              navigationBarStyle={styles.header}
-              titleStyle={styles.titleColor}
-              renderBackButton={() => <BackButton disconnect={true} />}
-            />
-          </Stack>
-        </Router>
+              <Scene
+                key="Map"
+                navigationBarStyle={styles.header}
+                titleStyle={styles.titleColor}
+                component={Map}
+                renderBackButton={() => <BackButton />}
+              />
+              <Scene
+                key="Teams"
+                component={Teams}
+                title="Equipes"
+                navigationBarStyle={styles.header}
+                titleStyle={styles.titleColor}
+                renderBackButton={() => <BackButton disconnect={true} />}
+              />
+            </Stack>
+          </Router>
+        </ConfigProvider>
       </SocketProvider>
     </AuthProvider>
   );
