@@ -5,31 +5,40 @@ import GamesList from './GamesList';
 import request from '../../utils/request';
 import {Popup} from '../Toast';
 import {getData} from '../../utils/asyncStorage';
+import io from 'socket.io-client';
 
 import {stylesGame} from '../../css/style';
 import {Actions} from 'react-native-router-flux';
+import {formatGames} from '../../utils/game';
+import {useSocket} from '../../utils/socket';
+import {useAuth} from '../../utils/auth';
 
 const MyGames = () => {
-  const [games, setGames] = useState(null);
+  const [invitations, setInvitations] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const {setSocket} = useSocket();
+  const {user} = useAuth();
+
+  console.log(invitations);
 
   useEffect(() => {
     request
-      .get(`/user/invitations`, {
-        headers: {
-          Authorization: 'Bearer ' + getData('token'),
-        },
-      })
+      .get('/user/invitations')
       .then(res => {
-        console.log(res);
+        setInvitations(res.data);
       })
       .catch(err => {
+        console.log('test');
+        console.log(err.response);
         Popup('Une erreur est survenue');
       });
   }, []);
 
-  const handleGame = () => {};
+  const handleGame = (ip, port, id) => {
+    setSocket(io(`http://${ip}:${port}?username=${user.username}`));
+    Actions.Teams();
+  };
 
   return (
     <>
@@ -40,7 +49,12 @@ const MyGames = () => {
           <View style={stylesGame.container}>
             <View>
               <Text style={stylesGame.gameText}>Mes parties</Text>
-              {games && <GamesList games={games} handleGame={handleGame} />}
+              {invitations && (
+                <GamesList
+                  games={formatGames(invitations.filter(i => i.accepted))}
+                  handleGame={handleGame}
+                />
+              )}
               <TouchableOpacity
                 style={stylesGame.submitButton}
                 onPress={() => Actions.Game()}>
@@ -52,12 +66,22 @@ const MyGames = () => {
 
             <View>
               <Text style={stylesGame.gameText}>Demandes en attente</Text>
-              {games && <GamesList games={games} />}
+              {invitations && (
+                <GamesList
+                  games={formatGames(
+                    invitations.filter(i => i.accepted === null),
+                  )}
+                />
+              )}
             </View>
 
             <View>
               <Text style={stylesGame.gameText}>Demandes refusées</Text>
-              {games && <GamesList games={games} />}
+              {invitations && (
+                <GamesList
+                  games={formatGames(invitations.filter(i => !i.accepted))}
+                />
+              )}
             </View>
           </View>
         </>

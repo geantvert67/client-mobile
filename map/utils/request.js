@@ -7,11 +7,11 @@ const request = axios.create({
 
 request.defaults.headers.post['Content-Type'] = 'application/json';
 request.interceptors.request.use(config => {
-  const token = getData('token');
-  if (token) {
+  return (async function() {
+    const token = await getData('token');
     config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+    return config;
+  })();
 });
 
 export default request;
