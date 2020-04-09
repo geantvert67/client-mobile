@@ -1,12 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  Alert,
-} from 'react-native';
+import {View} from 'react-native';
 import {Text} from 'native-base';
 import request from '../../utils/request';
 import {getData} from '../../utils/asyncStorage';
@@ -18,6 +11,7 @@ import {stylesGame} from '../../css/style';
 import {useSocket} from '../../utils/socket';
 import PrivateGame from './PrivateGame';
 import {Popup} from '../Toast';
+import GamesList from './GamesList';
 
 const Game = () => {
   const {user} = useAuth();
@@ -45,9 +39,24 @@ const Game = () => {
       });
   }, []);
 
-  const handleGame = (ip, port) => {
-    setSocket(io(`http://${ip}:${port}?username=${user.username}`));
-    Actions.Teams();
+  const handleGame = (ip, port, gameId) => {
+    request
+      .post(
+        `/games/${gameId}/invitations`,
+        {userId: user.id},
+        {
+          headers: {
+            Authorization: 'Bearer ' + getData('token'),
+          },
+        },
+      )
+      .then(res => {
+        Popup('Demande envoyée', 'rgba(0,255,0,0.5)');
+      })
+      .catch(err => {
+        if (err.response.status === 409) Popup('Demande déjà envoyée');
+        else Popup('Une erreur est survenue');
+      });
   };
 
   return (
@@ -60,24 +69,7 @@ const Game = () => {
         ) : error ? (
           <Text>{error.message}</Text>
         ) : (
-          games && (
-            <View>
-              <FlatList
-                keyExtractor={item => item.id}
-                data={games}
-                renderItem={({item}) => (
-                  <Text
-                    style={stylesGame.item}
-                    onPress={() => handleGame(item.ip, item.port)}>
-                    <Text style={stylesGame.gameNameText}>
-                      {item.name} - {}
-                    </Text>
-                    <Text style={stylesGame.gameModeText}>{item.gameMode}</Text>
-                  </Text>
-                )}
-              />
-            </View>
-          )
+          games && <GamesList games={games} handleGame={handleGame} />
         )}
       </View>
     </View>

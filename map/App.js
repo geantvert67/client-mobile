@@ -4,6 +4,7 @@ import {StyleSheet} from 'react-native';
 import Signin from './components/autentification/Signin';
 import Signup from './components/autentification/Signup';
 import Game from './components/partie/Game';
+import MyGames from './components/partie/MyGames';
 import Map from './components/map/Map';
 import Teams from './components/partie/Teams';
 import {AuthProvider} from './utils/auth';
@@ -38,7 +39,16 @@ const App = () => {
             <Scene
               key="Game"
               component={Game}
-              title="Partie"
+              title="Trouver une partie"
+              navigationBarStyle={styles.header}
+              titleStyle={styles.titleColor}
+              renderBackButton={() => <BackButton />}
+            />
+
+            <Scene
+              key="MyGames"
+              component={MyGames}
+              title="Mes parties"
               navigationBarStyle={styles.header}
               titleStyle={styles.titleColor}
               renderBackButton={() => <BackButton />}
