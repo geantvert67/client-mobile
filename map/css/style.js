@@ -30,6 +30,12 @@ export const stylesSigninSignup = StyleSheet.create({
     borderRadius: 5,
     alignSelf: 'center',
   },
+  submitButtonDisabled: {
+    backgroundColor: 'grey',
+    padding: 10,
+    borderRadius: 5,
+    alignSelf: 'center',
+  },
   submitButtonText: {
     color: '#FFFFFF',
   },

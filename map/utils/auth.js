@@ -29,7 +29,7 @@ export const AuthProvider = ({children}) => {
       .then(res => {
         storeData('token', res.data.token);
         setUser(res.data.user);
-        Actions.Game();
+        Actions.MyGames();
       })
       .catch(err => {
         if (err.response.status === 401) setError('Mauvais identifiants');

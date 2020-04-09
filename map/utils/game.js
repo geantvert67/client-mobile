@@ -31,3 +31,9 @@ export const formatForbiddenZone = areas => {
   });
   return zones;
 };
+
+export const formatGames = g => {
+  const games = [];
+  g.map(myGame => games.push(myGame.Game));
+  return games;
+};

@@ -80,6 +80,7 @@ const Map = ({playerTeam}) => {
             flags={flags}
             unknowns={unknowns}
             playerTeam={playerTeam}
+            position={position}
           />
         </MapView>
       </View>
