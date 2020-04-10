@@ -50,14 +50,14 @@ const FlagMarker = ({flags, playerTeam, position}) => {
   const {config} = useConfig();
 
   const captureFlag = flag => {
-    flag.team.id === playerTeam.id
+    flag.team && flag.team.id === playerTeam.id
       ? Popup('Crystal déjà capturé', 'rgba(255, 165, 0, 0.5)')
+      : !inRadius(flag.coordinates, position, config.flagActionRadius)
+      ? Popup('Crystal trop éloigné !')
       : flag.capturedUntil
       ? Popup('Crystal vérouillé', 'rgba(255, 165, 0, 0.5)')
-      : inRadius(flag.coordinates, position, config.flagActionRadius)
-      ? socket.emit('captureFlag', {flagId: flag.id, teamId: playerTeam.id}) &&
-        Popup('Capture en cours...', 'rgba(0, 255,255, 0.5)')
-      : Popup('Crystal trop éloigné !');
+      : socket.emit('captureFlag', {flagId: flag.id, teamId: playerTeam.id}) &&
+        Popup('Capture en cours...', 'rgba(0, 255,255, 0.5)');
   };
 
   return (
