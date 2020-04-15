@@ -20,6 +20,7 @@ import {useAuth} from '../../utils/auth';
 import RefreshView from '../RefreshView';
 import BottomTabs from '../BottomTabs';
 import {BottomNavigation} from 'react-native-paper';
+import Loader from '../Loader';
 
 const MyGames = () => {
   const [invitations, setInvitations] = useState(null);
@@ -63,14 +64,14 @@ const MyGames = () => {
 
   return (
     <>
-      {loading ? (
-        <Image source={require('../../img/loader.gif')} />
+      {loading || !invitations ? (
+        <Loader />
       ) : (
         <>
           <RefreshView refresh={onRefresh} refreshableMod="advanced">
             <View>
               <Text style={stylesGame.gameText}>Mes parties</Text>
-              {invitations && invitations.filter(i => i.accepted).length > 0 ? (
+              {invitations.filter(i => i.accepted).length > 0 ? (
                 <GamesList
                   games={formatGames(invitations.filter(i => i.accepted))}
                   handleGame={handleGame}
@@ -84,8 +85,7 @@ const MyGames = () => {
 
             <View>
               <Text style={stylesGame.gameText}>Demandes en attente</Text>
-              {invitations &&
-              invitations.filter(i => i.accepted === undefined).length > 0 ? (
+              {invitations.filter(i => i.accepted === undefined).length > 0 ? (
                 <GamesList
                   games={formatGames(
                     invitations.filter(i => i.accepted === undefined),
@@ -100,8 +100,7 @@ const MyGames = () => {
 
             <View>
               <Text style={stylesGame.gameText}>Demandes refusées</Text>
-              {invitations &&
-              invitations.filter(i => i.accepted !== undefined && !i.accepted)
+              {invitations.filter(i => i.accepted !== undefined && !i.accepted)
                 .length > 0 ? (
                 <GamesList
                   games={formatGames(

@@ -13,6 +13,7 @@ import PrivateGame from './PrivateGame';
 import {Popup} from '../Toast';
 import GamesList from './GamesList';
 import BottomTabs from '../BottomTabs';
+import Loader from '../Loader';
 
 const Game = () => {
   const {user} = useAuth();
@@ -58,7 +59,7 @@ const Game = () => {
       <View>
         <Text style={stylesGame.gameText}>Parties publiques</Text>
         {loading ? (
-          <Text>Loading...</Text>
+          <Loader />
         ) : error ? (
           <Text>{error.message}</Text>
         ) : (

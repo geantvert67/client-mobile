@@ -12,6 +12,7 @@ import {stylesSigninSignup} from '../../css/style';
 import {useSocket} from '../../utils/socket';
 import {useAuth} from '../../utils/auth';
 import {useConfig} from '../../utils/config';
+import Loader from '../Loader';
 
 const Teams = () => {
   const [gameStarted, setGameStarted] = useState(null);
@@ -73,7 +74,7 @@ const Teams = () => {
       </View>
     </>
   ) : (
-    <Image source={require('../../img/loader.gif')} />
+    <Loader />
   );
 };
 
