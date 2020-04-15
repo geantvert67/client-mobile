@@ -52,8 +52,14 @@ export const AuthProvider = ({children}) => {
       });
   };
 
+  const signout = () => {
+    storeData('token', null);
+    setUser(null);
+    Actions.Signin();
+  };
+
   return (
-    <AuthContext.Provider value={{user, signin, signup}}>
+    <AuthContext.Provider value={{user, signin, signup, signout}}>
       {children}
     </AuthContext.Provider>
   );

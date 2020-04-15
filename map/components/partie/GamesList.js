@@ -12,7 +12,9 @@ const GamesList = ({games, handleGame = () => {}}) => {
         keyExtractor={item => item.id}
         data={games}
         renderItem={({item}) => (
-          <Text style={stylesGame.item} onPress={() => handleGame(item.id)}>
+          <Text
+            style={stylesGame.item}
+            onPress={() => handleGame(item.id, item.ip, item.port)}>
             <Text style={stylesGame.gameNameText}>
               {item.name} - {}
             </Text>

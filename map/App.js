@@ -15,6 +15,7 @@ import {ConfigProvider} from './utils/config';
 import BottomTab from './components/Menu';
 
 const App = () => {
+  console.disableYellowBox = true;
   // Scene hideNavBar={true}
   return (
     <AuthProvider>
@@ -44,9 +45,7 @@ const App = () => {
                 key="Menu"
                 title="CrystalZ"
                 component={BottomTab}
-                navigationBarStyle={styles.header}
-                titleStyle={styles.titleColor}
-                renderBackButton={() => <BackButton noBack={true} />}
+                hideNavBar
               />
 
               <Scene

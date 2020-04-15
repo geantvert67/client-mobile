@@ -112,6 +112,11 @@ export const stylesGame = StyleSheet.create({
   submitButtonText: {
     color: '#FFFFFF',
   },
+  textSecondary: {
+    color: '#D2D2D2',
+    marginLeft: 15,
+    fontStyle: 'italic',
+  },
   gameText: {
     color: '#FFFFFF',
     fontWeight: 'bold',

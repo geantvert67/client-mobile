@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Image} from 'react-native';
 
 import TeamItem from './TeamItem';
 
@@ -73,7 +73,7 @@ const Teams = () => {
       </View>
     </>
   ) : (
-    <Text>loading...</Text>
+    <Image source={require('../../img/loader.gif')} />
   );
 };
 
