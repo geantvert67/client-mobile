@@ -12,6 +12,8 @@ import {formatGames} from '../../utils/game';
 import {useSocket} from '../../utils/socket';
 import {useAuth} from '../../utils/auth';
 import RefreshView from '../RefreshView';
+import BottomTabs from '../BottomTabs';
+import {BottomNavigation} from 'react-native-paper';
 
 const MyGames = () => {
   const [invitations, setInvitations] = useState(null);
@@ -35,7 +37,7 @@ const MyGames = () => {
       });
   }, []);
 
-  const handleGame = (ip, port, id) => {
+  const handleGame = (ip, port) => {
     setSocket(io(`http://${ip}:${port}?username=${user.username}`));
     Actions.Teams();
   };
@@ -59,7 +61,7 @@ const MyGames = () => {
         'Loading...'
       ) : (
         <>
-          <RefreshView refresh={onRefresh}>
+          <RefreshView refresh={onRefresh} refreshableMod="advanced">
             <View>
               <Text style={stylesGame.gameText}>Mes parties</Text>
               {invitations && (
@@ -68,13 +70,6 @@ const MyGames = () => {
                   handleGame={handleGame}
                 />
               )}
-              <TouchableOpacity
-                style={stylesGame.submitButton}
-                onPress={() => Actions.Game()}>
-                <Text style={stylesGame.submitButtonText}>
-                  Trouver une partie
-                </Text>
-              </TouchableOpacity>
             </View>
 
             <View>

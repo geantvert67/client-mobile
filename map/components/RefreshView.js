@@ -25,7 +25,11 @@ const RefreshView = props => {
     <ScrollView
       style={stylesGame.container}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          refreshableColors="limegreen"
+        />
       }>
       {props.children}
     </ScrollView>

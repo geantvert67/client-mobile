@@ -12,6 +12,7 @@ import {Router, Stack, Scene} from 'react-native-router-flux';
 import {SocketProvider} from './utils/socket';
 import BackButton from './components/BackButton';
 import {ConfigProvider} from './utils/config';
+import BottomTab from './components/Menu';
 
 const App = () => {
   // Scene hideNavBar={true}
@@ -38,22 +39,14 @@ const App = () => {
                 titleStyle={styles.titleColor}
                 renderBackButton={() => <BackButton />}
               />
-              <Scene
-                key="Game"
-                component={Game}
-                title="Trouver une partie"
-                navigationBarStyle={styles.header}
-                titleStyle={styles.titleColor}
-                renderBackButton={() => <BackButton />}
-              />
 
               <Scene
-                key="MyGames"
-                component={MyGames}
-                title="Mes parties"
+                key="Menu"
+                title="CrystalZ"
+                component={BottomTab}
                 navigationBarStyle={styles.header}
                 titleStyle={styles.titleColor}
-                renderBackButton={() => <BackButton />}
+                renderBackButton={() => <BackButton noBack={true} />}
               />
 
               <Scene

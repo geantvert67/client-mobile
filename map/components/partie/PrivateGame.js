@@ -4,8 +4,7 @@ import {Text} from 'native-base';
 import {stylesGame} from '../../css/style';
 
 const PrivateGame = ({handleGame}) => {
-  const [ip, setIp] = useState('');
-  const [port, setPort] = useState('');
+  const [key, setKey] = useState('');
 
   return (
     <View>
@@ -13,23 +12,16 @@ const PrivateGame = ({handleGame}) => {
       <View style={stylesGame.row}>
         <TextInput
           style={stylesGame.input1}
-          placeholder="Adresse IP"
+          placeholder="Clé d'accès"
           placeholderTextColor="#D2D2D2"
           autoCapitalize="none"
-          onChangeText={e => setIp(e)}
-        />
-        <TextInput
-          style={stylesGame.input2}
-          placeholder="Port"
-          placeholderTextColor="#D2D2D2"
-          autoCapitalize="none"
-          onChangeText={e => setPort(e)}
+          onChangeText={e => setKey(e)}
         />
       </View>
       <TouchableOpacity
         style={stylesGame.submitButton}
-        onPress={() => handleGame(ip, port)}>
-        <Text style={stylesGame.submitButtonText}>Jouer</Text>
+        onPress={() => handleGame(key)}>
+        <Text style={stylesGame.submitButtonText}>Demander l'accès</Text>
       </TouchableOpacity>
     </View>
   );

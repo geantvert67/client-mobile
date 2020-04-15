@@ -12,6 +12,7 @@ import {useSocket} from '../../utils/socket';
 import PrivateGame from './PrivateGame';
 import {Popup} from '../Toast';
 import GamesList from './GamesList';
+import BottomTabs from '../BottomTabs';
 
 const Game = () => {
   const {user} = useAuth();
@@ -39,17 +40,9 @@ const Game = () => {
       });
   }, []);
 
-  const handleGame = (ip, port, gameId) => {
+  const handleGame = gameId => {
     request
-      .post(
-        `/games/${gameId}/invitations`,
-        {userId: user.id},
-        {
-          headers: {
-            Authorization: 'Bearer ' + getData('token'),
-          },
-        },
-      )
+      .post(`/games/${gameId}/invitations`, {userId: user.id})
       .then(res => {
         Popup('Demande envoyée', 'rgba(0,255,0,0.5)');
       })
