@@ -53,7 +53,7 @@ const App = () => {
                 navigationBarStyle={styles.header}
                 titleStyle={styles.titleColor}
                 component={Map}
-                renderBackButton={() => <BackButton />}
+                hideNavBar
               />
               <Scene
                 key="Teams"

@@ -5,7 +5,6 @@ import {Text} from 'native-base';
 import {stylesGame} from '../../css/style';
 
 const GamesList = ({games, handleGame = () => {}}) => {
-  console.log(games);
   return (
     <View>
       <FlatList

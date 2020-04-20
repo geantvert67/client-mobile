@@ -12,7 +12,6 @@ import {useSocket} from '../../utils/socket';
 import PrivateGame from './PrivateGame';
 import {Popup} from '../Toast';
 import GamesList from './GamesList';
-import BottomTabs from '../BottomTabs';
 import Loader from '../Loader';
 
 const Game = () => {

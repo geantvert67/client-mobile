@@ -146,3 +146,53 @@ export const stylesGame = StyleSheet.create({
     fontSize: 20,
   },
 });
+
+export const stylesMap = StyleSheet.create({
+  menu: {
+    position: 'absolute',
+    bottom: 10,
+    right: 20,
+  },
+
+  callout: {
+    backgroundColor: '#26292F',
+    width: 100,
+    display: `flex`,
+    alignItems: `center`,
+    justifyContent: `center`,
+    margin: 0,
+  },
+
+  modal: {
+    backgroundColor: '#26292F',
+    marginTop: 220,
+    marginBottom: 220,
+    borderRadius: 5,
+  },
+
+  score: {
+    color: 'white',
+    position: 'absolute',
+    right: 0,
+    fontSize: 20,
+  },
+
+  teamScore: {
+    color: 'gold',
+    position: 'absolute',
+    right: 0,
+    fontSize: 20,
+  },
+
+  teamName: {
+    color: 'gold',
+    fontSize: 20,
+  },
+
+  titleModal: {
+    color: 'white',
+    fontSize: 24,
+    position: 'absolute',
+    left: 10,
+  },
+});

@@ -18,8 +18,6 @@ import {formatGames} from '../../utils/game';
 import {useSocket} from '../../utils/socket';
 import {useAuth} from '../../utils/auth';
 import RefreshView from '../RefreshView';
-import BottomTabs from '../BottomTabs';
-import {BottomNavigation} from 'react-native-paper';
 import Loader from '../Loader';
 
 const MyGames = () => {
@@ -29,8 +27,6 @@ const MyGames = () => {
   const {setSocket} = useSocket();
   const {user} = useAuth();
 
-  console.log(invitations);
-
   useEffect(() => {
     request
       .get('/user/invitations')
@@ -38,8 +34,6 @@ const MyGames = () => {
         setInvitations(res.data);
       })
       .catch(err => {
-        console.log('test');
-        console.log(err.response);
         Popup('Une erreur est survenue');
       });
   }, []);
@@ -56,8 +50,6 @@ const MyGames = () => {
         setInvitations(res.data);
       })
       .catch(err => {
-        console.log('test');
-        console.log(err.response);
         Popup('Une erreur est survenue');
       });
   };

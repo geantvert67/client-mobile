@@ -50,6 +50,7 @@ const BottomTab = ({tabActive = 'myGames'}) => {
           ? faSearch
           : icon === 'profil' && faUserCircle
       }
+      size={25}
       style={stylesSigninSignup.submitButtonText}
     />
   );
