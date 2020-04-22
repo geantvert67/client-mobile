@@ -112,6 +112,11 @@ export const stylesGame = StyleSheet.create({
   submitButtonText: {
     color: '#FFFFFF',
   },
+  textSecondary: {
+    color: '#D2D2D2',
+    marginLeft: 15,
+    fontStyle: 'italic',
+  },
   gameText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
@@ -124,9 +129,9 @@ export const stylesGame = StyleSheet.create({
     marginTop: 20,
   },
   item: {
-    marginTop: 20,
     marginLeft: 10,
     marginRight: 10,
+    marginBottom: 20,
     padding: 20,
     backgroundColor: '#1B1E22',
     borderRadius: 5,
@@ -138,6 +143,73 @@ export const stylesGame = StyleSheet.create({
   },
   gameModeText: {
     color: '#68B684',
+    fontSize: 20,
+  },
+  up: {
+    paddingBottom: 50,
+  },
+});
+
+export const stylesMap = StyleSheet.create({
+  menu: {
+    position: 'absolute',
+    bottom: 10,
+    right: 20,
+  },
+
+  callout: {
+    backgroundColor: '#26292F',
+    width: 100,
+    display: `flex`,
+    alignItems: `center`,
+    justifyContent: `center`,
+    margin: 0,
+  },
+
+  modal: {
+    backgroundColor: '#26292F',
+    marginTop: 220,
+    marginBottom: 220,
+    borderRadius: 5,
+  },
+
+  score: {
+    color: 'white',
+    position: 'absolute',
+    right: 0,
+    fontSize: 20,
+  },
+
+  teamScore: {
+    color: 'gold',
+    position: 'absolute',
+    right: 0,
+    fontSize: 20,
+  },
+
+  teamName: {
+    color: 'gold',
+    fontSize: 20,
+  },
+
+  titleModal: {
+    color: 'white',
+    fontSize: 24,
+    position: 'absolute',
+    left: 10,
+  },
+
+  timerBox: {
+    position: 'absolute',
+    top: 10,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  timerText: {
+    color: 'white',
     fontSize: 20,
   },
 });

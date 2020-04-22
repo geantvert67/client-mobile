@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Image} from 'react-native';
 
 import TeamItem from './TeamItem';
 
@@ -12,6 +12,7 @@ import {stylesSigninSignup} from '../../css/style';
 import {useSocket} from '../../utils/socket';
 import {useAuth} from '../../utils/auth';
 import {useConfig} from '../../utils/config';
+import Loader from '../Loader';
 
 const Teams = () => {
   const [gameStarted, setGameStarted] = useState(null);
@@ -73,7 +74,7 @@ const Teams = () => {
       </View>
     </>
   ) : (
-    <Text>loading...</Text>
+    <Loader />
   );
 };
 

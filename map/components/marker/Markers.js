@@ -1,22 +1,40 @@
 import React from 'react';
 import {useAuth} from '../../utils/auth';
-import {Marker} from 'react-native-maps';
+import {Marker, Callout} from 'react-native-maps';
 import {useSocket} from '../../utils/socket';
 import {Svg} from 'react-native-svg';
-import {View, Image} from 'react-native';
+import {View, Image, Text, TouchableOpacity} from 'react-native';
 import CrystalLocked from '../../img/crystal-locked.svg';
+import MarkerNegative from '../../img/markerNegative.svg';
+import MarkerPositive from '../../img/markerPositive.svg';
 import Crystal from '../../img/crystal.svg';
 import Teammate from '../../img/location-arrow-solid.svg';
 import {useConfig} from '../../utils/config';
 import {inRadius} from '../../utils/calcul';
 import {Popup} from '../Toast';
 
-const Markers = ({players, flags, unknowns, playerTeam, position}) => {
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faMapMarker} from '@fortawesome/free-solid-svg-icons';
+import {stylesMap} from '../../css/style';
+import MarkersItem from './MarkersItem';
+
+const Markers = ({
+  players,
+  flags,
+  unknowns,
+  playerTeam,
+  position,
+  teamMarkers,
+  items,
+  inventory,
+}) => {
   return (
     <>
       <PlayerMarker players={players} />
       <FlagMarker flags={flags} playerTeam={playerTeam} position={position} />
       <UnknownMarker unknowns={unknowns} />
+      <TeamMarker teamMarkers={teamMarkers} />
+      <MarkersItem items={items} inventory={inventory} />
     </>
   );
 };
@@ -65,9 +83,6 @@ const FlagMarker = ({flags, playerTeam, position}) => {
     flags.map(f => {
       return (
         <Marker
-          title={
-            f.team ? `Cristal capturé par ${f.team.name}` : 'Cristal libre'
-          }
           coordinate={{
             latitude: f.coordinates[0],
             longitude: f.coordinates[1],
@@ -103,6 +118,42 @@ const UnknownMarker = ({unknowns}) => {
             style={{width: 40, height: 40}}
             resizeMode="contain"
           />
+        </Marker>
+      );
+    })
+  );
+};
+
+const TeamMarker = ({teamMarkers}) => {
+  const {socket} = useSocket();
+
+  const deleteMarker = marker => {
+    socket.emit('deleteMarker', marker.id);
+    Popup('Suppression en cours...', 'rgba(0, 255, 0, 0.3)');
+  };
+
+  return (
+    teamMarkers.length > 0 &&
+    teamMarkers.map(m => {
+      return (
+        <Marker
+          coordinate={{
+            latitude: m.coordinates[0],
+            longitude: m.coordinates[1],
+          }}>
+          {m.isPositive ? (
+            <MarkerPositive width="30" height="52.5" fill="green" />
+          ) : (
+            <MarkerNegative width="30" height="52.5" fill="red" />
+          )}
+          <Callout
+            style={stylesMap.callout}
+            tooltip={false}
+            onPress={() => deleteMarker(m)}>
+            <TouchableOpacity>
+              <Text style={{color: 'red'}}>Supprimer</Text>
+            </TouchableOpacity>
+          </Callout>
         </Marker>
       );
     })

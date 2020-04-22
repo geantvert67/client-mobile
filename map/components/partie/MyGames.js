@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity, ScrollView, RefreshControl} from 'react-native';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import {Text} from 'native-base';
 import GamesList from './GamesList';
 import request from '../../utils/request';
@@ -12,8 +18,7 @@ import {formatGames} from '../../utils/game';
 import {useSocket} from '../../utils/socket';
 import {useAuth} from '../../utils/auth';
 import RefreshView from '../RefreshView';
-import BottomTabs from '../BottomTabs';
-import {BottomNavigation} from 'react-native-paper';
+import Loader from '../Loader';
 
 const MyGames = () => {
   const [invitations, setInvitations] = useState(null);
@@ -22,8 +27,6 @@ const MyGames = () => {
   const {setSocket} = useSocket();
   const {user} = useAuth();
 
-  console.log(invitations);
-
   useEffect(() => {
     request
       .get('/user/invitations')
@@ -31,13 +34,11 @@ const MyGames = () => {
         setInvitations(res.data);
       })
       .catch(err => {
-        console.log('test');
-        console.log(err.response);
         Popup('Une erreur est survenue');
       });
   }, []);
 
-  const handleGame = (ip, port) => {
+  const handleGame = (id, ip, port) => {
     setSocket(io(`http://${ip}:${port}?username=${user.username}`));
     Actions.Teams();
   };
@@ -49,43 +50,50 @@ const MyGames = () => {
         setInvitations(res.data);
       })
       .catch(err => {
-        console.log('test');
-        console.log(err.response);
         Popup('Une erreur est survenue');
       });
   };
 
   return (
     <>
-      {loading ? (
-        'Loading...'
+      {loading || !invitations ? (
+        <Loader />
       ) : (
         <>
           <RefreshView refresh={onRefresh} refreshableMod="advanced">
             <View>
               <Text style={stylesGame.gameText}>Mes parties</Text>
-              {invitations && (
+              {invitations.filter(i => i.accepted).length > 0 ? (
                 <GamesList
                   games={formatGames(invitations.filter(i => i.accepted))}
                   handleGame={handleGame}
                 />
+              ) : (
+                <Text style={stylesGame.textSecondary}>
+                  Aucune partie en cours
+                </Text>
               )}
             </View>
 
             <View>
               <Text style={stylesGame.gameText}>Demandes en attente</Text>
-              {invitations && (
+              {invitations.filter(i => i.accepted === undefined).length > 0 ? (
                 <GamesList
                   games={formatGames(
                     invitations.filter(i => i.accepted === undefined),
                   )}
                 />
+              ) : (
+                <Text style={stylesGame.textSecondary}>
+                  Aucune demande en attente
+                </Text>
               )}
             </View>
 
-            <View>
+            <View style={stylesGame.up}>
               <Text style={stylesGame.gameText}>Demandes refusées</Text>
-              {invitations && (
+              {invitations.filter(i => i.accepted !== undefined && !i.accepted)
+                .length > 0 ? (
                 <GamesList
                   games={formatGames(
                     invitations.filter(
@@ -93,6 +101,10 @@ const MyGames = () => {
                     ),
                   )}
                 />
+              ) : (
+                <Text style={stylesGame.textSecondary}>
+                  Aucune demande refusée récemment
+                </Text>
               )}
             </View>
           </RefreshView>

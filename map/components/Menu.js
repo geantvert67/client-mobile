@@ -20,22 +20,19 @@ const BottomTab = ({tabActive = 'myGames'}) => {
       key: 'myGames',
       icon: 'myGames',
       label: 'Mes parties',
-      barColor: '#388E3C',
-      pressColor: 'rgba(255, 255, 255, 0.16)',
+      barColor: '#1B1E22',
     },
     {
       key: 'findGames',
       icon: 'findGames',
       label: 'Trouver une partie',
-      barColor: '#B71C1C',
-      pressColor: 'rgba(255, 255, 255, 0.16)',
+      barColor: '#1B1E22',
     },
     {
       key: 'profil',
       icon: 'profil',
       label: 'Profil',
-      barColor: '#E64A19',
-      pressColor: 'rgba(255, 255, 255, 0.16)',
+      barColor: '#1B1E22',
     },
   ];
 
@@ -50,7 +47,10 @@ const BottomTab = ({tabActive = 'myGames'}) => {
           ? faSearch
           : icon === 'profil' && faUserCircle
       }
-      style={stylesSigninSignup.submitButtonText}
+      size={25}
+      style={
+        isActive ? {color: '#68B684'} : stylesSigninSignup.submitButtonText
+      }
     />
   );
 
@@ -59,6 +59,7 @@ const BottomTab = ({tabActive = 'myGames'}) => {
       isActive={isActive}
       key={tab.key}
       label={tab.label}
+      labelStyle={isActive && {color: '#68B684'}}
       renderIcon={renderIcon(tab.icon)}
     />
   );

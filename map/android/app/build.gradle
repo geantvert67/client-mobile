@@ -189,6 +189,21 @@ dependencies {
     implementation 'com.google.android.gms:play-services-base:10.0.1'
     implementation 'com.google.android.gms:play-services-maps:10.0.1'
 
+    
+  // If your app supports Android versions before Ice Cream Sandwich (API level 14)
+  compile 'com.facebook.fresco:animated-base-support:0.11.0'
+
+  // For animated GIF support
+  compile 'com.facebook.fresco:animated-gif:0.11.0'
+
+  // For WebP support, including animated WebP
+  compile 'com.facebook.fresco:animated-webp:0.11.0'
+  compile 'com.facebook.fresco:webpsupport:0.11.0'
+
+  // For WebP support, without animations
+  compile 'com.facebook.fresco:webpsupport:0.11.0'
+
+
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

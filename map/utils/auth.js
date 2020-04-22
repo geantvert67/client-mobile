@@ -3,6 +3,7 @@ import request from './request';
 import {Text} from 'native-base';
 import {storeData} from './asyncStorage';
 import {Actions} from 'react-native-router-flux';
+import Loader from '../components/Loader';
 
 const AuthContext = createContext();
 
@@ -20,7 +21,7 @@ export const AuthProvider = ({children}) => {
   }, []);
 
   if (loading) {
-    return <Text h4>Loading...</Text>;
+    return <Loader />;
   }
 
   const signin = (credentials, setError) => {
@@ -52,8 +53,14 @@ export const AuthProvider = ({children}) => {
       });
   };
 
+  const signout = () => {
+    storeData('token', null);
+    setUser(null);
+    Actions.Signin();
+  };
+
   return (
-    <AuthContext.Provider value={{user, signin, signup}}>
+    <AuthContext.Provider value={{user, signin, signup, signout}}>
       {children}
     </AuthContext.Provider>
   );
