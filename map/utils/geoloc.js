@@ -19,10 +19,8 @@ export const acceptGeoloc = () => {
       },
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('You can use the location');
       //alert('You can use the location');
     } else {
-      console.log('location permission denied');
       //alert('Location permission denied');
     }
   }

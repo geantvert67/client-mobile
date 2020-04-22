@@ -16,6 +16,7 @@ import {Popup} from '../Toast';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faMapMarker} from '@fortawesome/free-solid-svg-icons';
 import {stylesMap} from '../../css/style';
+import MarkersItem from './MarkersItem';
 
 const Markers = ({
   players,
@@ -24,6 +25,8 @@ const Markers = ({
   playerTeam,
   position,
   teamMarkers,
+  items,
+  inventory,
 }) => {
   return (
     <>
@@ -31,6 +34,7 @@ const Markers = ({
       <FlagMarker flags={flags} playerTeam={playerTeam} position={position} />
       <UnknownMarker unknowns={unknowns} />
       <TeamMarker teamMarkers={teamMarkers} />
+      <MarkersItem items={items} inventory={inventory} />
     </>
   );
 };

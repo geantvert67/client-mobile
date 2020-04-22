@@ -90,7 +90,7 @@ const MyGames = () => {
               )}
             </View>
 
-            <View>
+            <View style={stylesGame.up}>
               <Text style={stylesGame.gameText}>Demandes refusées</Text>
               {invitations.filter(i => i.accepted !== undefined && !i.accepted)
                 .length > 0 ? (

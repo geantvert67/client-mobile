@@ -129,9 +129,9 @@ export const stylesGame = StyleSheet.create({
     marginTop: 20,
   },
   item: {
-    marginTop: 20,
     marginLeft: 10,
     marginRight: 10,
+    marginBottom: 20,
     padding: 20,
     backgroundColor: '#1B1E22',
     borderRadius: 5,
@@ -144,6 +144,9 @@ export const stylesGame = StyleSheet.create({
   gameModeText: {
     color: '#68B684',
     fontSize: 20,
+  },
+  up: {
+    paddingBottom: 50,
   },
 });
 
@@ -194,5 +197,19 @@ export const stylesMap = StyleSheet.create({
     fontSize: 24,
     position: 'absolute',
     left: 10,
+  },
+
+  timerBox: {
+    position: 'absolute',
+    top: 10,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  timerText: {
+    color: 'white',
+    fontSize: 20,
   },
 });
