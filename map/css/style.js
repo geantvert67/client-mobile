@@ -168,9 +168,10 @@ export const stylesMap = StyleSheet.create({
 
   modal: {
     backgroundColor: '#26292F',
-    marginTop: 220,
-    marginBottom: 220,
-    borderRadius: 5,
+    marginTop: 500,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 0,
   },
 
   score: {
@@ -194,7 +195,7 @@ export const stylesMap = StyleSheet.create({
 
   titleModal: {
     color: 'white',
-    fontSize: 24,
+    fontSize: 20,
     position: 'absolute',
     left: 10,
   },
@@ -211,5 +212,42 @@ export const stylesMap = StyleSheet.create({
   timerText: {
     color: 'white',
     fontSize: 20,
+  },
+
+  inventoryItem: {
+    marginLeft: 20,
+    marginTop: 20,
+    width: 50,
+    height: 50,
+    backgroundColor: '#1B1E22',
+    borderRadius: 5,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  inventorySelectedItem: {
+    marginLeft: 10,
+    marginTop: 50,
+    marginBottom: 20,
+    width: 75,
+    height: 75,
+    backgroundColor: '#1B1E22',
+    borderRadius: 5,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  itemImage: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+  },
+
+  selectedItemImage: {
+    width: 50,
+    height: 50,
+    resizeMode: 'contain',
   },
 });

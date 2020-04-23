@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 import {stylesGame, stylesMap} from '../../css/style';
@@ -8,18 +8,26 @@ import {useConfig} from '../../utils/config';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
+import Inventory from './Inventory';
+import SelectedItem from './SelectedItem';
 
-const ModalScore = ({visible, setModal, teams, playerTeam}) => {
+const ModalInventory = ({visible, setModal, inventory}) => {
+  const [selectedItem, setSelectedItem] = useState(null);
+  console.log(selectedItem);
+
   const {config} = useConfig();
   return (
     <View>
       <Modal
         isVisible={visible}
-        style={stylesMap.modal}
+        style={[
+          stylesMap.modal,
+          {marginTop: 550 - Math.trunc(config.inventorySize / 5) * 50},
+        ]}
         onBackdropPress={() => setModal(false)}>
         <View style={{flex: 1}}>
           <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={stylesMap.titleModal}>Classement des équipes</Text>
+            <Text style={stylesMap.titleModal}>Inventaire</Text>
             <TouchableOpacity
               style={stylesMap.teamScore}
               onPress={() => setModal(false)}>
@@ -31,29 +39,16 @@ const ModalScore = ({visible, setModal, teams, playerTeam}) => {
               />
             </TouchableOpacity>
           </View>
-          <ScrollView>
-            {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
-              return team.id === playerTeam.id ? (
-                <TeamItem
-                  team={team}
-                  score={true}
-                  mode={config.gameMode}
-                  playerTeam={true}
-                />
-              ) : (
-                <TeamItem
-                  team={team}
-                  score={true}
-                  mode={config.gameMode}
-                  playerTeam={false}
-                />
-              );
-            })}
-          </ScrollView>
+          {selectedItem && <SelectedItem item={selectedItem} />}
+          <Inventory
+            inventory={inventory}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+          />
         </View>
       </Modal>
     </View>
   );
 };
 
-export default ModalScore;
+export default ModalInventory;
