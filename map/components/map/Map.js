@@ -116,8 +116,10 @@ const Map = ({playerTeam}) => {
         />
         <ModalInventory
           visible={modalInventory}
+          setVisible={setModalInventory}
           setModal={setModalInventory}
           inventory={inventory}
+          position={position}
         />
         {config.gameMode !== 'SUPREMACY' && (
           <Timer duration={config.duration} launchedAt={config.launchedAt} />

@@ -215,7 +215,7 @@ export const stylesMap = StyleSheet.create({
   },
 
   inventoryItem: {
-    marginLeft: 20,
+    marginLeft: 27,
     marginTop: 20,
     width: 50,
     height: 50,
@@ -228,10 +228,9 @@ export const stylesMap = StyleSheet.create({
 
   inventorySelectedItem: {
     marginLeft: 10,
-    marginTop: 50,
     marginBottom: 20,
-    width: 75,
-    height: 75,
+    width: 90,
+    height: 90,
     backgroundColor: '#1B1E22',
     borderRadius: 5,
     overflow: 'hidden',
@@ -249,5 +248,32 @@ export const stylesMap = StyleSheet.create({
     width: 50,
     height: 50,
     resizeMode: 'contain',
+  },
+
+  selectedItemBox: {
+    alignItems: 'stretch',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 50,
+    marginLeft: 10,
+    alignContent: 'space-between',
+  },
+
+  selectedItemButtonsBox: {
+    position: 'absolute',
+    right: 25,
+  },
+
+  itemName: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+
+  itemDescription: {
+    color: 'white',
+    fontStyle: 'italic',
+    fontSize: 12,
+    marginLeft: 3,
   },
 });

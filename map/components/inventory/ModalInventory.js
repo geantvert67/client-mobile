@@ -11,7 +11,13 @@ import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
 import Inventory from './Inventory';
 import SelectedItem from './SelectedItem';
 
-const ModalInventory = ({visible, setModal, inventory}) => {
+const ModalInventory = ({
+  visible,
+  setVisible,
+  setModal,
+  inventory,
+  position,
+}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   console.log(selectedItem);
 
@@ -39,7 +45,14 @@ const ModalInventory = ({visible, setModal, inventory}) => {
               />
             </TouchableOpacity>
           </View>
-          {selectedItem && <SelectedItem item={selectedItem} />}
+          {selectedItem && (
+            <SelectedItem
+              item={selectedItem}
+              position={position}
+              setSelectedItem={setSelectedItem}
+              setVisible={setVisible}
+            />
+          )}
           <Inventory
             inventory={inventory}
             selectedItem={selectedItem}
