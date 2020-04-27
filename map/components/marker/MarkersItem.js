@@ -15,7 +15,7 @@ export const getItemIcon = name => {
       return require('../../img/items/antenne.png');
     case 'Sonde':
       return require('../../img/items/sonde.png');
-    case 'Portail de transfert':
+    case 'Prisme de transfert':
       return require('../../img/items/portail.png');
     case 'Disloqueur':
       return require('../../img/items/disloqueur.png');

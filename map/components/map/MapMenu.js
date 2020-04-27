@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity, Image, Text} from 'react-native';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -10,13 +10,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import MarkerNegative from '../../img/markerNegative.svg';
 import MarkerPositive from '../../img/markerPositive.svg';
+import BackPack from '../../img/backpack.svg';
 
 import {View} from 'native-base';
 import {stylesMap} from '../../css/style';
 import {useSocket} from '../../utils/socket';
 import {Popup} from '../Toast';
 
-const MapMenu = ({coordinates, setModal}) => {
+const MapMenu = ({coordinates, setModalScore, setModalInventory}) => {
   const [open, setOpen] = useState(false);
   const {socket} = useSocket();
 
@@ -34,6 +35,11 @@ const MapMenu = ({coordinates, setModal}) => {
         {open ? (
           <View>
             <TouchableOpacity
+              onPress={() => setModalInventory(true)}
+              style={{position: 'relative', top: -70, right: -3}}>
+              <BackPack width="25" height="28.6" />
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={() => addMarker(true)}
               style={{position: 'relative', top: -55, right: -3}}>
               <MarkerPositive width="25" height="46.1" fill="green" />
@@ -45,7 +51,7 @@ const MapMenu = ({coordinates, setModal}) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => setModal(true)}
+              onPress={() => setModalScore(true)}
               style={{position: 'relative', top: -25}}>
               <FontAwesomeIcon icon={faTrophy} size={32} color="gold" />
             </TouchableOpacity>

@@ -13,6 +13,7 @@ import MapMenu from './MapMenu';
 import ModalScore from '../score/ModalScore';
 import {useConfig} from '../../utils/config';
 import Timer from './Timer';
+import ModalInventory from '../inventory/ModalInventory';
 
 const Map = ({playerTeam}) => {
   const {socket} = useSocket();
@@ -27,7 +28,8 @@ const Map = ({playerTeam}) => {
   const [timer, setTimer] = useState(0);
   const [error, setError] = useState('');
   const [position, setPosition] = useState([]);
-  const [modal, setModal] = useState(false);
+  const [modalScore, setModalScore] = useState(false);
+  const [modalInventory, setModalInventory] = useState(false);
   const [inventory, setInventory] = useState([]);
 
   useEffect(() => {
@@ -44,13 +46,9 @@ const Map = ({playerTeam}) => {
       setPlayers(routine.players);
       setItems(routine.items);
       setTeams(routine.teams);
+      setInventory(routine.player.inventory);
     });
-
-    socket.on('getPlayerItems', playerInventory =>
-      setInventory(playerInventory),
-    );
   }, []);
-
   setTimeout(() => {
     setTimer(timer + 1);
   }, 1000);
@@ -105,12 +103,23 @@ const Map = ({playerTeam}) => {
             />
           </MapView>
         </View>
-        <MapMenu coordinates={position} setModal={setModal} />
+        <MapMenu
+          coordinates={position}
+          setModalScore={setModalScore}
+          setModalInventory={setModalInventory}
+        />
         <ModalScore
-          visible={modal}
-          setModal={setModal}
+          visible={modalScore}
+          setModal={setModalScore}
           teams={teams}
           playerTeam={playerTeam}
+        />
+        <ModalInventory
+          visible={modalInventory}
+          setVisible={setModalInventory}
+          setModal={setModalInventory}
+          inventory={inventory}
+          position={position}
         />
         {config.gameMode !== 'SUPREMACY' && (
           <Timer duration={config.duration} launchedAt={config.launchedAt} />
