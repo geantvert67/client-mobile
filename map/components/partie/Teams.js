@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity, Image} from 'react-native';
+import {View, TouchableOpacity, Image, ScrollView} from 'react-native';
+import _ from 'lodash';
 
 import TeamItem from './TeamItem';
 
-import {stylesGame} from '../../css/style';
+import {stylesGame, stylesMap} from '../../css/style';
 import {Button} from 'react-native-paper';
 import {Actions} from 'react-native-router-flux';
 import {Text} from 'native-base';
@@ -18,9 +19,8 @@ const Teams = () => {
   const [gameStarted, setGameStarted] = useState(null);
   const [teams, setTeams] = useState(null);
   const [playerTeam, setPlayerTeam] = useState(null);
-  const {setConfig} = useConfig();
+  const {setConfig, config} = useConfig();
   const {user} = useAuth();
-
   const {socket} = useSocket();
 
   const checkStart = () => {
@@ -36,6 +36,10 @@ const Teams = () => {
     socket.on('getTeams', t => {
       setTeams(t);
     });
+
+    return () => {
+      socket && socket.connected && socket.close();
+    };
   }, []);
 
   useEffect(() => {
@@ -51,26 +55,52 @@ const Teams = () => {
 
   return teams ? (
     <>
-      <View style={stylesGame.container}>
-        {teams.map(team => {
-          return <TeamItem team={team} />;
-        })}
-        {gameStarted || (
-          <Text style={stylesSigninSignup.submitButtonText}>
-            Le maître du jeu n'a pas encore lancé la partie. Veuillez patienter
-            !
-          </Text>
-        )}
-        <TouchableOpacity
-          style={
-            gameStarted
-              ? stylesSigninSignup.submitButton
-              : stylesSigninSignup.submitButtonDisabled
-          }
-          onPress={() => Actions.Map({playerTeam})}
-          disabled={!gameStarted}>
-          <Text>Jouer</Text>
-        </TouchableOpacity>
+      <View style={[stylesGame.container]}>
+        <ScrollView style={stylesMap.scrollView}>
+          {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
+            return (
+              config &&
+              (playerTeam && team.id === playerTeam.id ? (
+                <TeamItem
+                  team={team}
+                  score={gameStarted}
+                  mode={config.gameMode}
+                  playerTeam
+                />
+              ) : (
+                <TeamItem
+                  team={team}
+                  score={gameStarted}
+                  mode={config.gameMode}
+                />
+              ))
+            );
+          })}
+        </ScrollView>
+        <View
+          style={[
+            stylesSigninSignup.btnGame,
+            {
+              top: 100 + teams.length * 80,
+            },
+          ]}>
+          {gameStarted || (
+            <Text style={stylesSigninSignup.submitButtonText}>
+              Le maître du jeu n'a pas encore lancé la partie. Veuillez
+              patienter !
+            </Text>
+          )}
+          <TouchableOpacity
+            style={
+              gameStarted || (config && config.willLaunchAt)
+                ? stylesSigninSignup.submitButton
+                : stylesSigninSignup.submitButtonDisabled
+            }
+            onPress={() => Actions.Map({playerTeam})}
+            disabled={!gameStarted && config && !config.willLaunchAt}>
+            <Text style={{color: 'white'}}>Accéder à la carte</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </>
   ) : (

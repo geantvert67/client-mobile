@@ -34,11 +34,11 @@ const MyGames = () => {
         setInvitations(res.data);
       })
       .catch(err => {
-        Popup('Une erreur est survenue');
+        Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
       });
   }, []);
 
-  const handleGame = (id, ip, port) => {
+  const handleGame = (id, ip, port, game) => {
     setSocket(io(`http://${ip}:${port}?username=${user.username}`));
     Actions.Teams();
   };
@@ -50,7 +50,7 @@ const MyGames = () => {
         setInvitations(res.data);
       })
       .catch(err => {
-        Popup('Une erreur est survenue');
+        Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
       });
   };
 
@@ -67,6 +67,7 @@ const MyGames = () => {
                 <GamesList
                   games={formatGames(invitations.filter(i => i.accepted))}
                   handleGame={handleGame}
+                  myGames={true}
                 />
               ) : (
                 <Text style={stylesGame.textSecondary}>

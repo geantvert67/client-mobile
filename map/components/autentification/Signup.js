@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {View, TextInput, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, TextInput, TouchableOpacity, BackHandler} from 'react-native';
 import {Text} from 'native-base';
 
 import {useAuth} from '../../utils/auth';
 
 import {stylesSigninSignup} from '../../css/style';
 import {Popup} from '../Toast';
+import {Actions} from 'react-native-router-flux';
 
 const Signup = () => {
   const {signup} = useAuth();

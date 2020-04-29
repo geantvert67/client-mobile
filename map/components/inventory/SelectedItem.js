@@ -7,7 +7,6 @@ import SelectedItemButtons from './SelectedItemButtons';
 import {DESC_ITEMS} from '../../utils/descriptions';
 
 const SelectedItem = ({item, position, setSelectedItem, setVisible}) => {
-  console.log(item);
   const img = item && getItemIcon(item.name);
   return (
     <View style={stylesMap.selectedItemBox}>

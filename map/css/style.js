@@ -51,6 +51,11 @@ export const stylesSigninSignup = StyleSheet.create({
     color: '#FFFFFF',
     marginTop: 20,
   },
+  btnGame: {
+    position: 'absolute',
+    width: '100%',
+    alignItems: 'center',
+  },
 });
 
 export const stylesGame = StyleSheet.create({
@@ -275,5 +280,13 @@ export const stylesMap = StyleSheet.create({
     fontStyle: 'italic',
     fontSize: 12,
     marginLeft: 3,
+  },
+
+  scrollView: {
+    position: 'absolute',
+    top: 50,
+    right: 10,
+    left: 10,
+    bottom: 0,
   },
 });

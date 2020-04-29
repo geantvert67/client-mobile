@@ -21,7 +21,11 @@ const TeamItem = ({team, score = false, mode, playerTeam}) => {
           <Text
             style={playerTeam ? stylesMap.teamName : stylesGame.gameNameText}>
             {' '}
-            <FontAwesomeIcon icon={faSquareFull} style={{color: team.color}} />
+            <FontAwesomeIcon
+              icon={faSquareFull}
+              style={{color: team.color}}
+              size={22}
+            />
             {} {team.name}
           </Text>
           {score && (

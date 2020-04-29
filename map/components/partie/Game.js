@@ -44,11 +44,12 @@ const Game = () => {
     request
       .post(`/games/${gameId}/invitations`, {userId: user.id})
       .then(res => {
-        Popup('Demande envoyée', 'rgba(0,255,0,0.5)');
+        Popup('Demande envoyée', 'rgba(0,255,0,0.5)', -70);
       })
       .catch(err => {
-        if (err.response.status === 409) Popup('Demande déjà envoyée');
-        else Popup('Une erreur est survenue');
+        if (err.response.status === 409)
+          Popup('Demande déjà envoyée', 'rgba(255, 0,0,0.5)', -70);
+        else Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
       });
   };
 

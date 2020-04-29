@@ -49,6 +49,7 @@ const Map = ({playerTeam}) => {
       setInventory(routine.player.inventory);
     });
   }, []);
+
   setTimeout(() => {
     setTimer(timer + 1);
   }, 1000);
