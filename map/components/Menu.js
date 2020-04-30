@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import BottomNavigation, {
   FullTab,
 } from 'react-native-material-bottom-navigation';
-import {View} from 'react-native';
+import {View, BackHandler} from 'react-native';
 import MyGames from './partie/MyGames';
 import Game from './partie/Game';
 import Profil from './autentification/Profil';

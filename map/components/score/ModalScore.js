@@ -17,7 +17,7 @@ const ModalScore = ({visible, setModal, teams, playerTeam}) => {
         isVisible={visible}
         style={stylesMap.modal}
         onBackdropPress={() => setModal(false)}>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, flexDirection: 'column'}}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Text style={stylesMap.titleModal}>Classement des équipes</Text>
             <TouchableOpacity
@@ -31,22 +31,17 @@ const ModalScore = ({visible, setModal, teams, playerTeam}) => {
               />
             </TouchableOpacity>
           </View>
-          <ScrollView>
+          <ScrollView style={stylesMap.scrollView}>
             {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
               return team.id === playerTeam.id ? (
                 <TeamItem
                   team={team}
                   score={true}
                   mode={config.gameMode}
-                  playerTeam={true}
+                  playerTeam
                 />
               ) : (
-                <TeamItem
-                  team={team}
-                  score={true}
-                  mode={config.gameMode}
-                  playerTeam={false}
-                />
+                <TeamItem team={team} score={true} mode={config.gameMode} />
               );
             })}
           </ScrollView>

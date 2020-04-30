@@ -19,7 +19,6 @@ const ModalInventory = ({
   position,
 }) => {
   const [selectedItem, setSelectedItem] = useState(null);
-  console.log(selectedItem);
 
   const {config} = useConfig();
   return (

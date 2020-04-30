@@ -1,17 +1,22 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
 import {Button, Text} from 'native-base';
 
 import {Actions} from 'react-native-router-flux';
 
 import {useAuth} from '../../utils/auth';
-
+import {useSocket} from '../../utils/socket';
 import {stylesSigninSignup} from '../../css/style';
 import {Popup} from '../Toast';
 
 const Signin = () => {
   const {signin} = useAuth();
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -19,6 +24,15 @@ const Signin = () => {
   const handleSubmit = () => {
     signin({username, password}, setError);
   };
+
+  const exit = () => {
+    (Actions.currentScene === 'Signin' || Actions.currentScene === 'Menu') &&
+      BackHandler.exitApp();
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', exit);
+  }, []);
 
   error !== '' && Popup(error) && setError('');
 

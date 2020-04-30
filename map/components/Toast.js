@@ -1,10 +1,14 @@
 import Toast from 'react-native-root-toast';
 import React from 'react';
 
-export const Popup = (message, color = 'rgba(255,0,0,0.5)') => {
+export const Popup = (
+  message,
+  color = 'rgba(255,0,0,0.5)',
+  position = Toast.positions.BOTTOM,
+) => {
   return Toast.show(message, {
-    duration: Toast.durations.LONG,
-    position: Toast.positions.BOTTOM,
+    duration: Toast.durations.SHORT,
+    position: position,
     shadow: true,
     animation: true,
     hideOnPress: true,

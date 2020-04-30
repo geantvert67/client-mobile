@@ -1,8 +1,6 @@
 import React from 'react';
 import {ScrollView, RefreshControl} from 'react-native';
 import {stylesGame} from '../css/style';
-import request from '../utils/request';
-import {Popup} from './Toast';
 
 const RefreshView = props => {
   const [refreshing, setRefreshing] = React.useState(false);
