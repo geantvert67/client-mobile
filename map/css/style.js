@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
 export const stylesSigninSignup = StyleSheet.create({
   container: {
@@ -173,7 +173,7 @@ export const stylesMap = StyleSheet.create({
 
   modal: {
     backgroundColor: '#26292F',
-    marginTop: 500,
+    marginTop: (Dimensions.get('window').height * 55) / 100,
     marginLeft: 0,
     marginRight: 0,
     marginBottom: 0,

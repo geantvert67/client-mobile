@@ -15,7 +15,7 @@ const ModalScore = ({visible, setModal, teams, playerTeam}) => {
     <View>
       <Modal
         isVisible={visible}
-        style={stylesMap.modal}
+        style={[stylesMap.modal]}
         onBackdropPress={() => setModal(false)}>
         <View style={{flex: 1, flexDirection: 'column'}}>
           <View style={{flex: 1, flexDirection: 'row'}}>

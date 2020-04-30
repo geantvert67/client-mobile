@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import Modal from 'react-native-modal';
-import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
-import {stylesGame, stylesMap} from '../../css/style';
-import TeamItem from '../partie/TeamItem';
+import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
+import {stylesMap} from '../../css/style';
 import _ from 'lodash';
 import {useConfig} from '../../utils/config';
 
@@ -19,15 +18,24 @@ const ModalInventory = ({
   position,
 }) => {
   const [selectedItem, setSelectedItem] = useState(null);
-
   const {config} = useConfig();
+
+  const modalInventorySize = selectedItem
+    ? (Dimensions.get('window').height *
+        (75 - Math.ceil(config.inventorySize / 5) * 10)) /
+      100
+    : (Dimensions.get('window').height *
+        (95 - Math.ceil(config.inventorySize / 5) * 10)) /
+      100;
   return (
     <View>
       <Modal
         isVisible={visible}
         style={[
           stylesMap.modal,
-          {marginTop: 550 - Math.trunc(config.inventorySize / 5) * 50},
+          {
+            marginTop: modalInventorySize,
+          },
         ]}
         onBackdropPress={() => setModal(false)}>
         <View style={{flex: 1}}>

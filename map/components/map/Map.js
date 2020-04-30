@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Platform} from 'react-native';
+import {View, StyleSheet, Platform, Dimensions} from 'react-native';
 import {Text} from 'native-base';
 
 import MapView, {MAP_TYPES} from 'react-native-maps';
@@ -66,10 +66,20 @@ const Map = ({playerTeam}) => {
 
   return (
     position.length > 0 && (
-      <View style={{flex: 1}}>
-        <View style={{flex: 1, alignItems: 'center'}}>
+      <View
+        style={{
+          flex: 1,
+          width: Dimensions.get('window').width,
+          height: '100%',
+        }}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            width: Dimensions.get('window').width,
+            height: '100%',
+          }}>
           <MapView
-            style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}}
             provider={null}
             initialRegion={{
               latitude: position[0],
@@ -86,7 +96,17 @@ const Map = ({playerTeam}) => {
             followsUserLocation
             showsCompass
             style={{flex: 1}}
-            style={styles.map}
+            style={[
+              styles.map,
+              {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                width: '100%',
+              },
+            ]}
             showsUserLocation={true}
             showsMyLocationButton={true}>
             {areas.length > 0 && <Polygons areas={areas} />}

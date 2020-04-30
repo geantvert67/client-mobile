@@ -51,7 +51,7 @@ const Teams = () => {
     setPlayerTeam(team);
   }, [teams]);
 
-  !gameStarted && socket.emit('getTeams') && socket.emit('addTeamPlayer');
+  teams || (socket.emit('getTeams') && socket.emit('addTeamPlayer'));
 
   return teams ? (
     <>
