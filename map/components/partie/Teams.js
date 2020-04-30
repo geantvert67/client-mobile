@@ -61,18 +61,9 @@ const Teams = () => {
             return (
               config &&
               (playerTeam && team.id === playerTeam.id ? (
-                <TeamItem
-                  team={team}
-                  score={gameStarted}
-                  mode={config.gameMode}
-                  playerTeam
-                />
+                <TeamItem team={team} playerTeam />
               ) : (
-                <TeamItem
-                  team={team}
-                  score={gameStarted}
-                  mode={config.gameMode}
-                />
+                <TeamItem team={team} />
               ))
             );
           })}

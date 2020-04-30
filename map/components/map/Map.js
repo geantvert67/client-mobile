@@ -25,7 +25,6 @@ const Map = ({playerTeam}) => {
   const [unknowns, setUnknowns] = useState([]);
   const [items, setItems] = useState([]);
   const [teams, setTeams] = useState([]);
-  const [timer, setTimer] = useState(0);
   const [error, setError] = useState('');
   const [position, setPosition] = useState([]);
   const [modalScore, setModalScore] = useState(false);
@@ -48,29 +47,29 @@ const Map = ({playerTeam}) => {
       setTeams(routine.teams);
       setInventory(routine.player.inventory);
     });
+
+    const interval = setInterval(() => {
+      Geolocation.getCurrentPosition(
+        p => {
+          const pos = [p.coords.latitude, p.coords.longitude];
+          setError('');
+          setPosition(pos);
+          socket.emit('routine', pos);
+          console.log(pos);
+        },
+        e => setError(e.message),
+      );
+    }, 2000);
+
+    return () => clearInterval(interval);
   }, []);
-
-  setTimeout(() => {
-    setTimer(timer + 1);
-  }, 1000);
-
-  useEffect(() => {
-    const watchId = Geolocation.watchPosition(
-      pos => {
-        setError('');
-        setPosition([pos.coords.latitude, pos.coords.longitude]);
-        socket.emit('routine', [pos.coords.latitude, pos.coords.longitude]);
-      },
-      e => setError(e.message),
-    );
-    return () => Geolocation.clearWatch(watchId);
-  }, [timer]);
 
   return (
     position.length > 0 && (
       <View style={{flex: 1}}>
         <View style={{flex: 1, alignItems: 'center'}}>
           <MapView
+            style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}}
             provider={null}
             initialRegion={{
               latitude: position[0],

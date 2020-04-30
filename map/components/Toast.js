@@ -7,7 +7,7 @@ export const Popup = (
   position = Toast.positions.BOTTOM,
 ) => {
   return Toast.show(message, {
-    duration: Toast.durations.LONG,
+    duration: Toast.durations.SHORT,
     position: position,
     shadow: true,
     animation: true,
