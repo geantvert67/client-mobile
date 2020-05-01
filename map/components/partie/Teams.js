@@ -55,8 +55,8 @@ const Teams = () => {
 
   return teams ? (
     <>
-      <View style={[stylesGame.container]}>
-        <ScrollView style={stylesMap.scrollView}>
+      <View style={[stylesGame.container, {flex: 1}]}>
+        <ScrollView>
           {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
             return (
               config &&
@@ -68,13 +68,7 @@ const Teams = () => {
             );
           })}
         </ScrollView>
-        <View
-          style={[
-            stylesSigninSignup.btnGame,
-            {
-              top: 100 + teams.length * 80,
-            },
-          ]}>
+        <View>
           {gameStarted || (
             <Text style={stylesSigninSignup.submitButtonText}>
               Le maître du jeu n'a pas encore lancé la partie. Veuillez
@@ -82,11 +76,17 @@ const Teams = () => {
             </Text>
           )}
           <TouchableOpacity
-            style={
+            style={[
               gameStarted || (config && config.willLaunchAt)
                 ? stylesSigninSignup.submitButton
-                : stylesSigninSignup.submitButtonDisabled
-            }
+                : stylesSigninSignup.submitButtonDisabled,
+              {
+                width: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 0,
+              },
+            ]}
             onPress={() => Actions.Map({playerTeam})}
             disabled={!gameStarted && config && !config.willLaunchAt}>
             <Text style={{color: 'white'}}>Accéder à la carte</Text>

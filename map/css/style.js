@@ -187,14 +187,14 @@ export const stylesMap = StyleSheet.create({
   },
 
   teamScore: {
-    color: 'gold',
+    color: '#68B684',
     position: 'absolute',
     right: 0,
     fontSize: 20,
   },
 
   teamName: {
-    color: 'gold',
+    color: '#68B684',
     fontSize: 20,
   },
 
@@ -234,8 +234,8 @@ export const stylesMap = StyleSheet.create({
   inventorySelectedItem: {
     marginLeft: 10,
     marginBottom: 20,
-    width: 90,
-    height: 90,
+    height: Dimensions.get('window').width * 0.25,
+    width: Dimensions.get('window').width * 0.25,
     backgroundColor: '#1B1E22',
     borderRadius: 5,
     overflow: 'hidden',

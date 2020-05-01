@@ -14,6 +14,7 @@ import ModalScore from '../score/ModalScore';
 import {useConfig} from '../../utils/config';
 import Timer from './Timer';
 import ModalInventory from '../inventory/ModalInventory';
+import {usePlayer} from '../../utils/player';
 
 const Map = ({playerTeam}) => {
   const {socket} = useSocket();
@@ -29,7 +30,7 @@ const Map = ({playerTeam}) => {
   const [position, setPosition] = useState([]);
   const [modalScore, setModalScore] = useState(false);
   const [modalInventory, setModalInventory] = useState(false);
-  const [inventory, setInventory] = useState([]);
+  const {setPlayer} = usePlayer();
 
   useEffect(() => {
     acceptGeoloc();
@@ -45,7 +46,7 @@ const Map = ({playerTeam}) => {
       setPlayers(routine.players);
       setItems(routine.items);
       setTeams(routine.teams);
-      setInventory(routine.player.inventory);
+      setPlayer(routine.player);
     });
 
     const interval = setInterval(() => {
@@ -119,7 +120,6 @@ const Map = ({playerTeam}) => {
               position={position}
               teamMarkers={teamMarkers}
               items={items}
-              inventory={inventory}
             />
           </MapView>
         </View>
@@ -138,8 +138,6 @@ const Map = ({playerTeam}) => {
           visible={modalInventory}
           setVisible={setModalInventory}
           setModal={setModalInventory}
-          inventory={inventory}
-          position={position}
         />
         {config.gameMode !== 'SUPREMACY' && (
           <Timer duration={config.duration} launchedAt={config.launchedAt} />

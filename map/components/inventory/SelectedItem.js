@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, TouchableOpacity, Text} from 'react-native';
+import {View, Image, TouchableOpacity, Text, Dimensions} from 'react-native';
 import {useConfig} from '../../utils/config';
 import {stylesMap, stylesSigninSignup} from '../../css/style';
 import {getItemIcon} from '../marker/MarkersItem';
@@ -15,13 +15,21 @@ const SelectedItem = ({item, position, setSelectedItem, setVisible}) => {
       </View>
       {item && (
         <>
-          <View style={{width: 180, marginLeft: 10}}>
+          <View
+            style={{
+              width: Dimensions.get('window').width * 0.4,
+              marginLeft: 10,
+            }}>
             <Text style={stylesMap.itemName}> {item.name}</Text>
             <Text style={stylesMap.itemDescription}>
               {DESC_ITEMS[item.name]}
             </Text>
           </View>
           <SelectedItemButtons
+            style={{
+              height: Dimensions.get('window').height * 0.12,
+              width: Dimensions.get('window').height * 0.12,
+            }}
             item={item}
             coordinates={position}
             setSelectedItem={setSelectedItem}

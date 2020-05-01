@@ -9,16 +9,16 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
 import Inventory from './Inventory';
 import SelectedItem from './SelectedItem';
+import {usePlayer} from '../../utils/player';
 
-const ModalInventory = ({
-  visible,
-  setVisible,
-  setModal,
-  inventory,
-  position,
-}) => {
+const ModalInventory = ({visible, setVisible, setModal, position}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const {config} = useConfig();
+  const {player} = usePlayer();
+
+  selectedItem &&
+    !_.some(player.inventory, {id: selectedItem.id}) &&
+    setSelectedItem(null);
 
   const modalInventorySize = selectedItem
     ? (Dimensions.get('window').height *
@@ -61,7 +61,6 @@ const ModalInventory = ({
             />
           )}
           <Inventory
-            inventory={inventory}
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
           />
