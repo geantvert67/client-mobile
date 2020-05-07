@@ -10,6 +10,7 @@ import MarkerPositive from '../../img/markerPositive.svg';
 import Crystal from '../../img/crystal.svg';
 import Teammate from '../../img/location-arrow-solid.svg';
 import {useConfig} from '../../utils/config';
+import {usePlayer} from '../../utils/player';
 import {inRadius} from '../../utils/calcul';
 import {Popup} from '../Toast';
 
@@ -27,13 +28,24 @@ const Markers = ({
   teamMarkers,
   items,
 }) => {
+  const {player} = usePlayer();
+
+  const isImmobilized = () => {
+    return player && player.immobilizedUntil && Popup('Vous êtes paralysé');
+  };
+
   return (
     <>
       <PlayerMarker players={players} />
-      <FlagMarker flags={flags} playerTeam={playerTeam} position={position} />
+      <FlagMarker
+        flags={flags}
+        playerTeam={playerTeam}
+        position={position}
+        isImmobilized={isImmobilized}
+      />
       <UnknownMarker unknowns={unknowns} />
       <TeamMarker teamMarkers={teamMarkers} />
-      <MarkersItem items={items} />
+      <MarkersItem items={items} isImmobilized={isImmobilized} />
     </>
   );
 };
@@ -49,7 +61,7 @@ const PlayerMarker = ({players}) => {
         p.username !== user.username &&
         p.coordinates.length > 0 && (
           <Marker
-            title={`${p.username} ${!p.isConnected && '(déconnecté)'} `}
+            title={`${p.username} ${!p.isConnected ? '(déconnecté)' : ''} `}
             coordinate={{
               latitude: p.coordinates[0],
               longitude: p.coordinates[1],
@@ -66,17 +78,17 @@ const PlayerMarker = ({players}) => {
   );
 };
 
-const FlagMarker = ({flags, playerTeam, position}) => {
+const FlagMarker = ({flags, playerTeam, position, isImmobilized}) => {
   const {socket} = useSocket();
   const {config} = useConfig();
 
   const captureFlag = flag => {
     flag.team && flag.team.id === playerTeam.id
-      ? Popup('Crystal déjà capturé', 'rgba(255, 165, 0, 0.5)')
+      ? Popup('Cristal déjà capturé', 'rgba(255, 165, 0, 0.5)')
       : !inRadius(flag.coordinates, position, config.flagActionRadius)
-      ? Popup('Crystal trop éloigné !')
+      ? Popup('Cristal trop éloigné !')
       : flag.capturedUntil
-      ? Popup('Crystal vérouillé', 'rgba(255, 165, 0, 0.5)')
+      ? Popup('Cristal vérouillé', 'rgba(255, 165, 0, 0.5)')
       : socket.emit('captureFlag', {flagId: flag.id, teamId: playerTeam.id}) &&
         Popup('Capture en cours...', 'rgba(0, 255,255, 0.5)');
   };
@@ -90,7 +102,7 @@ const FlagMarker = ({flags, playerTeam, position}) => {
             latitude: f.coordinates[0],
             longitude: f.coordinates[1],
           }}
-          onPress={() => captureFlag(f)}>
+          onPress={() => isImmobilized() || captureFlag(f)}>
           <View>
             {f.capturedUntil &&
             inRadius(f.coordinates, position, config.flagActionRadius) ? (
@@ -162,4 +174,5 @@ const TeamMarker = ({teamMarkers}) => {
     })
   );
 };
+
 export default Markers;

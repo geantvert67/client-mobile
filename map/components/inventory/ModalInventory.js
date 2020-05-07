@@ -11,7 +11,7 @@ import Inventory from './Inventory';
 import SelectedItem from './SelectedItem';
 import {usePlayer} from '../../utils/player';
 
-const ModalInventory = ({visible, setVisible, setModal, position}) => {
+const ModalInventory = ({visible, setVisible, setModal}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const {config} = useConfig();
   const {player} = usePlayer();
@@ -20,12 +20,17 @@ const ModalInventory = ({visible, setVisible, setModal, position}) => {
     !_.some(player.inventory, {id: selectedItem.id}) &&
     setSelectedItem(null);
 
+  const inventorySize =
+    player && player.hasTransporteur
+      ? config.inventorySize * 2
+      : config.inventorySize;
+
   const modalInventorySize = selectedItem
     ? (Dimensions.get('window').height *
-        (75 - Math.ceil(config.inventorySize / 5) * 10)) /
+        (75 - Math.ceil(inventorySize / 5) * 10)) /
       100
     : (Dimensions.get('window').height *
-        (95 - Math.ceil(config.inventorySize / 5) * 10)) /
+        (95 - Math.ceil(inventorySize / 5) * 10)) /
       100;
   return (
     <View>
@@ -39,7 +44,12 @@ const ModalInventory = ({visible, setVisible, setModal, position}) => {
         ]}
         onBackdropPress={() => setModal(false)}>
         <View style={{flex: 1}}>
-          <View style={{flex: 1, flexDirection: 'row'}}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              margin: 10,
+            }}>
             <Text style={stylesMap.titleModal}>Inventaire</Text>
             <TouchableOpacity
               style={stylesMap.teamScore}
@@ -55,7 +65,6 @@ const ModalInventory = ({visible, setVisible, setModal, position}) => {
           {selectedItem && (
             <SelectedItem
               item={selectedItem}
-              position={position}
               setSelectedItem={setSelectedItem}
               setVisible={setVisible}
             />
@@ -63,6 +72,7 @@ const ModalInventory = ({visible, setVisible, setModal, position}) => {
           <Inventory
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
+            inventorySize={inventorySize}
           />
         </View>
       </Modal>

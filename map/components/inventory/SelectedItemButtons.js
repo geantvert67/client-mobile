@@ -5,15 +5,11 @@ import {stylesMap, stylesSigninSignup} from '../../css/style';
 import {Popup} from '../Toast';
 import {usePlayer} from '../../utils/player';
 
-const SelectedItemButtons = ({
-  item,
-  coordinates,
-  setSelectedItem,
-  setVisible,
-}) => {
+const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
   const {socket} = useSocket();
   const {player} = usePlayer();
-  const EQUIPEMENTS = ['Sonde', 'Antenne', 'Noyau protecteur', 'Intercepteur'];
+
+  const EQUIPEMENTS = ['Sonde', 'Antenne', 'Noyau protecteur'];
   const ITEMS = [
     'Transporteur',
     'Portail de transfert',
@@ -21,11 +17,12 @@ const SelectedItemButtons = ({
     'Sentinelle',
     'Oracle',
     'Disloqueur',
+    'Intercepteur',
   ];
   const TRAPS = ['Canon à photons', 'Transducteur'];
 
   const dropItem = () => {
-    socket.emit('dropItem', {id: item.id, coordinates});
+    socket.emit('dropItem', {id: item.id, coordinates: player.coordinates});
     setSelectedItem(null);
     setVisible(false);
     Popup('En cours ...', 'rgba(0,255,0,0.3)');
@@ -70,6 +67,15 @@ const SelectedItemButtons = ({
     setSelectedItem(null);
   };
 
+  console.log(player);
+
+  const checkDisabled = () => {
+    return (
+      (player.hasTransporteur && item.name === 'Transporteur') ||
+      player.immobilizedUntil
+    );
+  };
+
   return item.equiped ? (
     <View
       style={[
@@ -102,7 +108,9 @@ const SelectedItemButtons = ({
         style={[
           stylesSigninSignup.submitButton,
           {width: 80, marginBottom: 10},
-        ]}>
+          checkDisabled() && {backgroundColor: 'grey'},
+        ]}
+        disabled={checkDisabled()}>
         <Text
           style={[stylesSigninSignup.submitButtonText, {textAlign: 'center'}]}>
           {EQUIPEMENTS.includes(item.name)

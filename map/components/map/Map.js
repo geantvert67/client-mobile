@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Platform, Dimensions} from 'react-native';
 import {Text} from 'native-base';
-
+import {stylesMap} from '../../css/style';
 import MapView, {MAP_TYPES} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import {useSocket} from '../../utils/socket';
@@ -16,10 +16,11 @@ import Timer from './Timer';
 import ModalInventory from '../inventory/ModalInventory';
 import {usePlayer} from '../../utils/player';
 import {Actions} from 'react-native-router-flux';
+import moment from 'moment';
 
 const Map = ({playerTeam}) => {
   const {socket} = useSocket();
-  const {config} = useConfig();
+  const {config, setConfig} = useConfig();
   const [areas, setAreas] = useState([]);
   const [flags, setFlags] = useState([]);
   const [teamMarkers, setTeamMarkers] = useState([]);
@@ -50,6 +51,10 @@ const Map = ({playerTeam}) => {
       setItems(routine.items);
       setTeams(routine.teams);
       setPlayer(routine.player);
+    });
+
+    socket.on('getConfig', config => {
+      setConfig(config);
     });
 
     const interval = setInterval(() => {
@@ -144,6 +149,14 @@ const Map = ({playerTeam}) => {
         />
         {config.gameMode !== 'SUPREMACY' && (
           <Timer duration={config.duration} launchedAt={config.launchedAt} />
+        )}
+        {!config.gameStarted && config.willLaunchAt && (
+          <View style={stylesMap.timerBox}>
+            <Text style={{color: 'white'}}> La partie va débuter le</Text>
+            <Text style={{color: 'white'}}>
+              {moment(config.willLaunchAt).format('DD/MM/YYYY à HH:00')}
+            </Text>
+          </View>
         )}
       </View>
     )

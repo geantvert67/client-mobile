@@ -62,8 +62,12 @@ const Game = () => {
           <Loader />
         ) : error ? (
           <Text>{error.message}</Text>
+        ) : games && games.length > 0 ? (
+          <GamesList games={games} handleGame={handleGame} />
         ) : (
-          games && <GamesList games={games} handleGame={handleGame} />
+          <Text style={stylesGame.textSecondary}>
+            Aucune partie publique en cours
+          </Text>
         )}
       </View>
     </View>

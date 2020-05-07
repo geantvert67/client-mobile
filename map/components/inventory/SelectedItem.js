@@ -6,7 +6,7 @@ import {getItemIcon} from '../marker/MarkersItem';
 import SelectedItemButtons from './SelectedItemButtons';
 import {DESC_ITEMS} from '../../utils/descriptions';
 
-const SelectedItem = ({item, position, setSelectedItem, setVisible}) => {
+const SelectedItem = ({item, setSelectedItem, setVisible}) => {
   const img = item && getItemIcon(item.name);
   return (
     <View style={stylesMap.selectedItemBox}>
@@ -31,7 +31,6 @@ const SelectedItem = ({item, position, setSelectedItem, setVisible}) => {
               width: Dimensions.get('window').height * 0.12,
             }}
             item={item}
-            coordinates={position}
             setSelectedItem={setSelectedItem}
             setVisible={setVisible}
           />

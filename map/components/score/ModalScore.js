@@ -18,20 +18,20 @@ const ModalScore = ({visible, setModal, teams, playerTeam}) => {
         style={[stylesMap.modal]}
         onBackdropPress={() => setModal(false)}>
         <View style={{flex: 1, flexDirection: 'column'}}>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={stylesMap.titleModal}>Classement des équipes</Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              margin: 10,
+            }}>
+            <Text style={stylesMap.titleModal}>Score</Text>
             <TouchableOpacity
               style={stylesMap.teamScore}
               onPress={() => setModal(false)}>
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                size={26}
-                color="white"
-                style={{right: 10}}
-              />
+              <FontAwesomeIcon icon={faChevronDown} size={26} color="white" />
             </TouchableOpacity>
           </View>
-          <ScrollView style={stylesMap.scrollView}>
+          <ScrollView style={[stylesMap.scrollView, {bottom: 20}]}>
             {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
               return team.id === playerTeam.id ? (
                 <TeamItem
