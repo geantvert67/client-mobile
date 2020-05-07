@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Platform} from 'react-native';
+import {View, StyleSheet, Platform, Dimensions} from 'react-native';
 import {Text} from 'native-base';
 
 import MapView, {MAP_TYPES} from 'react-native-maps';
@@ -14,6 +14,8 @@ import ModalScore from '../score/ModalScore';
 import {useConfig} from '../../utils/config';
 import Timer from './Timer';
 import ModalInventory from '../inventory/ModalInventory';
+import {usePlayer} from '../../utils/player';
+import {Actions} from 'react-native-router-flux';
 
 const Map = ({playerTeam}) => {
   const {socket} = useSocket();
@@ -29,7 +31,9 @@ const Map = ({playerTeam}) => {
   const [position, setPosition] = useState([]);
   const [modalScore, setModalScore] = useState(false);
   const [modalInventory, setModalInventory] = useState(false);
-  const [inventory, setInventory] = useState([]);
+  const {setPlayer} = usePlayer();
+
+  config.ended && Actions.replace('Endgame', {teams, playerTeam});
 
   useEffect(() => {
     acceptGeoloc();
@@ -45,7 +49,7 @@ const Map = ({playerTeam}) => {
       setPlayers(routine.players);
       setItems(routine.items);
       setTeams(routine.teams);
-      setInventory(routine.player.inventory);
+      setPlayer(routine.player);
     });
 
     const interval = setInterval(() => {
@@ -66,10 +70,20 @@ const Map = ({playerTeam}) => {
 
   return (
     position.length > 0 && (
-      <View style={{flex: 1}}>
-        <View style={{flex: 1, alignItems: 'center'}}>
+      <View
+        style={{
+          flex: 1,
+          width: Dimensions.get('window').width,
+          height: '100%',
+        }}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            width: Dimensions.get('window').width,
+            height: '100%',
+          }}>
           <MapView
-            style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}}
             provider={null}
             initialRegion={{
               latitude: position[0],
@@ -86,7 +100,17 @@ const Map = ({playerTeam}) => {
             followsUserLocation
             showsCompass
             style={{flex: 1}}
-            style={styles.map}
+            style={[
+              styles.map,
+              {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                width: '100%',
+              },
+            ]}
             showsUserLocation={true}
             showsMyLocationButton={true}>
             {areas.length > 0 && <Polygons areas={areas} />}
@@ -99,7 +123,6 @@ const Map = ({playerTeam}) => {
               position={position}
               teamMarkers={teamMarkers}
               items={items}
-              inventory={inventory}
             />
           </MapView>
         </View>
@@ -118,8 +141,6 @@ const Map = ({playerTeam}) => {
           visible={modalInventory}
           setVisible={setModalInventory}
           setModal={setModalInventory}
-          inventory={inventory}
-          position={position}
         />
         {config.gameMode !== 'SUPREMACY' && (
           <Timer duration={config.duration} launchedAt={config.launchedAt} />

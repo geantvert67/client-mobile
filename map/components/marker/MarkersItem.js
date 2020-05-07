@@ -4,6 +4,7 @@ import {Image} from 'react-native';
 import {useSocket} from '../../utils/socket';
 import {useConfig} from '../../utils/config';
 import {Popup} from '../Toast';
+import {usePlayer} from '../../utils/player';
 
 export const getItemIcon = name => {
   switch (name) {
@@ -36,9 +37,10 @@ export const getItemIcon = name => {
   }
 };
 
-const MarkersItem = ({items, inventory}) => {
+const MarkersItem = ({items}) => {
   const {socket} = useSocket();
   const {config} = useConfig();
+  const {player} = usePlayer();
 
   return items.map(item => {
     const img = getItemIcon(item.name);
@@ -46,7 +48,7 @@ const MarkersItem = ({items, inventory}) => {
     const takeItem = item => {
       item.waitingUntil
         ? Popup('Item indisponible ...')
-        : inventory.length === config.inventorySize
+        : player.inventory.length === config.inventorySize
         ? Popup('Votre inventaire est plein')
         : socket.emit('takeItem', item.id) &&
           Popup('Récupération ...', 'rgba(0, 255, 0, 0.3)');

@@ -13,6 +13,9 @@ import {SocketProvider} from './utils/socket';
 import BackButton from './components/BackButton';
 import {ConfigProvider} from './utils/config';
 import BottomTab from './components/Menu';
+import {getData} from './utils/asyncStorage';
+import {PlayerProvider} from './utils/player';
+import EndGame from './components/score/EndGame';
 
 const App = () => {
   console.disableYellowBox = true;
@@ -21,50 +24,60 @@ const App = () => {
     <AuthProvider>
       <SocketProvider>
         <ConfigProvider>
-          <Router>
-            <Stack key="root">
-              <Scene
-                key="Signin"
-                component={Signin}
-                title="Connexion"
-                navigationBarStyle={styles.header}
-                titleStyle={styles.titleColor}
-                renderBackButton={() => <BackButton />}
-                initial
-              />
-              <Scene
-                key="Signup"
-                component={Signup}
-                title="Inscription"
-                navigationBarStyle={styles.header}
-                titleStyle={styles.titleColor}
-                renderBackButton={() => <BackButton />}
-              />
+          <PlayerProvider>
+            <Router>
+              <Stack key="root">
+                <Scene
+                  key="Signin"
+                  component={Signin}
+                  title="Connexion"
+                  navigationBarStyle={styles.header}
+                  titleStyle={styles.titleColor}
+                  renderBackButton={() => <BackButton />}
+                  initial
+                />
+                <Scene
+                  key="Signup"
+                  component={Signup}
+                  title="Inscription"
+                  navigationBarStyle={styles.header}
+                  titleStyle={styles.titleColor}
+                  renderBackButton={() => <BackButton />}
+                />
 
-              <Scene
-                key="Menu"
-                title="CrystalZ"
-                component={BottomTab}
-                hideNavBar
-              />
+                <Scene
+                  key="Menu"
+                  title="CrystalZ"
+                  component={BottomTab}
+                  hideNavBar
+                />
 
-              <Scene
-                key="Map"
-                navigationBarStyle={styles.header}
-                titleStyle={styles.titleColor}
-                component={Map}
-                hideNavBar
-              />
-              <Scene
-                key="Teams"
-                component={Teams}
-                title="Equipes"
-                navigationBarStyle={styles.header}
-                titleStyle={styles.titleColor}
-                renderBackButton={() => <BackButton disconnect={true} />}
-              />
-            </Stack>
-          </Router>
+                <Scene
+                  key="Map"
+                  navigationBarStyle={styles.header}
+                  titleStyle={styles.titleColor}
+                  component={Map}
+                  hideNavBar
+                />
+                <Scene
+                  key="Teams"
+                  component={Teams}
+                  title="Equipes"
+                  navigationBarStyle={styles.header}
+                  titleStyle={styles.titleColor}
+                  renderBackButton={() => <BackButton disconnect={true} />}
+                />
+
+                <Scene
+                  key="Endgame"
+                  component={EndGame}
+                  navigationBarStyle={styles.header}
+                  titleStyle={styles.titleColor}
+                  hideNavBar
+                />
+              </Stack>
+            </Router>
+          </PlayerProvider>
         </ConfigProvider>
       </SocketProvider>
     </AuthProvider>

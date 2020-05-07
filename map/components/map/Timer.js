@@ -16,7 +16,9 @@ function Timer({duration, launchedAt}) {
 
   const getTime = () => {
     return Math.floor(
-      duration - moment.duration(moment().diff(moment(launchedAt))).asSeconds(),
+      duration -
+        moment.duration(moment().diff(moment(launchedAt))).asSeconds() -
+        1,
     );
   };
 

@@ -26,7 +26,6 @@ const Markers = ({
   position,
   teamMarkers,
   items,
-  inventory,
 }) => {
   return (
     <>
@@ -34,7 +33,7 @@ const Markers = ({
       <FlagMarker flags={flags} playerTeam={playerTeam} position={position} />
       <UnknownMarker unknowns={unknowns} />
       <TeamMarker teamMarkers={teamMarkers} />
-      <MarkersItem items={items} inventory={inventory} />
+      <MarkersItem items={items} />
     </>
   );
 };
@@ -50,12 +49,16 @@ const PlayerMarker = ({players}) => {
         p.username !== user.username &&
         p.coordinates.length > 0 && (
           <Marker
-            title={p.username}
+            title={`${p.username} ${!p.isConnected && '(déconnecté)'} `}
             coordinate={{
               latitude: p.coordinates[0],
               longitude: p.coordinates[1],
             }}>
-            <Teammate fill={p.teamColor} />
+            <Teammate
+              fill={p.isConnected ? p.teamColor : 'grey'}
+              width={25}
+              height={25}
+            />
           </Marker>
         )
       );

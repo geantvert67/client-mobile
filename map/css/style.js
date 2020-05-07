@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
 export const stylesSigninSignup = StyleSheet.create({
   container: {
@@ -173,7 +173,7 @@ export const stylesMap = StyleSheet.create({
 
   modal: {
     backgroundColor: '#26292F',
-    marginTop: 500,
+    marginTop: (Dimensions.get('window').height * 55) / 100,
     marginLeft: 0,
     marginRight: 0,
     marginBottom: 0,
@@ -187,14 +187,14 @@ export const stylesMap = StyleSheet.create({
   },
 
   teamScore: {
-    color: 'gold',
+    color: '#68B684',
     position: 'absolute',
     right: 0,
     fontSize: 20,
   },
 
   teamName: {
-    color: 'gold',
+    color: '#68B684',
     fontSize: 20,
   },
 
@@ -234,8 +234,8 @@ export const stylesMap = StyleSheet.create({
   inventorySelectedItem: {
     marginLeft: 10,
     marginBottom: 20,
-    width: 90,
-    height: 90,
+    height: Dimensions.get('window').width * 0.25,
+    width: Dimensions.get('window').width * 0.25,
     backgroundColor: '#1B1E22',
     borderRadius: 5,
     overflow: 'hidden',
@@ -287,6 +287,7 @@ export const stylesMap = StyleSheet.create({
     top: 50,
     right: 10,
     left: 10,
-    bottom: 0,
+    bottom: 50,
+    paddingTop: 20,
   },
 });

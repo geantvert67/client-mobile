@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import {View, ScrollView} from 'react-native';
 import {useConfig} from '../../utils/config';
 import InventoryItem from './InventoryItem';
+import {usePlayer} from '../../utils/player';
 
-const Inventory = ({inventory, selectedItem, setSelectedItem}) => {
+const Inventory = ({selectedItem, setSelectedItem}) => {
   const {config} = useConfig();
+  const {player} = usePlayer();
+
   let emptySlots = [];
-  for (var i = 0; i < config.inventorySize - inventory.length; i++) {
+  for (var i = 0; i < config.inventorySize - player.inventory.length; i++) {
     emptySlots.push(<InventoryItem />);
   }
   return (
@@ -17,7 +20,7 @@ const Inventory = ({inventory, selectedItem, setSelectedItem}) => {
           flexDirection: 'row',
           flexWrap: 'wrap',
         }}>
-        {inventory.map(item => (
+        {player.inventory.map(item => (
           <InventoryItem
             item={item}
             selectedItem={selectedItem}
