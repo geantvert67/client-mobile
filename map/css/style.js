@@ -287,6 +287,7 @@ export const stylesMap = StyleSheet.create({
     top: 50,
     right: 10,
     left: 10,
-    bottom: 0,
+    bottom: 50,
+    paddingTop: 20,
   },
 });

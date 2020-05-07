@@ -35,14 +35,36 @@ const SelectedItemButtons = ({
     switch (item.name) {
       case 'Disloqueur':
         socket.emit('useDisloqueur', item.id);
+        break;
       case 'Canon à photons':
         socket.emit('useCanon', {
           id: item.id,
           coordinates: player.coordinates,
           delay: 10,
         });
+        break;
+      case 'Transducteur':
+        socket.emit('useTransducteur', {
+          id: item.id,
+          coordinates: player.coordinates,
+          delay: 10,
+        });
+        break;
       case 'Sonde':
         socket.emit('useSonde', item.id);
+        break;
+      case 'Tempête':
+        socket.emit('useTempete', item.id);
+        break;
+      case 'Intercepteur':
+        socket.emit('useIntercepteur', item.id);
+        break;
+      case 'Transporteur':
+        socket.emit('useTransporteur', item.id);
+        break;
+      case 'Noyau protecteur':
+        socket.emit('useNoyau', item.id);
+        break;
     }
     setVisible(false);
     setSelectedItem(null);

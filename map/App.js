@@ -15,6 +15,7 @@ import {ConfigProvider} from './utils/config';
 import BottomTab from './components/Menu';
 import {getData} from './utils/asyncStorage';
 import {PlayerProvider} from './utils/player';
+import EndGame from './components/score/EndGame';
 
 const App = () => {
   console.disableYellowBox = true;
@@ -65,6 +66,14 @@ const App = () => {
                   navigationBarStyle={styles.header}
                   titleStyle={styles.titleColor}
                   renderBackButton={() => <BackButton disconnect={true} />}
+                />
+
+                <Scene
+                  key="Endgame"
+                  component={EndGame}
+                  navigationBarStyle={styles.header}
+                  titleStyle={styles.titleColor}
+                  hideNavBar
                 />
               </Stack>
             </Router>

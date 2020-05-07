@@ -15,6 +15,7 @@ import {useConfig} from '../../utils/config';
 import Timer from './Timer';
 import ModalInventory from '../inventory/ModalInventory';
 import {usePlayer} from '../../utils/player';
+import {Actions} from 'react-native-router-flux';
 
 const Map = ({playerTeam}) => {
   const {socket} = useSocket();
@@ -31,6 +32,8 @@ const Map = ({playerTeam}) => {
   const [modalScore, setModalScore] = useState(false);
   const [modalInventory, setModalInventory] = useState(false);
   const {setPlayer} = usePlayer();
+
+  config.ended && Actions.replace('Endgame', {teams, playerTeam});
 
   useEffect(() => {
     acceptGeoloc();
