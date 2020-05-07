@@ -3,6 +3,7 @@ import {View, FlatList} from 'react-native';
 import {Text} from 'native-base';
 
 import {stylesGame} from '../../css/style';
+import moment from 'moment';
 
 const GamesList = ({games, handleGame = () => {}, myGames = false}) => {
   return (
@@ -25,6 +26,10 @@ const GamesList = ({games, handleGame = () => {}, myGames = false}) => {
                 {myGames &&
                   (item.launched
                     ? '\nPartie en cours'
+                    : item.willLaunchAt
+                    ? `\nPartie planifiée le ${moment(item.willLaunchAt).format(
+                        'DD/MM/YYYY à HH:00',
+                      )}`
                     : '\nEn attente de joueurs')}
               </Text>
             </Text>

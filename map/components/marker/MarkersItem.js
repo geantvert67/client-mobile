@@ -16,7 +16,7 @@ export const getItemIcon = name => {
       return require('../../img/items/antenne.png');
     case 'Sonde':
       return require('../../img/items/sonde.png');
-    case 'Prisme de transfert':
+    case 'Portail de transfert':
       return require('../../img/items/portail.png');
     case 'Disloqueur':
       return require('../../img/items/disloqueur.png');
@@ -37,7 +37,7 @@ export const getItemIcon = name => {
   }
 };
 
-const MarkersItem = ({items}) => {
+const MarkersItem = ({items, isImmobilized}) => {
   const {socket} = useSocket();
   const {config} = useConfig();
   const {player} = usePlayer();
@@ -56,7 +56,7 @@ const MarkersItem = ({items}) => {
 
     return (
       <Marker
-        onPress={() => takeItem(item)}
+        onPress={() => isImmobilized() || takeItem(item)}
         coordinate={{
           latitude: item.coordinates[0],
           longitude: item.coordinates[1],

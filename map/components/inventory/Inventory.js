@@ -4,14 +4,17 @@ import {useConfig} from '../../utils/config';
 import InventoryItem from './InventoryItem';
 import {usePlayer} from '../../utils/player';
 
-const Inventory = ({selectedItem, setSelectedItem}) => {
+const Inventory = ({selectedItem, setSelectedItem, inventorySize}) => {
   const {config} = useConfig();
   const {player} = usePlayer();
 
   let emptySlots = [];
-  for (var i = 0; i < config.inventorySize - player.inventory.length; i++) {
-    emptySlots.push(<InventoryItem />);
-  }
+  player &&
+    (() => {
+      for (var i = 0; i < inventorySize - player.inventory.length; i++) {
+        emptySlots.push(<InventoryItem setSelectedItem={setSelectedItem} />);
+      }
+    });
   return (
     <ScrollView>
       <View
@@ -20,13 +23,14 @@ const Inventory = ({selectedItem, setSelectedItem}) => {
           flexDirection: 'row',
           flexWrap: 'wrap',
         }}>
-        {player.inventory.map(item => (
-          <InventoryItem
-            item={item}
-            selectedItem={selectedItem}
-            setSelectedItem={setSelectedItem}
-          />
-        ))}
+        {player &&
+          player.inventory.map(item => (
+            <InventoryItem
+              item={item}
+              selectedItem={selectedItem}
+              setSelectedItem={setSelectedItem}
+            />
+          ))}
         {emptySlots}
       </View>
     </ScrollView>

@@ -19,7 +19,7 @@ export const DESC_ITEMS = {
   'Canon à photons':
     "Empêche le joueur qui l'active de capturer des cristaux,  d’utiliser et/ou de prendre des items pendant une certaine durée",
 
-  Sentinelle: "Augmente le temps d'invulnérabilité d’un crystal capturé",
+  Sentinelle: "Augmente le temps d'invulnérabilité d’un cristal capturé",
   Oracle:
     "Rend un cristal incapturable par les ennemis jusqu'à la fin de la partie",
   Disloqueur: "Remet l'ensemble des cristaux dans un état neutre",
