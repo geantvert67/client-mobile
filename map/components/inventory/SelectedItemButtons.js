@@ -67,8 +67,6 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
     setSelectedItem(null);
   };
 
-  console.log(player);
-
   const checkDisabled = () => {
     return (
       (player.hasTransporteur && item.name === 'Transporteur') ||

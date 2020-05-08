@@ -32,9 +32,9 @@ const Map = ({playerTeam}) => {
   const [position, setPosition] = useState([]);
   const [modalScore, setModalScore] = useState(false);
   const [modalInventory, setModalInventory] = useState(false);
-  const {setPlayer} = usePlayer();
+  const {setPlayer, player} = usePlayer();
 
-  config.ended && Actions.replace('Endgame', {teams, playerTeam});
+  config.ended && Actions.replace('Endgame', {playerTeam});
 
   useEffect(() => {
     acceptGeoloc();
@@ -63,15 +63,19 @@ const Map = ({playerTeam}) => {
           const pos = [p.coords.latitude, p.coords.longitude];
           setError('');
           setPosition(pos);
-          socket.emit('routine', pos);
-          console.log(pos);
         },
         e => setError(e.message),
       );
     }, 2000);
 
-    return () => clearInterval(interval);
+    return () => interval && clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (config.launched && position.length > 0) {
+      socket.emit('routine', position);
+    }
+  }, [position, config]);
 
   return (
     position.length > 0 && (
@@ -150,7 +154,7 @@ const Map = ({playerTeam}) => {
         {config.gameMode !== 'SUPREMACY' && (
           <Timer duration={config.duration} launchedAt={config.launchedAt} />
         )}
-        {!config.gameStarted && config.willLaunchAt && (
+        {!config.launched && config.willLaunchAt && (
           <View style={stylesMap.timerBox}>
             <Text style={{color: 'white'}}> La partie va débuter le</Text>
             <Text style={{color: 'white'}}>
