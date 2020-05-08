@@ -10,11 +10,9 @@ import {faUserAlt} from '@fortawesome/free-solid-svg-icons';
 import {usePlayer} from '../../utils/player';
 import {useConfig} from '../../utils/config';
 
-const PersonalScore = () => {
-  const {player} = usePlayer();
+const PersonalScore = ({player}) => {
   const {config} = useConfig();
 
-  console.log(player);
   return (
     <View
       style={[

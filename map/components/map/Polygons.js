@@ -7,6 +7,7 @@ const Polygons = ({areas}) => {
     areas.length > 0 &&
     areas.map(area => {
       return (
+        area.coordinates[0] &&
         area.coordinates[0].length > 0 && (
           <Polygon
             strokeColor={

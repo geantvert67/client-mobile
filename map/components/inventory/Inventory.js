@@ -9,12 +9,11 @@ const Inventory = ({selectedItem, setSelectedItem, inventorySize}) => {
   const {player} = usePlayer();
 
   let emptySlots = [];
-  player &&
-    (() => {
-      for (var i = 0; i < inventorySize - player.inventory.length; i++) {
-        emptySlots.push(<InventoryItem setSelectedItem={setSelectedItem} />);
-      }
-    });
+
+  for (var i = 0; i < inventorySize - player.inventory.length; i++) {
+    emptySlots.push(<InventoryItem setSelectedItem={setSelectedItem} />);
+  }
+
   return (
     <ScrollView>
       <View

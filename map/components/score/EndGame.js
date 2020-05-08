@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,19 +6,30 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {stylesGame, stylesMap, stylesSigninSignup} from '../../css/style';
+import {stylesMap, stylesSigninSignup} from '../../css/style';
 import TeamItem from '../partie/TeamItem';
 import _ from 'lodash';
 import {useConfig} from '../../utils/config';
-
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
 import {Actions} from 'react-native-router-flux';
-import {Popup} from '../Toast';
 import PersonalScore from './PersonalScore';
+import {useSocket} from '../../utils/socket';
+import {usePlayer} from '../../utils/player';
 
-const EndGame = ({teams, playerTeam}) => {
+const EndGame = ({playerTeam}) => {
   const {config} = useConfig();
+  const {socket} = useSocket();
+  const {player, setPlayer} = usePlayer();
+  const [teams, setTeams] = useState([]);
+
+  console.log(player);
+
+  useEffect(() => {
+    socket.on('getTeams', t => setTeams(t));
+    socket.on('getPlayer', p => setPlayer(p));
+    socket.emit('getTeams');
+    socket.emit('getPlayerByUsername', player.username);
+  }, []);
+
   return (
     <View style={stylesSigninSignup.container}>
       <View style={{flex: 1, flexDirection: 'column'}}>
@@ -51,20 +62,21 @@ const EndGame = ({teams, playerTeam}) => {
             <Text style={[stylesMap.titleModal, {color: 'red'}]}>Défaite</Text>
           )}
         </View>
-        <PersonalScore />
+        <PersonalScore player={player} />
         <ScrollView style={[stylesMap.scrollView, {top: 165}]}>
-          {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
-            return team.id === playerTeam.id ? (
-              <TeamItem
-                team={team}
-                score={true}
-                mode={config.gameMode}
-                playerTeam
-              />
-            ) : (
-              <TeamItem team={team} score={true} mode={config.gameMode} />
-            );
-          })}
+          {teams.length > 0 &&
+            _.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
+              return team.id === playerTeam.id ? (
+                <TeamItem
+                  team={team}
+                  score={true}
+                  mode={config.gameMode}
+                  playerTeam
+                />
+              ) : (
+                <TeamItem team={team} score={true} mode={config.gameMode} />
+              );
+            })}
         </ScrollView>
         <TouchableOpacity
           style={[
