@@ -47,7 +47,7 @@ const EndGame = ({playerTeam}) => {
                   stylesMap.titleModal,
                   {fontSize: 30, color: '#68B684'},
                 ]}>
-                Gagné
+                Victoire
               </Text>
             ) : (
               <Text

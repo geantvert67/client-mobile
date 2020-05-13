@@ -67,6 +67,19 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
     setSelectedItem(null);
   };
 
+  const unequipItem = () => {
+    switch (item.name) {
+      case 'Sonde':
+        socket.emit('unequipSonde', item.id);
+        break;
+      case 'Noyau protecteur':
+        socket.emit('unequipNoyau', item.id);
+        break;
+    }
+    setVisible(false);
+    setSelectedItem(null);
+  };
+
   const checkDisabled = () => {
     return (
       (player.hasTransporteur && item.name === 'Transporteur') ||
@@ -85,7 +98,7 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
         },
       ]}>
       <TouchableOpacity
-        onPress={() => useItem()}
+        onPress={() => unequipItem()}
         style={[
           stylesSigninSignup.submitButton,
           {

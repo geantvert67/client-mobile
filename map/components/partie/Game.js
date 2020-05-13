@@ -40,10 +40,13 @@ const Game = () => {
       });
   }, []);
 
-  const handleGame = gameId => {
+  const handleGame = (gameId, ip, port) => {
     request
       .post(`/games/${gameId}/invitations`, {userId: user.id})
       .then(res => {
+        const socketIo = require('socket.io-client');
+        const s = socketIo(`http://${ip}:${port}`);
+        s.emit('getInvitations');
         Popup('Demande envoyée', 'rgba(0,255,0,0.5)', -70);
       })
       .catch(err => {

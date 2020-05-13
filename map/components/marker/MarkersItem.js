@@ -42,13 +42,17 @@ const MarkersItem = ({items, isImmobilized}) => {
   const {config} = useConfig();
   const {player} = usePlayer();
 
+  const inventorySize = player.hasTransporteur
+    ? config.inventorySize * 2
+    : config.inventorySize;
+
   return items.map(item => {
     const img = getItemIcon(item.name);
 
     const takeItem = item => {
       item.waitingUntil
         ? Popup('Item indisponible ...')
-        : player.inventory.length === config.inventorySize
+        : player.inventory.length === inventorySize
         ? Popup('Votre inventaire est plein')
         : socket.emit('takeItem', item.id) &&
           Popup('Récupération ...', 'rgba(0, 255, 0, 0.3)');

@@ -37,7 +37,19 @@ const TeamItem = ({team, score = false, mode, playerTeam}) => {
       </CollapseHeader>
       <CollapseBody>
         {team.players.map(player => {
-          return <Text style={stylesGame.gameNameText}>{player.username}</Text>;
+          console.log(player);
+          return (
+            <>
+              <Text style={stylesGame.gameNameText}>{player.username}</Text>
+
+              <Text style={stylesMap.score}>
+                {score &&
+                  (mode === 'TIME'
+                    ? secondsToDuration(player.statistics.score)
+                    : player.statistics.score)}
+              </Text>
+            </>
+          );
         })}
       </CollapseBody>
     </Collapse>
