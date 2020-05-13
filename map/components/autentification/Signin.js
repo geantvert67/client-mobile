@@ -12,7 +12,7 @@ import {Actions} from 'react-native-router-flux';
 
 import {useAuth} from '../../utils/auth';
 import {useSocket} from '../../utils/socket';
-import {stylesSigninSignup} from '../../css/style';
+import {stylesSigninSignup, stylesGame} from '../../css/style';
 import {Popup} from '../Toast';
 
 const Signin = () => {
@@ -38,6 +38,7 @@ const Signin = () => {
 
   return (
     <View style={stylesSigninSignup.container}>
+      <Text style={stylesGame.gameText}>Connexion</Text>
       <TextInput
         style={stylesSigninSignup.input}
         placeholder="Nom d'utilisateur"

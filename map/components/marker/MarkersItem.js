@@ -42,9 +42,9 @@ const MarkersItem = ({items, isImmobilized}) => {
   const {config} = useConfig();
   const {player} = usePlayer();
 
-  const inventorySize = player.hasTransporteur
-    ? config.inventorySize * 2
-    : config.inventorySize;
+  const inventorySize =
+    player &&
+    (player.hasTransporteur ? config.inventorySize * 2 : config.inventorySize);
 
   return items.map(item => {
     const img = getItemIcon(item.name);

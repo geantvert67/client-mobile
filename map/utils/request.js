@@ -2,7 +2,7 @@ import axios from 'axios';
 import {getData} from './asyncStorage';
 
 const request = axios.create({
-  baseURL: 'http://sterne.iutrs.unistra.fr:8081/',
+  baseURL: 'http://192.168.43.120:8080/',
 });
 
 request.defaults.headers.post['Content-Type'] = 'application/json';
