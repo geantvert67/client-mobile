@@ -39,7 +39,9 @@ const MyGames = () => {
   }, []);
 
   const handleGame = (id, ip, port, game) => {
-    setSocket(io(`http://${ip}:${port}?username=${user.username}`));
+    setSocket(
+      io(`http://${ip}:${port}?username=${user.username}&id=${user.id}`),
+    );
     Actions.Teams();
   };
 

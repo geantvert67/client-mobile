@@ -14,6 +14,8 @@ import {useSocket} from '../../utils/socket';
 import {useAuth} from '../../utils/auth';
 import {useConfig} from '../../utils/config';
 import Loader from '../Loader';
+import moment from 'moment';
+import BackButton from '../BackButton';
 
 const Teams = () => {
   const [gameStarted, setGameStarted] = useState(null);
@@ -56,6 +58,15 @@ const Teams = () => {
   return teams ? (
     <>
       <View style={[stylesGame.container, {flex: 1}]}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <BackButton />
+          <Text style={[stylesGame.gameText, {marginLeft: 20}]}>Equipes</Text>
+        </View>
+
         <ScrollView>
           {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
             return (
@@ -70,9 +81,12 @@ const Teams = () => {
         </ScrollView>
         <View>
           {gameStarted || (
-            <Text style={stylesSigninSignup.submitButtonText}>
-              Le maître du jeu n'a pas encore lancé la partie. Veuillez
-              patienter !
+            <Text style={[stylesSigninSignup.submitButtonText]}>
+              {config && config.willLaunchAt
+                ? `Le maître du jeu a planifié la partie.\nCelle-ci débutera le ${moment(
+                    config.willLaunchAt,
+                  ).format('DD/MM/YYYY à HH:00')}`
+                : "Le maître du jeu n'a pas encore lancé la partie.\nVeuillez patienter !"}
             </Text>
           )}
           <TouchableOpacity

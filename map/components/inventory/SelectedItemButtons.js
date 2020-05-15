@@ -67,6 +67,19 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
     setSelectedItem(null);
   };
 
+  const unequipItem = () => {
+    switch (item.name) {
+      case 'Sonde':
+        socket.emit('unequipSonde', item.id);
+        break;
+      case 'Noyau protecteur':
+        socket.emit('unequipNoyau', item.id);
+        break;
+    }
+    setVisible(false);
+    setSelectedItem(null);
+  };
+
   const checkDisabled = () => {
     return (
       (player.hasTransporteur && item.name === 'Transporteur') ||
@@ -75,17 +88,9 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
   };
 
   return item.equiped ? (
-    <View
-      style={[
-        stylesMap.selectedItemButtonsBox,
-        {
-          height: '150%',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-      ]}>
+    <View>
       <TouchableOpacity
-        onPress={() => useItem()}
+        onPress={() => unequipItem()}
         style={[
           stylesSigninSignup.submitButton,
           {
@@ -100,12 +105,23 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
       </TouchableOpacity>
     </View>
   ) : (
-    <View style={stylesMap.selectedItemButtonsBox}>
+    <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+      <TouchableOpacity
+        onPress={() => dropItem()}
+        style={[
+          stylesSigninSignup.submitButton,
+          {backgroundColor: '#EB4646', width: 80, marginRight: 25},
+        ]}>
+        <Text
+          style={[stylesSigninSignup.submitButtonText, {textAlign: 'center'}]}>
+          Déposer
+        </Text>
+      </TouchableOpacity>
       <TouchableOpacity
         onPress={() => useItem()}
         style={[
           stylesSigninSignup.submitButton,
-          {width: 80, marginBottom: 10},
+          {width: 80, marginRight: 10},
           checkDisabled() && {backgroundColor: 'grey'},
         ]}
         disabled={checkDisabled()}>
@@ -118,17 +134,6 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
             : ITEMS.includes(item.name)
             ? 'Utiliser'
             : ''}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => dropItem()}
-        style={[
-          stylesSigninSignup.submitButton,
-          {backgroundColor: '#EB4646', width: 80},
-        ]}>
-        <Text
-          style={[stylesSigninSignup.submitButtonText, {textAlign: 'center'}]}>
-          Déposer
         </Text>
       </TouchableOpacity>
     </View>

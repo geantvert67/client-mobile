@@ -261,7 +261,7 @@ export const stylesMap = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 50,
+    marginBottom: 70,
     marginLeft: 10,
     alignContent: 'space-between',
   },

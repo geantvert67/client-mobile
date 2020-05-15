@@ -33,8 +33,8 @@ const PersonalScore = ({player}) => {
         <Text style={stylesMap.score}>
           {' '}
           {config.gameMode === 'TIME'
-            ? secondsToDuration(player.score)
-            : player.score}
+            ? secondsToDuration(player.statistics.score)
+            : player.statistics.score}
         </Text>
       </View>
     </View>

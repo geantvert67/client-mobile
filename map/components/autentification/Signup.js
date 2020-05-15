@@ -1,12 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {View, TextInput, TouchableOpacity, BackHandler} from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  BackHandler,
+  Dimensions,
+} from 'react-native';
 import {Text} from 'native-base';
 
 import {useAuth} from '../../utils/auth';
 
-import {stylesSigninSignup} from '../../css/style';
+import {stylesSigninSignup, stylesGame} from '../../css/style';
 import {Popup} from '../Toast';
-import {Actions} from 'react-native-router-flux';
+import BackButton from '../BackButton';
 
 const Signup = () => {
   const {signup} = useAuth();
@@ -29,6 +35,15 @@ const Signup = () => {
 
   return (
     <View style={stylesSigninSignup.container}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <BackButton disconnect />
+        <Text style={[stylesGame.gameText, {marginLeft: 20}]}>Inscription</Text>
+      </View>
+
       <TextInput
         style={stylesSigninSignup.input}
         placeholder="Nom d'utilisateur"

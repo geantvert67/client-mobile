@@ -27,23 +27,8 @@ const App = () => {
           <PlayerProvider>
             <Router>
               <Stack key="root">
-                <Scene
-                  key="Signin"
-                  component={Signin}
-                  title="Connexion"
-                  navigationBarStyle={styles.header}
-                  titleStyle={styles.titleColor}
-                  renderBackButton={() => <BackButton />}
-                  initial
-                />
-                <Scene
-                  key="Signup"
-                  component={Signup}
-                  title="Inscription"
-                  navigationBarStyle={styles.header}
-                  titleStyle={styles.titleColor}
-                  renderBackButton={() => <BackButton />}
-                />
+                <Scene key="Signin" component={Signin} initial hideNavBar />
+                <Scene key="Signup" component={Signup} hideNavBar />
 
                 <Scene
                   key="Menu"
@@ -59,14 +44,7 @@ const App = () => {
                   component={Map}
                   hideNavBar
                 />
-                <Scene
-                  key="Teams"
-                  component={Teams}
-                  title="Equipes"
-                  navigationBarStyle={styles.header}
-                  titleStyle={styles.titleColor}
-                  renderBackButton={() => <BackButton disconnect={true} />}
-                />
+                <Scene key="Teams" component={Teams} hideNavBar />
 
                 <Scene
                   key="Endgame"

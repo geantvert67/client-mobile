@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text} from 'native-base';
 import {stylesGame, stylesMap} from '../../css/style';
-import {View} from 'react-native';
+import {View, Dimensions} from 'react-native';
 import {secondsToDuration} from '../../utils/calcul';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -17,16 +17,28 @@ const TeamItem = ({team, score = false, mode, playerTeam}) => {
   return (
     <Collapse style={stylesGame.item}>
       <CollapseHeader>
-        <View style={score && {flex: 1, flexDirection: 'row'}}>
-          <Text
-            style={playerTeam ? stylesMap.teamName : stylesGame.gameNameText}>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+          <Text>
             {' '}
-            <FontAwesomeIcon
-              icon={faSquareFull}
-              style={{color: team.color}}
-              size={22}
+            <View
+              style={[
+                stylesMap.inventoryItem,
+                {
+                  borderRadius: 10,
+                  backgroundColor: team.color,
+                },
+              ]}
             />
-            {} {team.name}
+          </Text>
+          <Text
+            style={[
+              playerTeam ? stylesMap.teamName : stylesGame.gameNameText,
+              {
+                marginLeft: 10,
+              },
+            ]}>
+            {' '}
+            {team.name}{' '}
           </Text>
           {score && (
             <Text style={playerTeam ? stylesMap.teamScore : stylesMap.score}>
@@ -37,7 +49,28 @@ const TeamItem = ({team, score = false, mode, playerTeam}) => {
       </CollapseHeader>
       <CollapseBody>
         {team.players.map(player => {
-          return <Text style={stylesGame.gameNameText}>{player.username}</Text>;
+          console.log(player);
+          return (
+            <>
+              <Text
+                style={[
+                  stylesGame.gameNameText,
+                  {
+                    marginLeft: Dimensions.get('window').width * 0.17,
+                    fontSize: 16,
+                  },
+                ]}>
+                {player.username}
+              </Text>
+
+              <Text style={[stylesMap.score, {fontSize: 16}]}>
+                {score &&
+                  (mode === 'TIME'
+                    ? secondsToDuration(player.statistics.score)
+                    : player.statistics.score)}
+              </Text>
+            </>
+          );
         })}
       </CollapseBody>
     </Collapse>

@@ -47,7 +47,7 @@ const EndGame = ({playerTeam}) => {
                   stylesMap.titleModal,
                   {fontSize: 30, color: '#68B684'},
                 ]}>
-                Gagné
+                Victoire
               </Text>
             ) : (
               <Text
@@ -59,7 +59,9 @@ const EndGame = ({playerTeam}) => {
               </Text>
             )
           ) : (
-            <Text style={[stylesMap.titleModal, {color: 'red'}]}>Défaite</Text>
+            <Text style={[stylesMap.titleModal, {fontSize: 30, color: 'red'}]}>
+              Défaite
+            </Text>
           )}
         </View>
         <PersonalScore player={player} />
