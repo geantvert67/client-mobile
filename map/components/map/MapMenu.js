@@ -47,7 +47,7 @@ const MapMenu = ({coordinates, setModalScore, setModalInventory}) => {
                   <View>
                     <Image
                       source={require('../../img/items/transporteur.png')}
-                      style={{width: 50, height: 50}}
+                      style={{width: 40, height: 40, marginLeft: -8}}
                       resizeMode="contain"
                     />
                   </View>
@@ -63,30 +63,21 @@ const MapMenu = ({coordinates, setModalScore, setModalInventory}) => {
                     top: -55,
                     right: -3,
                   },
-                  player && player.hasTransporteur && {left: 17},
                 ]}>
                 <MarkerPositive width="25" height="46.1" fill="green" />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => addMarker(false)}
-                style={[
-                  {position: 'relative', top: -40, right: -3},
-                  player && player.hasTransporteur && {left: 17},
-                ]}>
+                style={[{position: 'relative', top: -40, right: -3}]}>
                 <MarkerNegative width="25" height="46.1" fill="red" />
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={() => setModalScore(true)}
-                style={[
-                  {position: 'relative', top: -25},
-                  player && player.hasTransporteur && {left: 17},
-                ]}>
+                style={[{position: 'relative', top: -25}]}>
                 <FontAwesomeIcon icon={faTrophy} size={32} color="gold" />
               </TouchableOpacity>
-              <TouchableOpacity
-                style={player && player.hasTransporteur && {left: 17}}
-                onPress={() => setOpen(!open)}>
+              <TouchableOpacity onPress={() => setOpen(!open)}>
                 <FontAwesomeIcon icon={faTimes} size={32} color="white" />
               </TouchableOpacity>
             </View>

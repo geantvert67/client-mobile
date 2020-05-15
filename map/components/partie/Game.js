@@ -6,7 +6,7 @@ import {getData} from '../../utils/asyncStorage';
 import {Actions} from 'react-native-router-flux';
 import io from 'socket.io-client';
 import {useAuth} from '../../utils/auth';
-
+import RefreshView from '../RefreshView';
 import {stylesGame} from '../../css/style';
 import {useSocket} from '../../utils/socket';
 import PrivateGame from './PrivateGame';
@@ -56,24 +56,38 @@ const Game = () => {
       });
   };
 
+  const onRefresh = () => {
+    request
+      .get('/games')
+      .then(res => {
+        setGames(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+        Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
+      });
+  };
+
   return (
-    <View style={stylesGame.container}>
-      <PrivateGame handleGame={handleGame} />
-      <View>
-        <Text style={stylesGame.gameText}>Parties publiques</Text>
-        {loading ? (
-          <Loader />
-        ) : error ? (
-          <Text>{error.message}</Text>
-        ) : games && games.length > 0 ? (
-          <GamesList games={games} handleGame={handleGame} />
-        ) : (
-          <Text style={stylesGame.textSecondary}>
-            Aucune partie publique en cours
-          </Text>
-        )}
+    <RefreshView refresh={onRefresh} refreshableMod="advanced">
+      <View style={stylesGame.container}>
+        <PrivateGame handleGame={handleGame} />
+        <View>
+          <Text style={stylesGame.gameText}>Parties publiques</Text>
+          {loading ? (
+            <Loader />
+          ) : error ? (
+            <Text>{error.message}</Text>
+          ) : games && games.length > 0 ? (
+            <GamesList games={games} handleGame={handleGame} />
+          ) : (
+            <Text style={stylesGame.textSecondary}>
+              Aucune partie publique en cours
+            </Text>
+          )}
+        </View>
       </View>
-    </View>
+    </RefreshView>
   );
 };
 

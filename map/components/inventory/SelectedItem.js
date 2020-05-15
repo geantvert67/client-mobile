@@ -10,14 +10,14 @@ const SelectedItem = ({item, setSelectedItem, setVisible}) => {
   const img = item && getItemIcon(item.name);
   return (
     <View style={stylesMap.selectedItemBox}>
-      <View style={stylesMap.inventorySelectedItem}>
+      <View style={[stylesMap.inventorySelectedItem]}>
         {item && <Image source={img} style={stylesMap.selectedItemImage} />}
       </View>
       {item && (
-        <>
+        <View style={{flex: 1, flewDirection: 'column'}}>
           <View
             style={{
-              width: Dimensions.get('window').width * 0.4,
+              width: Dimensions.get('window').width * 0.6,
               marginLeft: 10,
             }}>
             <Text style={stylesMap.itemName}> {item.name}</Text>
@@ -26,15 +26,11 @@ const SelectedItem = ({item, setSelectedItem, setVisible}) => {
             </Text>
           </View>
           <SelectedItemButtons
-            style={{
-              height: Dimensions.get('window').height * 0.12,
-              width: Dimensions.get('window').height * 0.12,
-            }}
             item={item}
             setSelectedItem={setSelectedItem}
             setVisible={setVisible}
           />
-        </>
+        </View>
       )}
     </View>
   );
