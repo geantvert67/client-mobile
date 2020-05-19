@@ -104,8 +104,9 @@ const FlagMarker = ({flags, playerTeam, position, isImmobilized}) => {
           }}
           onPress={() => isImmobilized() || captureFlag(f)}>
           <View>
-            {f.capturedUntil &&
-            inRadius(f.coordinates, position, config.flagActionRadius) ? (
+            {f.capturedUntil ||
+            (f.hasOracle &&
+              inRadius(f.coordinates, position, config.flagActionRadius)) ? (
               <CrystalLocked fill={f.team ? f.team.color : 'grey'} />
             ) : (
               <Crystal fill={f.team ? f.team.color : 'grey'} />

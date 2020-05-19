@@ -6,7 +6,13 @@ import {getItemIcon} from '../marker/MarkersItem';
 import SelectedItemButtons from './SelectedItemButtons';
 import {DESC_ITEMS} from '../../utils/descriptions';
 
-const SelectedItem = ({item, setSelectedItem, setVisible}) => {
+const SelectedItem = ({
+  item,
+  setSelectedItem,
+  setVisible,
+  flags,
+  playerTeam,
+}) => {
   const img = item && getItemIcon(item.name);
   return (
     <View style={stylesMap.selectedItemBox}>
@@ -29,6 +35,8 @@ const SelectedItem = ({item, setSelectedItem, setVisible}) => {
             item={item}
             setSelectedItem={setSelectedItem}
             setVisible={setVisible}
+            flags={flags}
+            playerTeam={playerTeam}
           />
         </View>
       )}

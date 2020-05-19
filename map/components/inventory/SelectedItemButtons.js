@@ -4,9 +4,18 @@ import {useSocket} from '../../utils/socket';
 import {stylesMap, stylesSigninSignup} from '../../css/style';
 import {Popup} from '../Toast';
 import {usePlayer} from '../../utils/player';
+import {useConfig} from '../../utils/config';
+import {inRadius} from '../../utils/calcul';
 
-const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
+const SelectedItemButtons = ({
+  item,
+  setSelectedItem,
+  setVisible,
+  flags,
+  playerTeam,
+}) => {
   const {socket} = useSocket();
+  const {config} = useConfig();
   const {player} = usePlayer();
 
   const EQUIPEMENTS = ['Sonde', 'Antenne', 'Noyau protecteur'];
@@ -62,6 +71,15 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
       case 'Noyau protecteur':
         socket.emit('useNoyau', item.id);
         break;
+      case 'Sentinelle':
+        socket.emit('useSentinelle', {
+          id: item.id,
+          flagId: inActionRadius().id,
+        });
+        break;
+      case 'Oracle':
+        socket.emit('useOracle', {id: item.id, flagId: inActionRadius().id});
+        break;
     }
     setVisible(false);
     setSelectedItem(null);
@@ -80,9 +98,28 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
     setSelectedItem(null);
   };
 
+  const inActionRadius = () => {
+    console.log(flags);
+    let flag = null;
+    let rank = 0;
+    while (!flag && rank < flags.length) {
+      inRadius(
+        flags[rank].coordinates,
+        player.coordinates,
+        config.flagActionRadius,
+      ) && flags[rank].team.id === playerTeam.id
+        ? (flag = flags[rank])
+        : rank++;
+    }
+    return flag;
+  };
+
   const checkDisabled = () => {
     return (
       (player.hasTransporteur && item.name === 'Transporteur') ||
+      (item.name === 'Sentinelle' && !inActionRadius()) ||
+      (item.name === 'Oracle' &&
+        (!inActionRadius() || inActionRadius().capturedUntil)) ||
       player.immobilizedUntil
     );
   };

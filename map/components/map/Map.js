@@ -150,6 +150,8 @@ const Map = ({playerTeam}) => {
           visible={modalInventory}
           setVisible={setModalInventory}
           setModal={setModalInventory}
+          flags={flags}
+          playerTeam={playerTeam}
         />
         {config.gameMode !== 'SUPREMACY' && (
           <Timer duration={config.duration} launchedAt={config.launchedAt} />
