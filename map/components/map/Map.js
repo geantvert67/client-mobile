@@ -34,6 +34,9 @@ const Map = ({playerTeam}) => {
   const [modalInventory, setModalInventory] = useState(false);
   const {setPlayer, player} = usePlayer();
 
+  const [coordsFlag, setCoordsFlag] = useState([]);
+  const [region, setRegion] = useState({});
+
   config.ended && Actions.replace('Endgame', {playerTeam});
 
   useEffect(() => {
@@ -72,6 +75,23 @@ const Map = ({playerTeam}) => {
   }, []);
 
   useEffect(() => {
+    coordsFlag.length > 0 &&
+      setRegion({
+        region: {
+          latitude: coordsFlag[0],
+          longitude: coordsFlag[1],
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        },
+      }) &&
+      setCoordsFlag([]);
+  }, [coordsFlag]);
+
+  useEffect(() => {
+    region.region && setRegion({});
+  }, [region]);
+
+  useEffect(() => {
     if (config.launched && position.length > 0) {
       socket.emit('routine', position);
     }
@@ -93,6 +113,7 @@ const Map = ({playerTeam}) => {
             height: '100%',
           }}>
           <MapView
+            {...region}
             provider={null}
             initialRegion={{
               latitude: position[0],
@@ -150,6 +171,9 @@ const Map = ({playerTeam}) => {
           visible={modalInventory}
           setVisible={setModalInventory}
           setModal={setModalInventory}
+          flags={flags}
+          playerTeam={playerTeam}
+          setCoordsFlag={setCoordsFlag}
         />
         {config.gameMode !== 'SUPREMACY' && (
           <Timer duration={config.duration} launchedAt={config.launchedAt} />

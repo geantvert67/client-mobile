@@ -4,12 +4,24 @@ import {useSocket} from '../../utils/socket';
 import {stylesMap, stylesSigninSignup} from '../../css/style';
 import {Popup} from '../Toast';
 import {usePlayer} from '../../utils/player';
+import {useConfig} from '../../utils/config';
+import {inRadius} from '../../utils/calcul';
 
-const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
+const SelectedItemButtons = ({
+  item,
+  setSelectedItem,
+  setVisible,
+  flags,
+  playerTeam,
+  installation,
+  setInstallation,
+  setCoordsFlag,
+}) => {
   const {socket} = useSocket();
+  const {config} = useConfig();
   const {player} = usePlayer();
 
-  const EQUIPEMENTS = ['Sonde', 'Antenne', 'Noyau protecteur'];
+  const EQUIPEMENTS = ['Sonde', 'Noyau protecteur'];
   const ITEMS = [
     'Transporteur',
     'Portail de transfert',
@@ -18,6 +30,7 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
     'Oracle',
     'Disloqueur',
     'Intercepteur',
+    'Antenne',
   ];
   const TRAPS = ['Canon à photons', 'Transducteur'];
 
@@ -34,18 +47,10 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
         socket.emit('useDisloqueur', item.id);
         break;
       case 'Canon à photons':
-        socket.emit('useCanon', {
-          id: item.id,
-          coordinates: player.coordinates,
-          delay: 10,
-        });
+        setInstallation(true);
         break;
       case 'Transducteur':
-        socket.emit('useTransducteur', {
-          id: item.id,
-          coordinates: player.coordinates,
-          delay: 10,
-        });
+        setInstallation(true);
         break;
       case 'Sonde':
         socket.emit('useSonde', item.id);
@@ -62,9 +67,25 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
       case 'Noyau protecteur':
         socket.emit('useNoyau', item.id);
         break;
+      case 'Antenne':
+        socket.emit('useAntenne', {id: item.id}, coords =>
+          setCoordsFlag(coords),
+        );
+        break;
+      case 'Sentinelle':
+        socket.emit('useSentinelle', {
+          id: item.id,
+          flagId: inActionRadius().id,
+        });
+        break;
+      case 'Oracle':
+        socket.emit('useOracle', {id: item.id, flagId: inActionRadius().id});
+        break;
     }
-    setVisible(false);
-    setSelectedItem(null);
+    item.name !== 'Canon à photons' &&
+      item.name !== 'Transducteur' &&
+      setVisible(false) &&
+      setSelectedItem(null);
   };
 
   const unequipItem = () => {
@@ -76,13 +97,32 @@ const SelectedItemButtons = ({item, setSelectedItem, setVisible}) => {
         socket.emit('unequipNoyau', item.id);
         break;
     }
-    setVisible(false);
-    setSelectedItem(null);
+
+    setVisible(false) && setSelectedItem(null);
+  };
+
+  const inActionRadius = () => {
+    console.log(flags);
+    let flag = null;
+    let rank = 0;
+    while (!flag && rank < flags.length) {
+      inRadius(
+        flags[rank].coordinates,
+        player.coordinates,
+        config.flagActionRadius,
+      ) && flags[rank].team.id === playerTeam.id
+        ? (flag = flags[rank])
+        : rank++;
+    }
+    return flag;
   };
 
   const checkDisabled = () => {
     return (
       (player.hasTransporteur && item.name === 'Transporteur') ||
+      (item.name === 'Sentinelle' && !inActionRadius()) ||
+      (item.name === 'Oracle' &&
+        (!inActionRadius() || inActionRadius().capturedUntil)) ||
       player.immobilizedUntil
     );
   };
