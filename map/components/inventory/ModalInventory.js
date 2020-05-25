@@ -11,7 +11,14 @@ import Inventory from './Inventory';
 import SelectedItem from './SelectedItem';
 import {usePlayer} from '../../utils/player';
 
-const ModalInventory = ({visible, setVisible, setModal, flags, playerTeam}) => {
+const ModalInventory = ({
+  visible,
+  setVisible,
+  setModal,
+  flags,
+  playerTeam,
+  setCoordsFlag,
+}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const {config} = useConfig();
   const {player} = usePlayer();
@@ -69,6 +76,7 @@ const ModalInventory = ({visible, setVisible, setModal, flags, playerTeam}) => {
               setVisible={setVisible}
               flags={flags}
               playerTeam={playerTeam}
+              setCoordsFlag={setCoordsFlag}
             />
           )}
           <Inventory

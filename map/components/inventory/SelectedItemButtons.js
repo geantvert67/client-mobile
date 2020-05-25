@@ -13,12 +13,15 @@ const SelectedItemButtons = ({
   setVisible,
   flags,
   playerTeam,
+  installation,
+  setInstallation,
+  setCoordsFlag,
 }) => {
   const {socket} = useSocket();
   const {config} = useConfig();
   const {player} = usePlayer();
 
-  const EQUIPEMENTS = ['Sonde', 'Antenne', 'Noyau protecteur'];
+  const EQUIPEMENTS = ['Sonde', 'Noyau protecteur'];
   const ITEMS = [
     'Transporteur',
     'Portail de transfert',
@@ -27,6 +30,7 @@ const SelectedItemButtons = ({
     'Oracle',
     'Disloqueur',
     'Intercepteur',
+    'Antenne',
   ];
   const TRAPS = ['Canon à photons', 'Transducteur'];
 
@@ -43,18 +47,10 @@ const SelectedItemButtons = ({
         socket.emit('useDisloqueur', item.id);
         break;
       case 'Canon à photons':
-        socket.emit('useCanon', {
-          id: item.id,
-          coordinates: player.coordinates,
-          delay: 10,
-        });
+        setInstallation(true);
         break;
       case 'Transducteur':
-        socket.emit('useTransducteur', {
-          id: item.id,
-          coordinates: player.coordinates,
-          delay: 10,
-        });
+        setInstallation(true);
         break;
       case 'Sonde':
         socket.emit('useSonde', item.id);
@@ -71,6 +67,11 @@ const SelectedItemButtons = ({
       case 'Noyau protecteur':
         socket.emit('useNoyau', item.id);
         break;
+      case 'Antenne':
+        socket.emit('useAntenne', {id: item.id}, coords =>
+          setCoordsFlag(coords),
+        );
+        break;
       case 'Sentinelle':
         socket.emit('useSentinelle', {
           id: item.id,
@@ -81,8 +82,10 @@ const SelectedItemButtons = ({
         socket.emit('useOracle', {id: item.id, flagId: inActionRadius().id});
         break;
     }
-    setVisible(false);
-    setSelectedItem(null);
+    item.name !== 'Canon à photons' &&
+      item.name !== 'Transducteur' &&
+      setVisible(false) &&
+      setSelectedItem(null);
   };
 
   const unequipItem = () => {
@@ -94,8 +97,8 @@ const SelectedItemButtons = ({
         socket.emit('unequipNoyau', item.id);
         break;
     }
-    setVisible(false);
-    setSelectedItem(null);
+
+    setVisible(false) && setSelectedItem(null);
   };
 
   const inActionRadius = () => {
