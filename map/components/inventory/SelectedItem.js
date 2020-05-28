@@ -7,6 +7,7 @@ import SelectedItemButtons from './SelectedItemButtons';
 import SelectedItemButtonsInstallation from './SelectedItemButtonsInstallation';
 import {DESC_ITEMS} from '../../utils/descriptions';
 import ConfigureItem from './ConfigureItem';
+import ConfigurePortail from './ConfigurePortail';
 
 const SelectedItem = ({
   item,
@@ -15,8 +16,13 @@ const SelectedItem = ({
   flags,
   playerTeam,
   setCoordsFlag,
+  installation,
+  setInstallation,
+  transferedItem,
+  selectedAllie,
+  setSelectedAllie,
+  setTransferedItem,
 }) => {
-  const [installation, setInstallation] = useState(false);
   const img = item && getItemIcon(item.name);
 
   useEffect(() => {
@@ -29,7 +35,33 @@ const SelectedItem = ({
         {item && <Image source={img} style={stylesMap.selectedItemImage} />}
       </View>
       {item &&
-        (!installation ? (
+        (installation ? (
+          item.name === 'Portail de transfert' ? (
+            <View style={{flex: 1, flewDirection: 'column'}}>
+              <ConfigurePortail
+                item={item}
+                setSelectedItem={setSelectedItem}
+                setVisible={setVisible}
+                playerTeam={playerTeam}
+                setInstallation={setInstallation}
+                transferedItem={transferedItem}
+                selectedAllie={selectedAllie}
+                setSelectedAllie={setSelectedAllie}
+                setTransferedItem={setTransferedItem}
+              />
+            </View>
+          ) : (
+            <View style={{flex: 1, flewDirection: 'column'}}>
+              <ConfigureItem
+                item={item}
+                setSelectedItem={setSelectedItem}
+                setVisible={setVisible}
+                playerTeam={playerTeam}
+                setInstallation={setInstallation}
+              />
+            </View>
+          )
+        ) : (
           <View style={{flex: 1, flewDirection: 'column'}}>
             <View
               style={{
@@ -50,16 +82,6 @@ const SelectedItem = ({
               installation={installation}
               setInstallation={setInstallation}
               setCoordsFlag={setCoordsFlag}
-            />
-          </View>
-        ) : (
-          <View style={{flex: 1, flewDirection: 'column'}}>
-            <ConfigureItem
-              item={item}
-              setSelectedItem={setSelectedItem}
-              setVisible={setVisible}
-              playerTeam={playerTeam}
-              setInstallation={setInstallation}
             />
           </View>
         ))}

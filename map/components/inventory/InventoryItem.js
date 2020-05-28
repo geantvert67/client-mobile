@@ -3,10 +3,21 @@ import {View, Image, TouchableOpacity} from 'react-native';
 import {stylesMap} from '../../css/style';
 import {getItemIcon} from '../marker/MarkersItem';
 
-const InventoryItem = ({item, selectedItem, setSelectedItem}) => {
+const InventoryItem = ({
+  item,
+  selectedItem,
+  setSelectedItem,
+  portailInstallation,
+  setTransferedItem,
+}) => {
   const img = item && getItemIcon(item.name);
   return (
-    <TouchableOpacity onPress={() => setSelectedItem(item || null)}>
+    <TouchableOpacity
+      onPress={() =>
+        portailInstallation
+          ? setTransferedItem(item)
+          : setSelectedItem(item || null)
+      }>
       <View
         style={[
           stylesMap.inventoryItem,

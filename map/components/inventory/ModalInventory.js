@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Modal from 'react-native-modal';
 import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {stylesMap} from '../../css/style';
@@ -20,9 +20,17 @@ const ModalInventory = ({
   setCoordsFlag,
 }) => {
   const [selectedItem, setSelectedItem] = useState(null);
+  const [installation, setInstallation] = useState(false);
+  const [transferedItem, setTransferedItem] = useState(null);
+  const [selectedAllie, setSelectedAllie] = useState(null);
+
   const {config} = useConfig();
   const {player} = usePlayer();
 
+  console.log(playerTeam.players);
+  useEffect(() => {
+    !transferedItem && setSelectedAllie(null);
+  }, [transferedItem]);
   selectedItem &&
     !_.some(player.inventory, {id: selectedItem.id}) &&
     setSelectedItem(null);
@@ -77,12 +85,23 @@ const ModalInventory = ({
               flags={flags}
               playerTeam={playerTeam}
               setCoordsFlag={setCoordsFlag}
+              installation={installation}
+              setInstallation={setInstallation}
+              transferedItem={transferedItem}
+              selectedAllie={selectedAllie}
+              setSelectedAllie={setSelectedAllie}
+              setTransferedItem={setTransferedItem}
             />
           )}
           <Inventory
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
             inventorySize={inventorySize}
+            installation={installation}
+            setTransferedItem={setTransferedItem}
+            setSelectedAllie={setSelectedAllie}
+            transferedItem={transferedItem}
+            playerTeam={playerTeam}
           />
         </View>
       </Modal>
