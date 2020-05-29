@@ -30,6 +30,7 @@ const Inventory = ({
     }
   }
 
+  const styleAllies = transferedItem ? {marginTop: 40} : {};
   return (
     <ScrollView>
       <View
@@ -37,6 +38,7 @@ const Inventory = ({
           flex: 1,
           flexDirection: 'row',
           flexWrap: 'wrap',
+          marginLeft: 10,
         }}>
         {transferedItem ? (
           <AlliesList

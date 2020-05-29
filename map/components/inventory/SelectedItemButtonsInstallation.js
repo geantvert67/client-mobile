@@ -20,6 +20,9 @@ const SelectedItemButtonsInstallation = ({
   const {config} = useConfig();
   const {player} = usePlayer();
 
+  console.log('Item', transferedItem);
+  console.log('Allié', selectedAllie);
+  console.log('Portail', portail);
   const useItem = () => {
     switch (item.name) {
       case 'Canon à photons':

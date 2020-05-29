@@ -31,6 +31,10 @@ const ModalInventory = ({
   useEffect(() => {
     !transferedItem && setSelectedAllie(null);
   }, [transferedItem]);
+
+  useEffect(() => {
+    !visible && setTransferedItem(null);
+  }, [visible]);
   selectedItem &&
     !_.some(player.inventory, {id: selectedItem.id}) &&
     setSelectedItem(null);
@@ -42,10 +46,10 @@ const ModalInventory = ({
 
   const modalInventorySize = selectedItem
     ? (Dimensions.get('window').height *
-        (70 - Math.ceil(inventorySize / 5) * 10)) /
+        (70 - Math.ceil(inventorySize / 6) * 10)) /
       100
     : (Dimensions.get('window').height *
-        (92 - Math.ceil(inventorySize / 5) * 10)) /
+        (92 - Math.ceil(inventorySize / 6) * 10)) /
       100;
   return (
     <View>
