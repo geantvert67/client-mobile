@@ -221,7 +221,7 @@ export const stylesMap = StyleSheet.create({
   },
 
   inventoryItem: {
-    marginLeft: 27,
+    marginLeft: 10,
     marginTop: 20,
     width: 50,
     height: 50,

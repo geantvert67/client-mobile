@@ -9,7 +9,7 @@ export const DESC_ITEMS = {
   'Noyau protecteur':
     'Génère un dôme de protection qui protège le joueur contre l’effet des items ennemis',
 
-  'Prisme de transfert': 'Transfère un item à un joueur allié',
+  'Portail de transfert': 'Transfère un item à un joueur allié',
 
   Intercepteur:
     'Réduit pendant une certaine durée le rayon de visibilité des éléments que peuvent percevoir les ennemis',

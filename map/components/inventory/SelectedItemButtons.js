@@ -52,6 +52,9 @@ const SelectedItemButtons = ({
       case 'Transducteur':
         setInstallation(true);
         break;
+      case 'Portail de transfert':
+        setInstallation(true);
+        break;
       case 'Sonde':
         socket.emit('useSonde', item.id);
         break;
@@ -84,6 +87,7 @@ const SelectedItemButtons = ({
     }
     item.name !== 'Canon à photons' &&
       item.name !== 'Transducteur' &&
+      item.name !== 'Portail de transfert' &&
       setVisible(false) &&
       setSelectedItem(null);
   };

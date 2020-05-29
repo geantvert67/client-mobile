@@ -10,13 +10,19 @@ const SelectedItemButtonsInstallation = ({
   delay,
   setSelectedItem,
   setVisible,
-  playerTeam,
   setInstallation,
+  transferedItem,
+  setTransferedItem,
+  selectedAllie,
+  portail = false,
 }) => {
   const {socket} = useSocket();
   const {config} = useConfig();
   const {player} = usePlayer();
 
+  console.log('Item', transferedItem);
+  console.log('Allié', selectedAllie);
+  console.log('Portail', portail);
   const useItem = () => {
     switch (item.name) {
       case 'Canon à photons':
@@ -33,17 +39,27 @@ const SelectedItemButtonsInstallation = ({
           delay: delay * 60,
         });
         break;
+      case 'Portail de transfert':
+        socket.emit('usePortailTransfert', {
+          id: item.id,
+          username: selectedAllie.username,
+          itemId: transferedItem.id,
+        });
+        break;
     }
 
     setVisible(false);
     setInstallation(false);
     setSelectedItem(null);
+    setTransferedItem(null);
   };
 
   return (
     <View style={{flex: 1, flexDirection: 'row-reverse'}}>
       <TouchableOpacity
-        onPress={() => setInstallation(false)}
+        onPress={() =>
+          transferedItem ? setTransferedItem(null) : setInstallation(false)
+        }
         style={[
           stylesSigninSignup.submitButton,
           {backgroundColor: '#EB4646', width: 80, marginRight: 25},
@@ -53,14 +69,23 @@ const SelectedItemButtonsInstallation = ({
           Annuler
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => useItem()}
-        style={[stylesSigninSignup.submitButton, {width: 80, marginRight: 10}]}>
-        <Text
-          style={[stylesSigninSignup.submitButtonText, {textAlign: 'center'}]}>
-          Valider
-        </Text>
-      </TouchableOpacity>
+      {!portail ||
+        (portail && selectedAllie && (
+          <TouchableOpacity
+            onPress={() => useItem()}
+            style={[
+              stylesSigninSignup.submitButton,
+              {width: 80, marginRight: 10},
+            ]}>
+            <Text
+              style={[
+                stylesSigninSignup.submitButtonText,
+                {textAlign: 'center'},
+              ]}>
+              Valider
+            </Text>
+          </TouchableOpacity>
+        ))}
     </View>
   );
 };

@@ -51,7 +51,7 @@ const TeamItem = ({team, score = false, mode, playerTeam}) => {
         {team.players.map(player => {
           console.log(player);
           return (
-            <>
+            <View>
               <Text
                 style={[
                   stylesGame.gameNameText,
@@ -69,7 +69,7 @@ const TeamItem = ({team, score = false, mode, playerTeam}) => {
                     ? secondsToDuration(player.statistics.score)
                     : player.statistics.score)}
               </Text>
-            </>
+            </View>
           );
         })}
       </CollapseBody>
