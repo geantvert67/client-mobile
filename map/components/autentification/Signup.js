@@ -14,6 +14,10 @@ import {stylesSigninSignup, stylesGame} from '../../css/style';
 import {Popup} from '../Toast';
 import BackButton from '../BackButton';
 
+/**
+ * Composant Signup :
+ * Page d'inscription
+ */
 const Signup = () => {
   const {signup} = useAuth();
 
@@ -24,7 +28,7 @@ const Signup = () => {
 
   const formValid = username && password && password === passwordCheck;
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     formValid
       ? signup({username, password}, setError)
@@ -49,7 +53,7 @@ const Signup = () => {
         placeholder="Nom d'utilisateur"
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
-        onChangeText={e => setUsername(e)}
+        onChangeText={(e) => setUsername(e)}
       />
       <TextInput
         style={stylesSigninSignup.input}
@@ -57,7 +61,7 @@ const Signup = () => {
         placeholder="Mot de passe"
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
-        onChangeText={e => setPassword(e)}
+        onChangeText={(e) => setPassword(e)}
       />
       <TextInput
         style={stylesSigninSignup.input}
@@ -65,7 +69,7 @@ const Signup = () => {
         placeholder="Confirmer le mot de passe "
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
-        onChangeText={e => setPasswordCheck(e)}
+        onChangeText={(e) => setPasswordCheck(e)}
       />
       <TouchableOpacity
         style={stylesSigninSignup.submitButton}
