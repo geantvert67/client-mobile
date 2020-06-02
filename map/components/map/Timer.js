@@ -8,7 +8,7 @@ import {stylesMap} from '../../css/style';
 
 /**
  * Composant Timer :
- * Affiche le chronomètre de la partie
+ * Affiche le chronomètre de la partie en cours
  *
  * props :
  *   - duration : Durée de la partie
