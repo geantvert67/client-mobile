@@ -13,6 +13,16 @@ import {
   CollapseBody,
 } from 'accordion-collapse-react-native';
 
+/**
+ * Composant TeamItem :
+ * Affiche une équipe d'une partie
+ *
+ * props :
+ *   - team : Equipe à afficher
+ *   - score : Booleen à true si on affiche le score (false par défaut)
+ *   - mode : Mode de jeu de la partie en cours
+ *   - playerTeam : Equipe du joueur connecté
+ */
 const TeamItem = ({team, score = false, mode, playerTeam}) => {
   return (
     <Collapse style={stylesGame.item}>
@@ -48,7 +58,7 @@ const TeamItem = ({team, score = false, mode, playerTeam}) => {
         </View>
       </CollapseHeader>
       <CollapseBody>
-        {team.players.map(player => {
+        {team.players.map((player) => {
           console.log(player);
           return (
             <View>

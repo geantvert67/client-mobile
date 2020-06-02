@@ -20,6 +20,10 @@ import {useAuth} from '../../utils/auth';
 import RefreshView from '../RefreshView';
 import Loader from '../Loader';
 
+/**
+ * Composant MyGames :
+ * Affiche la liste des parties d'un joueur ainsi que ses demandes
+ */
 const MyGames = () => {
   const [invitations, setInvitations] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -30,10 +34,10 @@ const MyGames = () => {
   useEffect(() => {
     request
       .get('/user/invitations')
-      .then(res => {
+      .then((res) => {
         setInvitations(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
       });
   }, []);
@@ -48,10 +52,10 @@ const MyGames = () => {
   const onRefresh = () => {
     request
       .get('/user/invitations')
-      .then(res => {
+      .then((res) => {
         setInvitations(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
       });
   };
@@ -65,9 +69,9 @@ const MyGames = () => {
           <RefreshView refresh={onRefresh} refreshableMod="advanced">
             <View>
               <Text style={stylesGame.gameText}>Mes parties</Text>
-              {invitations.filter(i => i.accepted).length > 0 ? (
+              {invitations.filter((i) => i.accepted).length > 0 ? (
                 <GamesList
-                  games={formatGames(invitations.filter(i => i.accepted))}
+                  games={formatGames(invitations.filter((i) => i.accepted))}
                   handleGame={handleGame}
                   myGames={true}
                 />
@@ -80,10 +84,11 @@ const MyGames = () => {
 
             <View>
               <Text style={stylesGame.gameText}>Demandes en attente</Text>
-              {invitations.filter(i => i.accepted === undefined).length > 0 ? (
+              {invitations.filter((i) => i.accepted === undefined).length >
+              0 ? (
                 <GamesList
                   games={formatGames(
-                    invitations.filter(i => i.accepted === undefined),
+                    invitations.filter((i) => i.accepted === undefined),
                   )}
                 />
               ) : (
@@ -95,12 +100,13 @@ const MyGames = () => {
 
             <View style={stylesGame.up}>
               <Text style={stylesGame.gameText}>Demandes refusées</Text>
-              {invitations.filter(i => i.accepted !== undefined && !i.accepted)
-                .length > 0 ? (
+              {invitations.filter(
+                (i) => i.accepted !== undefined && !i.accepted,
+              ).length > 0 ? (
                 <GamesList
                   games={formatGames(
                     invitations.filter(
-                      i => i.accepted !== undefined && !i.accepted,
+                      (i) => i.accepted !== undefined && !i.accepted,
                     ),
                   )}
                 />

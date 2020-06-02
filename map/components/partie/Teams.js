@@ -17,6 +17,10 @@ import Loader from '../Loader';
 import moment from 'moment';
 import BackButton from '../BackButton';
 
+/**
+ * Composant Teams :
+ * Affiche la page de toutes les équipes (Lobby d'une partie)
+ */
 const Teams = () => {
   const [gameStarted, setGameStarted] = useState(null);
   const [teams, setTeams] = useState(null);
@@ -26,7 +30,7 @@ const Teams = () => {
   const {socket} = useSocket();
 
   const checkStart = () => {
-    socket.on('getConfig', config => {
+    socket.on('getConfig', (config) => {
       setGameStarted(config.launched);
       setConfig(config);
     });
@@ -35,7 +39,7 @@ const Teams = () => {
 
   useEffect(() => {
     gameStarted || checkStart();
-    socket.on('getTeams', t => {
+    socket.on('getTeams', (t) => {
       setTeams(t);
     });
 
@@ -47,8 +51,8 @@ const Teams = () => {
   useEffect(() => {
     let team = null;
     teams &&
-      teams.map(t =>
-        t.players.map(p => p.username === user.username && (team = t)),
+      teams.map((t) =>
+        t.players.map((p) => p.username === user.username && (team = t)),
       );
     setPlayerTeam(team);
   }, [teams]);
@@ -68,7 +72,7 @@ const Teams = () => {
         </View>
 
         <ScrollView>
-          {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
+          {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map((team) => {
             return (
               config &&
               (playerTeam && team.id === playerTeam.id ? (
