@@ -19,13 +19,22 @@ import {usePlayer} from '../../utils/player';
 import {useConfig} from '../../utils/config';
 import {Popup} from '../Toast';
 
+/**
+ * Composant MapMenu :
+ * Affiche le menu de jeu présent sur la carte
+ *
+ * props :
+ *   - coordinates : Position du joueur
+ *   - setModalScore : Setter de la variable spécifiant si la modal des scores est ouverte
+ *   - setModalInventory : Setter de la variable spécifiant si la modal de l'inventaire est ouverte
+ */
 const MapMenu = ({coordinates, setModalScore, setModalInventory}) => {
   const [open, setOpen] = useState(false);
   const {socket} = useSocket();
   const {player} = usePlayer();
   const {config} = useConfig();
 
-  const addMarker = isPositive => {
+  const addMarker = (isPositive) => {
     socket.emit('createMarker', {
       coordinates,
       isPositive,

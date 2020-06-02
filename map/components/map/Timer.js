@@ -6,6 +6,14 @@ import {faClock} from '@fortawesome/free-solid-svg-icons';
 import {secondsToDuration} from '../../utils/calcul';
 import {stylesMap} from '../../css/style';
 
+/**
+ * Composant Timer :
+ * Affiche le chronomètre de la partie
+ *
+ * props :
+ *   - duration : Durée de la partie
+ *   - launchedAt : Heure de lancement de la partie
+ */
 function Timer({duration, launchedAt}) {
   const [time, setTime] = useState(null);
 
