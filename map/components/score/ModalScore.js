@@ -9,6 +9,16 @@ import {useConfig} from '../../utils/config';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
 
+/**
+ * Composant ModalScore :
+ * Affiche la modal des scores d'une partie
+ *
+ * props :
+ *   - visible : Booleen à true si la modal est visible
+ *   - setModal : setter de la vairalbe visible
+ *   - teams : Equipes de la partie
+ *   - playerTeam : Equipe du joueur connecté
+ */
 const ModalScore = ({visible, setModal, teams, playerTeam}) => {
   const {config} = useConfig();
   return (
@@ -32,18 +42,20 @@ const ModalScore = ({visible, setModal, teams, playerTeam}) => {
             </TouchableOpacity>
           </View>
           <ScrollView style={[stylesMap.scrollView, {bottom: 20}]}>
-            {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
-              return team.id === playerTeam.id ? (
-                <TeamItem
-                  team={team}
-                  score={true}
-                  mode={config.gameMode}
-                  playerTeam
-                />
-              ) : (
-                <TeamItem team={team} score={true} mode={config.gameMode} />
-              );
-            })}
+            {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(
+              (team) => {
+                return team.id === playerTeam.id ? (
+                  <TeamItem
+                    team={team}
+                    score={true}
+                    mode={config.gameMode}
+                    playerTeam
+                  />
+                ) : (
+                  <TeamItem team={team} score={true} mode={config.gameMode} />
+                );
+              },
+            )}
           </ScrollView>
         </View>
       </Modal>

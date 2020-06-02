@@ -7,13 +7,25 @@ import {usePlayer} from '../../utils/player';
 import {useConfig} from '../../utils/config';
 import {inRadius} from '../../utils/calcul';
 
+/**
+ * Composant SelectedItemButtons :
+ * Affiche les actions faisables sur l'item sélectionné
+ *
+ * props :
+ *   - item : item sélectionné
+ *   - setSelectedItem : Setter de la variable item
+ *   - setVisible : Setter de la variable spécifiant si la modalInventory est ouverte ou non
+ *   - flags : Cristaux capturés sur la map
+ *   - playerTeam : Equipe du joueur
+ *   - setCoordsFlag : Setter de la variable specifiant les coordonnées du cristal affiché lors de l'utilisation de l'antenne
+ *   - setInstallation : Setter de la variable installation
+ */
 const SelectedItemButtons = ({
   item,
   setSelectedItem,
   setVisible,
   flags,
   playerTeam,
-  installation,
   setInstallation,
   setCoordsFlag,
 }) => {
@@ -71,7 +83,7 @@ const SelectedItemButtons = ({
         socket.emit('useNoyau', item.id);
         break;
       case 'Antenne':
-        socket.emit('useAntenne', {id: item.id}, coords =>
+        socket.emit('useAntenne', {id: item.id}, (coords) =>
           setCoordsFlag(coords),
         );
         break;

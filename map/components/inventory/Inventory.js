@@ -5,6 +5,20 @@ import InventoryItem from './InventoryItem';
 import {usePlayer} from '../../utils/player';
 import AlliesList from './AlliesList';
 
+/**
+ * Composant Inventory :
+ * Affiche l'inventaire du joueur
+ *
+ * props :
+ *   - selectedItem : item sélectionné
+ *   - setSelectedItem : Setter de la variable item
+ *   - inventorySize : Taille de l'inventaire du joueur
+ *   - installation : Booléen à true si on est en train d'installer un item
+ *   - transferedItem : Item à transférer via le portail
+ *   - setTransferedItem : Setter de la vairable transferedITem
+ *   - playerTeam : Equipe du joueur
+ *   - setSelectedAllie : Setter de la variable spécifiant l'allié sélectionné dans la configuration du portail
+ */
 const Inventory = ({
   selectedItem,
   setSelectedItem,
@@ -48,7 +62,7 @@ const Inventory = ({
         ) : (
           player &&
           player.inventory.map(
-            item =>
+            (item) =>
               (!portailInstallation ||
                 (item.id !== selectedItem.id && !item.equiped)) && (
                 <InventoryItem

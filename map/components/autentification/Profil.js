@@ -7,6 +7,10 @@ import request from '../../utils/request';
 import {PieChart} from 'react-native-chart-kit';
 import StatItem from './StatItem';
 
+/**
+ * Composant Profil :
+ * Affiche la page profil du joueur avec stats générales et bouton de déconnexion
+ */
 const Profil = () => {
   const {user, signout} = useAuth();
   const [statistics, setStatistics] = useState(null);
@@ -15,7 +19,7 @@ const Profil = () => {
   useEffect(() => {
     request
       .get(`/users/${user.id}/statistics`)
-      .then(stats => setStatistics(stats.data));
+      .then((stats) => setStatistics(stats.data));
   }, []);
 
   const chartConfig = {

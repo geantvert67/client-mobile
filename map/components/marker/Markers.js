@@ -19,6 +19,19 @@ import {faMapMarker} from '@fortawesome/free-solid-svg-icons';
 import {stylesMap} from '../../css/style';
 import MarkersItem from './MarkersItem';
 
+/**
+ * Composant Markers :
+ * Crée les markers à positionner sur la carte
+ *
+ * props :
+ *   - players : Joueurs à afficher
+ *   - flags : Cristaux à afficher
+ *   - unknowns : Eléments inconnus à afficher
+ *   - playerTeam : Equie du joueur connecté
+ *   - position : Position du joueur
+ *   - teamMarkers : Marqueurs de l'équipe
+ *   - items : Items à afficher
+ */
 const Markers = ({
   players,
   flags,
@@ -56,7 +69,7 @@ const PlayerMarker = ({players}) => {
 
   return (
     players.length > 0 &&
-    players.map(p => {
+    players.map((p) => {
       return (
         p.username !== user.username &&
         p.coordinates.length > 0 && (
@@ -82,7 +95,7 @@ const FlagMarker = ({flags, playerTeam, position, isImmobilized}) => {
   const {socket} = useSocket();
   const {config} = useConfig();
 
-  const captureFlag = flag => {
+  const captureFlag = (flag) => {
     flag.team && flag.team.id === playerTeam.id
       ? Popup('Cristal déjà capturé', 'rgba(255, 165, 0, 0.5)')
       : !inRadius(flag.coordinates, position, config.flagActionRadius)
@@ -95,7 +108,7 @@ const FlagMarker = ({flags, playerTeam, position, isImmobilized}) => {
 
   return (
     flags.length > 0 &&
-    flags.map(f => {
+    flags.map((f) => {
       return (
         <Marker
           coordinate={{
@@ -121,7 +134,7 @@ const FlagMarker = ({flags, playerTeam, position, isImmobilized}) => {
 const UnknownMarker = ({unknowns}) => {
   return (
     unknowns.length > 0 &&
-    unknowns.map(u => {
+    unknowns.map((u) => {
       return (
         <Marker
           title="Inconnu"
@@ -143,14 +156,14 @@ const UnknownMarker = ({unknowns}) => {
 const TeamMarker = ({teamMarkers}) => {
   const {socket} = useSocket();
 
-  const deleteMarker = marker => {
+  const deleteMarker = (marker) => {
     socket.emit('deleteMarker', marker.id);
     Popup('Suppression en cours...', 'rgba(0, 255, 0, 0.3)');
   };
 
   return (
     teamMarkers.length > 0 &&
-    teamMarkers.map(m => {
+    teamMarkers.map((m) => {
       return (
         <Marker
           coordinate={{

@@ -14,6 +14,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {stylesSigninSignup} from '../css/style';
 
+/**
+ * Composant BottomTab :
+ * Affiche  la barre de navigation en bas de l'écran
+ *
+ * props :
+ *   - tabActive : Item du menu actif (myGames par défaut)
+ */
 const BottomTab = ({tabActive = 'myGames'}) => {
   const tabs = [
     {
@@ -38,7 +45,7 @@ const BottomTab = ({tabActive = 'myGames'}) => {
 
   const [activeTab, setActiveTab] = useState(tabActive);
 
-  const renderIcon = icon => ({isActive}) => (
+  const renderIcon = (icon) => ({isActive}) => (
     <FontAwesomeIcon
       icon={
         icon === 'myGames'
@@ -77,7 +84,7 @@ const BottomTab = ({tabActive = 'myGames'}) => {
       </View>
       <BottomNavigation
         activeTab={activeTab}
-        onTabPress={newTab => setActiveTab(newTab.key)}
+        onTabPress={(newTab) => setActiveTab(newTab.key)}
         renderTab={renderTab}
         tabs={tabs}
       />

@@ -15,6 +15,13 @@ import PersonalScore from './PersonalScore';
 import {useSocket} from '../../utils/socket';
 import {usePlayer} from '../../utils/player';
 
+/**
+ * Composant EndGame :
+ * Ecran de fin de partie
+ *
+ * props :
+ *   - playerTeam : Equipe du joueur connecté
+ */
 const EndGame = ({playerTeam}) => {
   const {config} = useConfig();
   const {socket} = useSocket();
@@ -24,8 +31,8 @@ const EndGame = ({playerTeam}) => {
   console.log(player);
 
   useEffect(() => {
-    socket.on('getTeams', t => setTeams(t));
-    socket.on('getPlayer', p => setPlayer(p));
+    socket.on('getTeams', (t) => setTeams(t));
+    socket.on('getPlayer', (p) => setPlayer(p));
     socket.emit('getTeams');
     socket.emit('getPlayerByUsername', player.username);
   }, []);
@@ -67,7 +74,7 @@ const EndGame = ({playerTeam}) => {
         <PersonalScore player={player} />
         <ScrollView style={[stylesMap.scrollView, {top: 165}]}>
           {teams.length > 0 &&
-            _.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
+            _.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map((team) => {
               return team.id === playerTeam.id ? (
                 <TeamItem
                   team={team}

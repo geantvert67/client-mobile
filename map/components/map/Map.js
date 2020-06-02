@@ -18,6 +18,13 @@ import {usePlayer} from '../../utils/player';
 import {Actions} from 'react-native-router-flux';
 import moment from 'moment';
 
+/**
+ * Composant Map :
+ * Affiche l'interface avec la carte
+ *
+ * props :
+ *   - playerTeam : Equipe du joueur
+ */
 const Map = ({playerTeam}) => {
   const {socket} = useSocket();
   const {config, setConfig} = useConfig();
@@ -41,12 +48,12 @@ const Map = ({playerTeam}) => {
 
   useEffect(() => {
     acceptGeoloc();
-    socket.on('getAreas', a => {
+    socket.on('getAreas', (a) => {
       setAreas(a);
     });
     socket.emit('getAreas');
 
-    socket.on('routine', routine => {
+    socket.on('routine', (routine) => {
       setUnknowns(routine.unknowns);
       setFlags(routine.flags);
       setTeamMarkers(routine.markers);
@@ -56,18 +63,18 @@ const Map = ({playerTeam}) => {
       setPlayer(routine.player);
     });
 
-    socket.on('getConfig', config => {
+    socket.on('getConfig', (config) => {
       setConfig(config);
     });
 
     const interval = setInterval(() => {
       Geolocation.getCurrentPosition(
-        p => {
+        (p) => {
           const pos = [p.coords.latitude, p.coords.longitude];
           setError('');
           setPosition(pos);
         },
-        e => setError(e.message),
+        (e) => setError(e.message),
       );
     }, 2000);
 

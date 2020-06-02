@@ -5,6 +5,21 @@ import {stylesMap, stylesSigninSignup} from '../../css/style';
 import {usePlayer} from '../../utils/player';
 import {useConfig} from '../../utils/config';
 
+/**
+ * Composant SelectedItemButtons :
+ * Affiche le menu de configuration d'un piège ou du portail
+ *
+ * props :
+ *   - item : item sélectionné
+ *   - delay : Délai d'activation du piège à configuré
+ *   - setSelectedItem : Setter de la variable item
+ *   - setVisible : Setter de la variable spécifiant si la modalInventory est ouverte ou non
+ *   - setInstallation : Setter de la variable installation
+ *   - transferedItem : Item à transférer via le portail
+ *   - setTransferedItem : Setter de la variable transferedItem
+ *   - selectedAllie : Allié séletionné pour le portail
+ *   - portail : Booleen à true si on configure le portail (false par défaut)
+ */
 const SelectedItemButtonsInstallation = ({
   item,
   delay,

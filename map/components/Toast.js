@@ -1,6 +1,14 @@
 import Toast from 'react-native-root-toast';
 import React from 'react';
 
+/**
+ * Composant Popup :
+ * Affiche un popup d'alerte
+ *
+ * @param message Message à afficher
+ * @param color Couleur de fond du popup (rouge par défaut)
+ * @param position Position du popup (Bas de l'écran par défaut)
+ */
 export const Popup = (
   message,
   color = 'rgba(255,0,0,0.5)',
@@ -29,7 +37,7 @@ export const Popup = (
   });
 
   // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-  setTimeout(function() {
+  setTimeout(function () {
     Toast.hide(toast);
   }, 500);
 };

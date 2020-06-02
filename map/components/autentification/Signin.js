@@ -15,6 +15,10 @@ import {useSocket} from '../../utils/socket';
 import {stylesSigninSignup, stylesGame} from '../../css/style';
 import {Popup} from '../Toast';
 
+/**
+ * Composant Signin :
+ * Page de connexion au serveur central
+ */
 const Signin = () => {
   const {signin} = useAuth();
   const [username, setUsername] = useState('');
@@ -44,7 +48,7 @@ const Signin = () => {
         placeholder="Nom d'utilisateur"
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
-        onChangeText={e => setUsername(e)}
+        onChangeText={(e) => setUsername(e)}
       />
       <TextInput
         style={stylesSigninSignup.input}
@@ -52,7 +56,7 @@ const Signin = () => {
         placeholder="Mot de passe"
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
-        onChangeText={e => setPassword(e)}
+        onChangeText={(e) => setPassword(e)}
       />
       <TouchableOpacity
         style={stylesSigninSignup.submitButton}
