@@ -6,7 +6,7 @@ import {useConfig} from '../../utils/config';
 import {Popup} from '../Toast';
 import {usePlayer} from '../../utils/player';
 
-export const getItemIcon = name => {
+export const getItemIcon = (name) => {
   switch (name) {
     case 'Sentinelle':
       return require('../../img/items/sentinelle.png');
@@ -37,6 +37,14 @@ export const getItemIcon = name => {
   }
 };
 
+/**
+ * Composant MarkersItem :
+ * Crée les marqueurs des items
+ *
+ * props :
+ *   - items : Items à afficher
+ *   - isImmobilized : Booleen à true si le joueur est victime d'un canon
+ */
 const MarkersItem = ({items, isImmobilized}) => {
   const {socket} = useSocket();
   const {config} = useConfig();
@@ -46,10 +54,10 @@ const MarkersItem = ({items, isImmobilized}) => {
     player &&
     (player.hasTransporteur ? config.inventorySize * 2 : config.inventorySize);
 
-  return items.map(item => {
+  return items.map((item) => {
     const img = getItemIcon(item.name);
 
-    const takeItem = item => {
+    const takeItem = (item) => {
       item.waitingUntil
         ? Popup('Item indisponible ...')
         : player.inventory.length === inventorySize
