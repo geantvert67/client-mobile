@@ -64,6 +64,12 @@ export const stylesGame = StyleSheet.create({
     paddingTop: 10,
     backgroundColor: '#26292F',
   },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'column',
+    padding: 10,
+  },
   input1: {
     marginBottom: 15,
     marginLeft: 10,
@@ -163,8 +169,13 @@ export const stylesMap = StyleSheet.create({
     right: 20,
   },
 
+  trapIndicator: {
+    position: 'absolute',
+    bottom: 40,
+    left: 10,
+  },
+
   callout: {
-    backgroundColor: '#26292F',
     width: 100,
     display: `flex`,
     alignItems: `center`,

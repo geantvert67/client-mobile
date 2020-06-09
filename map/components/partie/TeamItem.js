@@ -58,8 +58,7 @@ const TeamItem = ({team, score = false, mode, playerTeam}) => {
         </View>
       </CollapseHeader>
       <CollapseBody>
-        {team.players.map((player) => {
-          console.log(player);
+        {team.players.map(player => {
           return (
             <View>
               <Text

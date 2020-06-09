@@ -34,7 +34,7 @@ const MapMenu = ({coordinates, setModalScore, setModalInventory}) => {
   const {player} = usePlayer();
   const {config} = useConfig();
 
-  const addMarker = (isPositive) => {
+  const addMarker = isPositive => {
     socket.emit('createMarker', {
       coordinates,
       isPositive,
