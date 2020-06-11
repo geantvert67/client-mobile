@@ -13,9 +13,10 @@ export const Popup = (
   message,
   color = 'rgba(255,0,0,0.5)',
   position = Toast.positions.BOTTOM,
+  delay = Toast.durations.SHORT,
 ) => {
   return Toast.show(message, {
-    duration: Toast.durations.SHORT,
+    duration: delay,
     position: position,
     shadow: true,
     animation: true,
@@ -37,7 +38,7 @@ export const Popup = (
   });
 
   // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-  setTimeout(function () {
+  setTimeout(function() {
     Toast.hide(toast);
   }, 500);
 };

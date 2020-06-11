@@ -19,6 +19,8 @@ import {Actions} from 'react-native-router-flux';
 import moment from 'moment';
 import Loader from '../Loader';
 import TrapIndicator from './TrapIndicator';
+import Toast from 'react-native-root-toast';
+import {Popup} from '../Toast';
 
 /**
  * Composant Map :
@@ -44,6 +46,7 @@ const Map = ({playerTeam}) => {
   const {setPlayer, player} = usePlayer();
 
   const [coordsFlag, setCoordsFlag] = useState([]);
+  const [notif, setNotif] = useState(false);
   const [region, setRegion] = useState({});
 
   config.ended && Actions.replace('Endgame', {playerTeam});
@@ -99,6 +102,38 @@ const Map = ({playerTeam}) => {
   useEffect(() => {
     region.region && setRegion({});
   }, [region]);
+
+  useEffect(() => {
+    console.log(player);
+    player &&
+      !notif &&
+      socket.on('getNotification', notifs => {
+        const privateNotif = notifs.filter(
+          notif =>
+            notif.type === 'user' && notif.ids.some(id => id === player.id),
+        );
+
+        privateNotif.length > 0
+          ? Popup(
+              privateNotif[0].message,
+              'rgba(38,41,47, 0.5)',
+              Toast.positions.TOP,
+              Toast.durations.LONG,
+            )
+          : notifs.map(
+              notif =>
+                notif.type === 'team' &&
+                notif.ids.some(id => id === playerTeam.id) &&
+                Popup(
+                  notif.message,
+                  'rgba(38,41,47, 0.5)',
+                  Toast.positions.TOP,
+                  Toast.durations.LONG,
+                ),
+            );
+      });
+    player && setNotif(true);
+  }, [player]);
 
   useEffect(() => {
     if (config.launched && position.length > 0) {
