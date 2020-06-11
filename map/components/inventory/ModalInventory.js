@@ -37,7 +37,6 @@ const ModalInventory = ({
   const {config} = useConfig();
   const {player} = usePlayer();
 
-  console.log(playerTeam.players);
   useEffect(() => {
     !transferedItem && setSelectedAllie(null);
   }, [transferedItem]);

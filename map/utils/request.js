@@ -9,8 +9,8 @@ const request = axios.create({
 });
 
 request.defaults.headers.post['Content-Type'] = 'application/json';
-request.interceptors.request.use((config) => {
-  return (async function () {
+request.interceptors.request.use(config => {
+  return (async function() {
     const token = await getData('token');
     config.headers.Authorization = `Bearer ${token}`;
     return config;

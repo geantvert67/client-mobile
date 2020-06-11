@@ -27,17 +27,14 @@ const SelectedItemButtonsInstallation = ({
   setVisible,
   setInstallation,
   transferedItem,
-  setTransferedItem,
-  selectedAllie,
+  setTransferedItem = () => {},
+  selectedAllie = null,
   portail = false,
 }) => {
   const {socket} = useSocket();
   const {config} = useConfig();
   const {player} = usePlayer();
 
-  console.log('Item', transferedItem);
-  console.log('Allié', selectedAllie);
-  console.log('Portail', portail);
   const useItem = () => {
     switch (item.name) {
       case 'Canon à photons':
@@ -84,23 +81,22 @@ const SelectedItemButtonsInstallation = ({
           Annuler
         </Text>
       </TouchableOpacity>
-      {!portail ||
-        (portail && selectedAllie && (
-          <TouchableOpacity
-            onPress={() => useItem()}
+      {(!portail || (portail && selectedAllie)) && (
+        <TouchableOpacity
+          onPress={() => useItem()}
+          style={[
+            stylesSigninSignup.submitButton,
+            {width: 80, marginRight: 10},
+          ]}>
+          <Text
             style={[
-              stylesSigninSignup.submitButton,
-              {width: 80, marginRight: 10},
+              stylesSigninSignup.submitButtonText,
+              {textAlign: 'center'},
             ]}>
-            <Text
-              style={[
-                stylesSigninSignup.submitButtonText,
-                {textAlign: 'center'},
-              ]}>
-              Valider
-            </Text>
-          </TouchableOpacity>
-        ))}
+            Valider
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

@@ -83,7 +83,7 @@ const SelectedItemButtons = ({
         socket.emit('useNoyau', item.id);
         break;
       case 'Antenne':
-        socket.emit('useAntenne', {id: item.id}, (coords) =>
+        socket.emit('useAntenne', {id: item.id}, coords =>
           setCoordsFlag(coords),
         );
         break;
@@ -118,7 +118,6 @@ const SelectedItemButtons = ({
   };
 
   const inActionRadius = () => {
-    console.log(flags);
     let flag = null;
     let rank = 0;
     while (!flag && rank < flags.length) {
