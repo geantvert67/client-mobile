@@ -100,8 +100,7 @@ const SelectedItemButtons = ({
     item.name !== 'Canon à photons' &&
       item.name !== 'Transducteur' &&
       item.name !== 'Portail de transfert' &&
-      setVisible(false) &&
-      setSelectedItem(null);
+      (setVisible(false), setSelectedItem(null));
   };
 
   const unequipItem = () => {
@@ -114,7 +113,7 @@ const SelectedItemButtons = ({
         break;
     }
 
-    setVisible(false) && setSelectedItem(null);
+    setVisible(false), setSelectedItem(null);
   };
 
   const inActionRadius = () => {

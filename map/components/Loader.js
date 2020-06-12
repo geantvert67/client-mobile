@@ -12,7 +12,9 @@ const Loader = () => {
     <View style={stylesGame.container}>
       <View style={stylesGame.loader}>
         <ActivityIndicator size={80} color="#6FC186" />
-        <Text style={[stylesGame.gameText, {alignSelf: 'center'}]}>
+
+        <Text
+          style={[stylesGame.gameText, {alignSelf: 'center', marginLeft: -7}]}>
           Crystal
           <Text style={{color: '#6FC186', fontSize: 30}}>Z</Text>
         </Text>

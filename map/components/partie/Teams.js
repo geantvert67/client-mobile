@@ -16,6 +16,7 @@ import {useConfig} from '../../utils/config';
 import Loader from '../Loader';
 import moment from 'moment';
 import BackButton from '../BackButton';
+import {Popup} from '../Toast';
 
 /**
  * Composant Teams :
@@ -25,9 +26,19 @@ const Teams = () => {
   const [gameStarted, setGameStarted] = useState(null);
   const [teams, setTeams] = useState(null);
   const [playerTeam, setPlayerTeam] = useState(null);
+  const [finish, setFinish] = useState(false);
   const {setConfig, config} = useConfig();
   const {user} = useAuth();
   const {socket} = useSocket();
+
+  useEffect(() => {
+    config &&
+      !finish &&
+      config.ended &&
+      (Actions.Menu(),
+      Popup('Cette partie est terminée', 'rgba(255,0,0,0.5)', -70),
+      setFinish(true));
+  }, [config]);
 
   const checkStart = () => {
     socket.on('getConfig', config => {

@@ -2,12 +2,7 @@ import React, {useState} from 'react';
 import {TouchableOpacity, Image, Text} from 'react-native';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faTimes,
-  faSlidersH,
-  faTrophy,
-  faMapMarker,
-} from '@fortawesome/free-solid-svg-icons';
+import {faTimes, faBars, faTrophy} from '@fortawesome/free-solid-svg-icons';
 import MarkerNegative from '../../img/markerNegative.svg';
 import MarkerPositive from '../../img/markerPositive.svg';
 import BackPack from '../../img/backpack.svg';
@@ -96,7 +91,7 @@ const MapMenu = ({coordinates, setModalScore, setModalInventory}) => {
                 <FontAwesomeIcon
                   color="white"
                   onPress={() => setOpen(!open)}
-                  icon={faSlidersH}
+                  icon={faBars}
                   size={32}
                 />
               </TouchableOpacity>
