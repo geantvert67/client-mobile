@@ -30,7 +30,7 @@ const Teams = () => {
   const {socket} = useSocket();
 
   const checkStart = () => {
-    socket.on('getConfig', (config) => {
+    socket.on('getConfig', config => {
       setGameStarted(config.launched);
       setConfig(config);
     });
@@ -39,7 +39,7 @@ const Teams = () => {
 
   useEffect(() => {
     gameStarted || checkStart();
-    socket.on('getTeams', (t) => {
+    socket.on('getTeams', t => {
       setTeams(t);
     });
 
@@ -51,8 +51,8 @@ const Teams = () => {
   useEffect(() => {
     let team = null;
     teams &&
-      teams.map((t) =>
-        t.players.map((p) => p.username === user.username && (team = t)),
+      teams.map(t =>
+        t.players.map(p => p.username === user.username && (team = t)),
       );
     setPlayerTeam(team);
   }, [teams]);
@@ -72,7 +72,7 @@ const Teams = () => {
         </View>
 
         <ScrollView>
-          {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map((team) => {
+          {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
             return (
               config &&
               (playerTeam && team.id === playerTeam.id ? (
@@ -95,9 +95,7 @@ const Teams = () => {
           )}
           <TouchableOpacity
             style={[
-              gameStarted || (config && config.willLaunchAt)
-                ? stylesSigninSignup.submitButton
-                : stylesSigninSignup.submitButtonDisabled,
+              stylesSigninSignup.submitButton,
               {
                 width: '100%',
                 justifyContent: 'center',
@@ -105,8 +103,7 @@ const Teams = () => {
                 borderRadius: 0,
               },
             ]}
-            onPress={() => Actions.Map({playerTeam})}
-            disabled={!gameStarted && config && !config.willLaunchAt}>
+            onPress={() => Actions.Map({playerTeam})}>
             <Text style={{color: 'white'}}>Accéder à la carte</Text>
           </TouchableOpacity>
         </View>

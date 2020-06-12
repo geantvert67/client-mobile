@@ -8,6 +8,7 @@ import React from 'react';
  * @param message Message à afficher
  * @param color Couleur de fond du popup (rouge par défaut)
  * @param position Position du popup (Bas de l'écran par défaut)
+ * @param delay Durée d'apparition à l'écran
  */
 export const Popup = (
   message,

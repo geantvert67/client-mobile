@@ -4,7 +4,6 @@ import {Text} from 'native-base';
 import request from '../../utils/request';
 import {getData} from '../../utils/asyncStorage';
 import {Actions} from 'react-native-router-flux';
-import io from 'socket.io-client';
 import {useAuth} from '../../utils/auth';
 import RefreshView from '../RefreshView';
 import {stylesGame} from '../../css/style';
@@ -13,6 +12,7 @@ import PrivateGame from './PrivateGame';
 import {Popup} from '../Toast';
 import GamesList from './GamesList';
 import Loader from '../Loader';
+import {useConfig} from '../../utils/config';
 
 /**
  * Composant Game :
@@ -21,6 +21,7 @@ import Loader from '../Loader';
 const Game = () => {
   const {user} = useAuth();
   const {socket, setSocket} = useSocket();
+  const {setConfig} = useConfig();
 
   const [games, setGames] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -34,11 +35,11 @@ const Game = () => {
           Authorization: 'Bearer ' + getData('token'),
         },
       })
-      .then((res) => {
+      .then(res => {
         setGames(res.data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         setError(err);
         setLoading(false);
       });
@@ -47,13 +48,13 @@ const Game = () => {
   const handleGame = (gameId, ip, port) => {
     request
       .post(`/games/${gameId}/invitations`, {userId: user.id})
-      .then((res) => {
+      .then(res => {
         const socketIo = require('socket.io-client');
         const s = socketIo(`http://${ip}:${port}`);
         s.emit('getInvitations');
         Popup('Demande envoyée', 'rgba(0,255,0,0.5)', -70);
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.response.status === 409)
           Popup('Demande déjà envoyée', 'rgba(255, 0,0,0.5)', -70);
         else Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
@@ -63,13 +64,24 @@ const Game = () => {
   const onRefresh = () => {
     request
       .get('/games')
-      .then((res) => {
+      .then(res => {
         setGames(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
       });
+  };
+
+  const checkMap = (gameId, ip, port) => {
+    const socketIo = require('socket.io-client');
+    const socketTmp = socketIo(`http://${ip}:${port}`);
+    setSocket(socketTmp);
+    socketTmp.on('getConfig', config => {
+      setConfig(config);
+    });
+    socketTmp.emit('getConfig');
+    Actions.Map({playerTeam: null, isVisited: true, gameId});
   };
 
   return (
@@ -83,7 +95,7 @@ const Game = () => {
           ) : error ? (
             <Text>{error.message}</Text>
           ) : games && games.length > 0 ? (
-            <GamesList games={games} handleGame={handleGame} />
+            <GamesList games={games} handleGame={checkMap} />
           ) : (
             <Text style={stylesGame.textSecondary}>
               Aucune partie publique en cours
