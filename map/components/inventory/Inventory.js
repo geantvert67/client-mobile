@@ -44,7 +44,6 @@ const Inventory = ({
     }
   }
 
-  const styleAllies = transferedItem ? {marginTop: 40} : {};
   return (
     <ScrollView>
       <View
@@ -62,7 +61,7 @@ const Inventory = ({
         ) : (
           player &&
           player.inventory.map(
-            (item) =>
+            item =>
               (!portailInstallation ||
                 (item.id !== selectedItem.id && !item.equiped)) && (
                 <InventoryItem

@@ -18,7 +18,6 @@ const MapVisitedButtons = ({gameId}) => {
   const {socket, setSocket} = useSocket();
   const {user} = useAuth();
 
-  console.log(socket);
   const backToGames = () => {
     Actions.pop();
     socket.close();

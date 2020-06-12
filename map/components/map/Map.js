@@ -105,7 +105,6 @@ const Map = ({playerTeam, isVisited = false, gameId = null}) => {
   }, [region]);
 
   useEffect(() => {
-    console.log(player);
     player &&
       !notif &&
       socket.on('getNotification', notifs => {
