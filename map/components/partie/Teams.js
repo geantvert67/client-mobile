@@ -16,6 +16,7 @@ import {useConfig} from '../../utils/config';
 import Loader from '../Loader';
 import moment from 'moment';
 import BackButton from '../BackButton';
+import {Popup} from '../Toast';
 
 /**
  * Composant Teams :
@@ -25,12 +26,22 @@ const Teams = () => {
   const [gameStarted, setGameStarted] = useState(null);
   const [teams, setTeams] = useState(null);
   const [playerTeam, setPlayerTeam] = useState(null);
+  const [finish, setFinish] = useState(false);
   const {setConfig, config} = useConfig();
   const {user} = useAuth();
   const {socket} = useSocket();
 
+  useEffect(() => {
+    config &&
+      !finish &&
+      config.ended &&
+      (Actions.Menu(),
+      Popup('Cette partie est terminée', 'rgba(255,0,0,0.5)', -70),
+      setFinish(true));
+  }, [config]);
+
   const checkStart = () => {
-    socket.on('getConfig', (config) => {
+    socket.on('getConfig', config => {
       setGameStarted(config.launched);
       setConfig(config);
     });
@@ -39,8 +50,18 @@ const Teams = () => {
 
   useEffect(() => {
     gameStarted || checkStart();
-    socket.on('getTeams', (t) => {
+    socket.on('getTeams', t => {
       setTeams(t);
+    });
+
+    socket.on('disconnect', function() {
+      console.log('Got disconnect!');
+      Actions.Menu(),
+        Popup(
+          'Vous avez été déconnecté du serveur',
+          'rgba(255, 0, 0, 0.5)',
+          -70,
+        );
     });
 
     return () => {
@@ -51,8 +72,8 @@ const Teams = () => {
   useEffect(() => {
     let team = null;
     teams &&
-      teams.map((t) =>
-        t.players.map((p) => p.username === user.username && (team = t)),
+      teams.map(t =>
+        t.players.map(p => p.username === user.username && (team = t)),
       );
     setPlayerTeam(team);
   }, [teams]);
@@ -72,7 +93,7 @@ const Teams = () => {
         </View>
 
         <ScrollView>
-          {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map((team) => {
+          {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
             return (
               config &&
               (playerTeam && team.id === playerTeam.id ? (
@@ -95,9 +116,7 @@ const Teams = () => {
           )}
           <TouchableOpacity
             style={[
-              gameStarted || (config && config.willLaunchAt)
-                ? stylesSigninSignup.submitButton
-                : stylesSigninSignup.submitButtonDisabled,
+              stylesSigninSignup.submitButton,
               {
                 width: '100%',
                 justifyContent: 'center',
@@ -105,8 +124,7 @@ const Teams = () => {
                 borderRadius: 0,
               },
             ]}
-            onPress={() => Actions.Map({playerTeam})}
-            disabled={!gameStarted && config && !config.willLaunchAt}>
+            onPress={() => Actions.Map({playerTeam})}>
             <Text style={{color: 'white'}}>Accéder à la carte</Text>
           </TouchableOpacity>
         </View>

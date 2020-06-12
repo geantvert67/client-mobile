@@ -100,8 +100,7 @@ const SelectedItemButtons = ({
     item.name !== 'Canon à photons' &&
       item.name !== 'Transducteur' &&
       item.name !== 'Portail de transfert' &&
-      setVisible(false) &&
-      setSelectedItem(null);
+      (setVisible(false), setSelectedItem(null));
   };
 
   const unequipItem = () => {
@@ -114,7 +113,7 @@ const SelectedItemButtons = ({
         break;
     }
 
-    setVisible(false) && setSelectedItem(null);
+    setVisible(false), setSelectedItem(null);
   };
 
   const inActionRadius = () => {
@@ -138,8 +137,23 @@ const SelectedItemButtons = ({
       (item.name === 'Sentinelle' && !inActionRadius()) ||
       (item.name === 'Oracle' &&
         (!inActionRadius() || inActionRadius().capturedUntil)) ||
+      (item.name === 'Portail de transfert' &&
+        !player.inventory.some(
+          itemInventory =>
+            !itemInventory.equiped && itemInventory.id !== item.id,
+        )) ||
+      (item.name === 'Portail de transfert' &&
+        !playerTeam.players.some(
+          p => p.username !== player.username && checkInventorySize(p),
+        )) ||
       player.immobilizedUntil
     );
+  };
+
+  const checkInventorySize = allie => {
+    return allie.hasTransporteur
+      ? allie.inventory.length < config.inventorySize * 2
+      : allie.inventory.length < config.inventorySize;
   };
 
   return item.equiped ? (

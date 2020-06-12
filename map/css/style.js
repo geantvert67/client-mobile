@@ -302,4 +302,12 @@ export const stylesMap = StyleSheet.create({
     bottom: 50,
     paddingTop: 20,
   },
+
+  btnInvitation: {
+    flex: 1,
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+  },
 });

@@ -110,7 +110,7 @@ const Profil = () => {
               value={statistics.Statistic.nbDiscoveredFlags}
             />
             <StatItem
-              name="Pièges efficaces"
+              name="Joueurs piégés"
               value={statistics.Statistic.nbTraps}
             />
           </View>

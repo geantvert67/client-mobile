@@ -13,6 +13,7 @@ import {useAuth} from '../../utils/auth';
 import {stylesSigninSignup, stylesGame} from '../../css/style';
 import {Popup} from '../Toast';
 import BackButton from '../BackButton';
+import Toast from 'react-native-root-toast';
 
 /**
  * Composant Signup :
@@ -28,14 +29,20 @@ const Signup = () => {
 
   const formValid = username && password && password === passwordCheck;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     formValid
       ? signup({username, password}, setError)
-      : Popup('Les mots de passe ne coïncident pas.');
+      : Popup(
+          'Les mots de passe ne coïncident pas.',
+          'rgba(255,0,0,0.5)',
+          Toast.positions.TOP,
+        );
   };
 
-  error !== '' && Popup(error) && setError('');
+  error !== '' &&
+    Popup(error, 'rgba(255,0,0,0.5)', Toast.positions.TOP) &&
+    setError('');
 
   return (
     <View style={stylesSigninSignup.container}>
@@ -53,7 +60,7 @@ const Signup = () => {
         placeholder="Nom d'utilisateur"
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
-        onChangeText={(e) => setUsername(e)}
+        onChangeText={e => setUsername(e)}
       />
       <TextInput
         style={stylesSigninSignup.input}
@@ -61,7 +68,7 @@ const Signup = () => {
         placeholder="Mot de passe"
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
-        onChangeText={(e) => setPassword(e)}
+        onChangeText={e => setPassword(e)}
       />
       <TextInput
         style={stylesSigninSignup.input}
@@ -69,7 +76,7 @@ const Signup = () => {
         placeholder="Confirmer le mot de passe "
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
-        onChangeText={(e) => setPasswordCheck(e)}
+        onChangeText={e => setPasswordCheck(e)}
       />
       <TouchableOpacity
         style={stylesSigninSignup.submitButton}

@@ -21,6 +21,7 @@ import Loader from '../Loader';
 import TrapIndicator from './TrapIndicator';
 import Toast from 'react-native-root-toast';
 import {Popup} from '../Toast';
+import MapVisitedButtons from './MapVisitedButtons';
 
 /**
  * Composant Map :
@@ -29,7 +30,7 @@ import {Popup} from '../Toast';
  * props :
  *   - playerTeam : Equipe du joueur
  */
-const Map = ({playerTeam}) => {
+const Map = ({playerTeam, isVisited = false, gameId = null}) => {
   const {socket} = useSocket();
   const {config, setConfig} = useConfig();
   const [areas, setAreas] = useState([]);
@@ -49,7 +50,7 @@ const Map = ({playerTeam}) => {
   const [notif, setNotif] = useState(false);
   const [region, setRegion] = useState({});
 
-  config.ended && Actions.replace('Endgame', {playerTeam});
+  config && config.ended && Actions.replace('Endgame', {playerTeam});
 
   useEffect(() => {
     acceptGeoloc();
@@ -104,7 +105,6 @@ const Map = ({playerTeam}) => {
   }, [region]);
 
   useEffect(() => {
-    console.log(player);
     player &&
       !notif &&
       socket.on('getNotification', notifs => {
@@ -136,7 +136,7 @@ const Map = ({playerTeam}) => {
   }, [player]);
 
   useEffect(() => {
-    if (config.launched && position.length > 0) {
+    if (config && config.launched && position.length > 0) {
       socket.emit('routine', position);
     }
   }, [position, config]);
@@ -230,6 +230,7 @@ const Map = ({playerTeam}) => {
           </Text>
         </View>
       )}
+      {isVisited && <MapVisitedButtons gameId={gameId} />}
     </View>
   ) : (
     <Loader />

@@ -97,7 +97,7 @@ const EndGame = ({playerTeam}) => {
               marginTop: 100,
             },
           ]}
-          onPress={() => Actions.replace('Menu')}>
+          onPress={() => Actions.Menu()}>
           <Text style={{color: 'white'}}>Retour au menu</Text>
         </TouchableOpacity>
       </View>

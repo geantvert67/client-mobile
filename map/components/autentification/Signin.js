@@ -14,6 +14,7 @@ import {useAuth} from '../../utils/auth';
 import {useSocket} from '../../utils/socket';
 import {stylesSigninSignup, stylesGame} from '../../css/style';
 import {Popup} from '../Toast';
+import Toast from 'react-native-root-toast';
 
 /**
  * Composant Signin :
@@ -38,7 +39,9 @@ const Signin = () => {
     BackHandler.addEventListener('hardwareBackPress', exit);
   }, []);
 
-  error !== '' && Popup(error) && setError('');
+  error !== '' &&
+    Popup(error, 'rgba(255,0,0,0.5)', Toast.positions.TOP) &&
+    setError('');
 
   return (
     <View style={stylesSigninSignup.container}>
@@ -48,7 +51,7 @@ const Signin = () => {
         placeholder="Nom d'utilisateur"
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
-        onChangeText={(e) => setUsername(e)}
+        onChangeText={e => setUsername(e)}
       />
       <TextInput
         style={stylesSigninSignup.input}
@@ -56,7 +59,7 @@ const Signin = () => {
         placeholder="Mot de passe"
         placeholderTextColor="#D2D2D2"
         autoCapitalize="none"
-        onChangeText={(e) => setPassword(e)}
+        onChangeText={e => setPassword(e)}
       />
       <TouchableOpacity
         style={stylesSigninSignup.submitButton}

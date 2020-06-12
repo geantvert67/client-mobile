@@ -4,6 +4,7 @@ import {useSocket} from '../../utils/socket';
 import {stylesMap, stylesSigninSignup} from '../../css/style';
 import {usePlayer} from '../../utils/player';
 import {useConfig} from '../../utils/config';
+import {Popup} from '../Toast';
 
 /**
  * Composant SelectedItemButtons :
@@ -57,6 +58,7 @@ const SelectedItemButtonsInstallation = ({
           username: selectedAllie.username,
           itemId: transferedItem.id,
         });
+        Popup('Item transféré', 'rgba(0, 255, 0, 0.5)');
         break;
     }
 
