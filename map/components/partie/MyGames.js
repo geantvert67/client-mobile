@@ -1,11 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  RefreshControl,
-} from 'react-native';
+import {View} from 'react-native';
 import {Text} from 'native-base';
 import GamesList from './GamesList';
 import request from '../../utils/request';
@@ -27,7 +21,6 @@ import Loader from '../Loader';
 const MyGames = () => {
   const [invitations, setInvitations] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const {setSocket} = useSocket();
   const {user} = useAuth();
 

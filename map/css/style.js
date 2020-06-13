@@ -19,7 +19,7 @@ export const stylesSigninSignup = StyleSheet.create({
       width: 0,
       height: 10,
     },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.1,
     shadowRadius: 5,
 
     elevation: 20,

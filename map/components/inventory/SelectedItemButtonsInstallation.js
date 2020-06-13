@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, Image, TouchableOpacity, Text, Dimensions} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {useSocket} from '../../utils/socket';
-import {stylesMap, stylesSigninSignup} from '../../css/style';
+import {stylesSigninSignup} from '../../css/style';
 import {usePlayer} from '../../utils/player';
-import {useConfig} from '../../utils/config';
 import {Popup} from '../Toast';
 
 /**
@@ -33,7 +32,6 @@ const SelectedItemButtonsInstallation = ({
   portail = false,
 }) => {
   const {socket} = useSocket();
-  const {config} = useConfig();
   const {player} = usePlayer();
 
   const useItem = () => {

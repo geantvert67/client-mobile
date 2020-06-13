@@ -1,10 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {View, Image, TouchableOpacity, Text, Dimensions} from 'react-native';
-import {useConfig} from '../../utils/config';
-import {stylesMap, stylesSigninSignup} from '../../css/style';
+import React, {useEffect} from 'react';
+import {View, Image, Text, Dimensions} from 'react-native';
+import {stylesMap} from '../../css/style';
 import {getItemIcon} from '../marker/MarkersItem';
 import SelectedItemButtons from './SelectedItemButtons';
-import SelectedItemButtonsInstallation from './SelectedItemButtonsInstallation';
 import {DESC_ITEMS} from '../../utils/descriptions';
 import ConfigureItem from './ConfigureItem';
 import ConfigurePortail from './ConfigurePortail';

@@ -2,7 +2,6 @@ import React from 'react';
 import {useAuth} from '../../utils/auth';
 import {Marker, Callout} from 'react-native-maps';
 import {useSocket} from '../../utils/socket';
-import {Svg} from 'react-native-svg';
 import {View, Image, Text, TouchableOpacity} from 'react-native';
 import CrystalLocked from '../../img/crystal-locked.svg';
 import MarkerNegative from '../../img/markerNegative.svg';
@@ -14,8 +13,6 @@ import {usePlayer} from '../../utils/player';
 import {inRadius} from '../../utils/calcul';
 import {Popup} from '../Toast';
 
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faMapMarker} from '@fortawesome/free-solid-svg-icons';
 import {stylesMap} from '../../css/style';
 import MarkersItem from './MarkersItem';
 
@@ -65,7 +62,6 @@ const Markers = ({
 
 const PlayerMarker = ({players}) => {
   const {user} = useAuth();
-  const img = require('../../img/crystal.gif');
 
   return (
     players.length > 0 &&
@@ -100,7 +96,7 @@ const FlagMarker = ({flags, playerTeam, position, isImmobilized}) => {
       ? Popup('Cristal déjà capturé', 'rgba(255, 165, 0, 0.5)')
       : !inRadius(flag.coordinates, position, config.flagActionRadius)
       ? Popup('Cristal trop éloigné !')
-      : flag.capturedUntil
+      : flag.capturedUntil || flag.hasOracle
       ? Popup('Cristal vérouillé', 'rgba(255, 165, 0, 0.5)')
       : socket.emit('captureFlag', {flagId: flag.id, teamId: playerTeam.id}) &&
         Popup('Capture en cours...', 'rgba(0, 255,255, 0.5)');

@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View} from 'native-base';
 import moment from 'moment';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faClock} from '@fortawesome/free-solid-svg-icons';
 import {secondsToDuration} from '../../utils/calcul';
 import {stylesMap} from '../../css/style';
 

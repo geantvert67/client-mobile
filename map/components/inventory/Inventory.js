@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, ScrollView} from 'react-native';
-import {useConfig} from '../../utils/config';
 import InventoryItem from './InventoryItem';
 import {usePlayer} from '../../utils/player';
 import AlliesList from './AlliesList';
@@ -29,7 +28,6 @@ const Inventory = ({
   playerTeam,
   setSelectedAllie,
 }) => {
-  const {config} = useConfig();
   const {player} = usePlayer();
 
   const portailInstallation =

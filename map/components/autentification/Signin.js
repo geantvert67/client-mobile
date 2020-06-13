@@ -1,17 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  BackHandler,
-} from 'react-native';
+import {View, TextInput, TouchableOpacity, BackHandler} from 'react-native';
 import {Button, Text} from 'native-base';
 
 import {Actions} from 'react-native-router-flux';
 
 import {useAuth} from '../../utils/auth';
-import {useSocket} from '../../utils/socket';
 import {stylesSigninSignup, stylesGame} from '../../css/style';
 import {Popup} from '../Toast';
 import Toast from 'react-native-root-toast';

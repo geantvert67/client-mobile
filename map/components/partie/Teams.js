@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity, Image, ScrollView} from 'react-native';
+import {View, TouchableOpacity, ScrollView} from 'react-native';
 import _ from 'lodash';
 
 import TeamItem from './TeamItem';
 
-import {stylesGame, stylesMap} from '../../css/style';
-import {Button} from 'react-native-paper';
+import {stylesGame} from '../../css/style';
 import {Actions} from 'react-native-router-flux';
 import {Text} from 'native-base';
 

@@ -1,19 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {StyleSheet} from 'react-native';
 
 import Signin from './components/autentification/Signin';
 import Signup from './components/autentification/Signup';
-import Game from './components/partie/Game';
-import MyGames from './components/partie/MyGames';
 import Map from './components/map/Map';
 import Teams from './components/partie/Teams';
 import {AuthProvider} from './utils/auth';
 import {Router, Stack, Scene} from 'react-native-router-flux';
 import {SocketProvider} from './utils/socket';
-import BackButton from './components/BackButton';
 import {ConfigProvider} from './utils/config';
-import BottomTab from './components/Menu';
-import {getData} from './utils/asyncStorage';
+import BottomTab from './components/BottomTab';
 import {PlayerProvider} from './utils/player';
 import EndGame from './components/score/EndGame';
 

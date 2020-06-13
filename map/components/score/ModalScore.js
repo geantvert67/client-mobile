@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
-import {stylesGame, stylesMap} from '../../css/style';
+import {stylesMap} from '../../css/style';
 import TeamItem from '../partie/TeamItem';
 import _ from 'lodash';
 import {useConfig} from '../../utils/config';
@@ -42,20 +42,18 @@ const ModalScore = ({visible, setModal, teams, playerTeam}) => {
             </TouchableOpacity>
           </View>
           <ScrollView style={[stylesMap.scrollView, {bottom: 20}]}>
-            {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(
-              (team) => {
-                return team.id === playerTeam.id ? (
-                  <TeamItem
-                    team={team}
-                    score={true}
-                    mode={config.gameMode}
-                    playerTeam
-                  />
-                ) : (
-                  <TeamItem team={team} score={true} mode={config.gameMode} />
-                );
-              },
-            )}
+            {_.orderBy(teams, ['score', 'name'], ['desc', 'asc']).map(team => {
+              return team.id === playerTeam.id ? (
+                <TeamItem
+                  team={team}
+                  score={true}
+                  mode={config.gameMode}
+                  playerTeam
+                />
+              ) : (
+                <TeamItem team={team} score={true} mode={config.gameMode} />
+              );
+            })}
           </ScrollView>
         </View>
       </Modal>

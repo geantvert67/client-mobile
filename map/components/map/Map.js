@@ -57,6 +57,10 @@ const Map = ({playerTeam, isVisited = false, gameId = null}) => {
     socket.on('getAreas', a => {
       setAreas(a);
     });
+
+    socket.on('onError', message => {
+      Popup(message);
+    });
     socket.emit('getAreas');
 
     socket.on('routine', routine => {
@@ -69,8 +73,8 @@ const Map = ({playerTeam, isVisited = false, gameId = null}) => {
       setPlayer(routine.player);
     });
 
-    socket.on('getConfig', config => {
-      setConfig(config);
+    socket.on('getConfig', newConfig => {
+      setConfig(newConfig);
     });
 
     const interval = setInterval(() => {
@@ -109,8 +113,7 @@ const Map = ({playerTeam, isVisited = false, gameId = null}) => {
       !notif &&
       socket.on('getNotification', notifs => {
         const privateNotif = notifs.filter(
-          notif =>
-            notif.type === 'user' && notif.ids.some(id => id === player.id),
+          n => n.type === 'user' && n.ids.some(id => id === player.id),
         );
 
         privateNotif.length > 0
@@ -121,11 +124,11 @@ const Map = ({playerTeam, isVisited = false, gameId = null}) => {
               Toast.durations.LONG,
             )
           : notifs.map(
-              notif =>
-                notif.type === 'team' &&
-                notif.ids.some(id => id === playerTeam.id) &&
+              n =>
+                n.type === 'team' &&
+                n.ids.some(id => id === playerTeam.id) &&
                 Popup(
-                  notif.message,
+                  n.message,
                   'rgba(38,41,47, 0.5)',
                   Toast.positions.TOP,
                   Toast.durations.LONG,

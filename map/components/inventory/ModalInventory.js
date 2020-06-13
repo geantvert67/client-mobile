@@ -55,10 +55,10 @@ const ModalInventory = ({
 
   const modalInventorySize = selectedItem
     ? (Dimensions.get('window').height *
-        (70 - Math.ceil(inventorySize / 6) * 10)) /
+        (70 - Math.ceil(inventorySize / 5) * 10)) /
       100
     : (Dimensions.get('window').height *
-        (92 - Math.ceil(inventorySize / 6) * 10)) /
+        (92 - Math.ceil(inventorySize / 5) * 10)) /
       100;
   return (
     <View>
