@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useAuth} from '../../utils/auth';
 import {Marker, Callout} from 'react-native-maps';
 import {useSocket} from '../../utils/socket';
@@ -47,13 +47,13 @@ const Markers = ({
   return (
     <>
       <PlayerMarker players={players} />
-      <FlagMarker
+      <FlagList
         flags={flags}
         playerTeam={playerTeam}
         position={position}
         isImmobilized={isImmobilized}
       />
-      <UnknownMarker unknowns={unknowns} />
+      <UnknownList unknowns={unknowns} />
       <TeamMarker teamMarkers={teamMarkers} />
       <MarkersItem items={items} isImmobilized={isImmobilized} />
     </>
@@ -87,7 +87,22 @@ const PlayerMarker = ({players}) => {
   );
 };
 
-const FlagMarker = ({flags, playerTeam, position, isImmobilized}) => {
+const FlagList = ({flags, playerTeam, position, isImmobilized}) => {
+  return (
+    flags.length > 0 &&
+    flags.map(f => (
+      <FlagMarker
+        key={f.id}
+        flag={f}
+        playerTeam={playerTeam}
+        position={position}
+        isImmobilized={isImmobilized}
+      />
+    ))
+  );
+};
+
+const Flag = ({flag, playerTeam, position, isImmobilized}) => {
   const {socket} = useSocket();
   const {config} = useConfig();
 
@@ -103,49 +118,49 @@ const FlagMarker = ({flags, playerTeam, position, isImmobilized}) => {
   };
 
   return (
-    flags.length > 0 &&
-    flags.map(f => {
-      return (
-        <Marker
-          coordinate={{
-            latitude: f.coordinates[0],
-            longitude: f.coordinates[1],
-          }}
-          onPress={() => isImmobilized() || captureFlag(f)}>
-          <View>
-            {f.capturedUntil ||
-            (f.hasOracle &&
-              inRadius(f.coordinates, position, config.flagActionRadius)) ? (
-              <CrystalLocked fill={f.team ? f.team.color : 'grey'} />
-            ) : (
-              <Crystal fill={f.team ? f.team.color : 'grey'} />
-            )}
-          </View>
-        </Marker>
-      );
-    })
+    <Marker
+      coordinate={{
+        latitude: flag.coordinates[0],
+        longitude: flag.coordinates[1],
+      }}
+      onPress={() => isImmobilized() || captureFlag(flag)}>
+      <View>
+        {flag.capturedUntil ||
+        (flag.hasOracle &&
+          inRadius(flag.coordinates, position, config.flagActionRadius)) ? (
+          <CrystalLocked fill={flag.team ? flag.team.color : 'grey'} />
+        ) : (
+          <Crystal fill={flag.team ? flag.team.color : 'grey'} />
+        )}
+      </View>
+    </Marker>
   );
 };
 
-const UnknownMarker = ({unknowns}) => {
+const UnknownList = ({unknowns}) => {
   return (
-    unknowns.length > 0 &&
-    unknowns.map(u => {
-      return (
-        <Marker
-          title="Inconnu"
-          coordinate={{
-            latitude: u.coordinates[0],
-            longitude: u.coordinates[1],
-          }}>
-          <Image
-            source={require('../../img/unknown.png')}
-            style={{width: 40, height: 40}}
-            resizeMode="contain"
-          />
-        </Marker>
-      );
-    })
+    unknowns.length > 0 && unknowns.map(u => <UnknownMarker unknown={u} />)
+  );
+};
+
+const Unknown = ({unknown}) => {
+  useEffect(() => {
+    console.log('update du unknown');
+  }, [unknown]);
+
+  return (
+    <Marker
+      title="Inconnu"
+      coordinate={{
+        latitude: unknown.coordinates[0],
+        longitude: unknown.coordinates[1],
+      }}>
+      <Image
+        source={require('../../img/unknown.png')}
+        style={{width: 40, height: 40}}
+        resizeMode="contain"
+      />
+    </Marker>
   );
 };
 
@@ -186,5 +201,13 @@ const TeamMarker = ({teamMarkers}) => {
     })
   );
 };
+
+const FlagMarker = React.memo(Flag, (prevProps, nextProps) => {
+  return prevProps.flag.nbUpdates === nextProps.flag.nbUpdates;
+});
+
+const UnknownMarker = React.memo(Unknown, (prevProps, nextProps) => {
+  return prevProps.unknown.nbUpdates === nextProps.unknown.nbUpdates;
+});
 
 export default Markers;
