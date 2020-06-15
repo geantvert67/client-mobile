@@ -54,7 +54,6 @@ const Teams = () => {
     });
 
     socket.on('disconnect', function() {
-      console.log('Got disconnect!');
       Actions.Menu(),
         Popup(
           'Vous avez été déconnecté du serveur',

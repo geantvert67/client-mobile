@@ -12,6 +12,7 @@ import {ConfigProvider} from './utils/config';
 import BottomTab from './components/BottomTab';
 import {PlayerProvider} from './utils/player';
 import EndGame from './components/score/EndGame';
+import SplashScreen from './components/SplashScreen';
 
 const App = () => {
   console.disableYellowBox = true;
@@ -23,7 +24,13 @@ const App = () => {
           <PlayerProvider>
             <Router>
               <Stack key="root">
-                <Scene key="Signin" component={Signin} initial hideNavBar />
+                <Scene
+                  key="SplashScreen"
+                  component={SplashScreen}
+                  initial
+                  hideNavBar
+                />
+                <Scene key="Signin" component={Signin} hideNavBar />
                 <Scene key="Signup" component={Signup} hideNavBar />
 
                 <Scene
