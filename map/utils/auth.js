@@ -1,9 +1,7 @@
-import React, {useState, useEffect, createContext, useContext} from 'react';
+import React, {useState, createContext, useContext} from 'react';
 import request from './request';
-import {Text} from 'native-base';
-import {storeData} from './asyncStorage';
+import {storeData, removeItem} from './asyncStorage';
 import {Actions} from 'react-native-router-flux';
-import Loader from '../components/Loader';
 
 const AuthContext = createContext();
 
@@ -12,30 +10,16 @@ const AuthContext = createContext();
  */
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    request
-      .get('/user')
-      .then((res) => {
-        setUser(res.data);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) {
-    return <Loader />;
-  }
 
   const signin = (credentials, setError) => {
     return request
       .post('/signin', credentials)
-      .then((res) => {
+      .then(res => {
         storeData('token', res.data.token);
         setUser(res.data.user);
         Actions.Menu();
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.response.status === 401) setError('Mauvais identifiants');
         else setError('Une erreur est survenue');
       });
@@ -44,12 +28,12 @@ export const AuthProvider = ({children}) => {
   const signup = (credentials, setError) => {
     return request
       .post('/signup', credentials)
-      .then((res) => {
+      .then(res => {
         storeData('token', res.data.token);
         setUser(res.data.user);
-        Actions.Signin();
+        Actions.Menu();
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.response.status === 409)
           setError("Ce nom d'utilisateur existe déjà");
         else setError('Une erreur est survenue');
@@ -57,13 +41,13 @@ export const AuthProvider = ({children}) => {
   };
 
   const signout = () => {
-    storeData('token', null);
+    removeItem('token');
     setUser(null);
     Actions.Signin();
   };
 
   return (
-    <AuthContext.Provider value={{user, signin, signup, signout}}>
+    <AuthContext.Provider value={{user, setUser, signin, signup, signout}}>
       {children}
     </AuthContext.Provider>
   );

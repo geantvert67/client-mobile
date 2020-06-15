@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  Dimensions,
-  ScrollView,
-} from 'react-native';
+import {Text, TouchableOpacity, View, ScrollView} from 'react-native';
 import {usePlayer} from '../../utils/player';
-import {stylesGame, stylesMap} from '../../css/style';
+import {stylesGame} from '../../css/style';
 import {useConfig} from '../../utils/config';
 
 /**

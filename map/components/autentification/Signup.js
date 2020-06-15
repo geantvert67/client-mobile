@@ -1,11 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  BackHandler,
-  Dimensions,
-} from 'react-native';
+import React, {useState} from 'react';
+import {View, TextInput, TouchableOpacity} from 'react-native';
 import {Text} from 'native-base';
 
 import {useAuth} from '../../utils/auth';
@@ -81,7 +75,7 @@ const Signup = () => {
       <TouchableOpacity
         style={stylesSigninSignup.submitButton}
         onPress={handleSubmit}>
-        <Text style={stylesSigninSignup.submitButtonText}>Submit</Text>
+        <Text style={stylesSigninSignup.submitButtonText}>S'inscrire</Text>
       </TouchableOpacity>
     </View>
   );

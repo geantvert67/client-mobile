@@ -1,5 +1,4 @@
 import Toast from 'react-native-root-toast';
-import React from 'react';
 
 /**
  * Composant Popup :

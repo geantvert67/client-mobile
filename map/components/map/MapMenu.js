@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, Image, Text} from 'react-native';
+import {TouchableOpacity, Image} from 'react-native';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faTimes, faBars, faTrophy} from '@fortawesome/free-solid-svg-icons';

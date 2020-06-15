@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import InputSpinner from 'react-native-input-spinner';
+import React from 'react';
 import {View, Text, Dimensions} from 'react-native';
 import SelectedItemButtonsInstallation from './SelectedItemButtonsInstallation';
 import {stylesMap} from '../../css/style';

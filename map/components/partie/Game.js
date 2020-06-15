@@ -68,7 +68,6 @@ const Game = () => {
         setGames(res.data);
       })
       .catch(err => {
-        console.log(err);
         Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
       });
   };

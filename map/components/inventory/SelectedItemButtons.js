@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Image, TouchableOpacity, Text, Dimensions} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {useSocket} from '../../utils/socket';
-import {stylesMap, stylesSigninSignup} from '../../css/style';
+import {stylesSigninSignup} from '../../css/style';
 import {Popup} from '../Toast';
 import {usePlayer} from '../../utils/player';
 import {useConfig} from '../../utils/config';
@@ -136,7 +136,9 @@ const SelectedItemButtons = ({
       (player.hasTransporteur && item.name === 'Transporteur') ||
       (item.name === 'Sentinelle' && !inActionRadius()) ||
       (item.name === 'Oracle' &&
-        (!inActionRadius() || inActionRadius().capturedUntil)) ||
+        (!inActionRadius() ||
+          inActionRadius().capturedUntil ||
+          inActionRadius().hasOracle)) ||
       (item.name === 'Portail de transfert' &&
         !player.inventory.some(
           itemInventory =>

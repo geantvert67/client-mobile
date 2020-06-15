@@ -7,7 +7,6 @@ import {secondsToDuration} from '../../utils/calcul';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faUserAlt} from '@fortawesome/free-solid-svg-icons';
 
-import {usePlayer} from '../../utils/player';
 import {useConfig} from '../../utils/config';
 
 /**

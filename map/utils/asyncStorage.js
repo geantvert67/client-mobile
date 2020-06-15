@@ -19,11 +19,15 @@ export const storeData = async (key, value) => {
  *
  * @param key Clé de stockage
  */
-export const getData = async (key) => {
+export const getData = async key => {
   try {
     const value = await AsyncStorage.getItem(key);
     if (value !== null) {
       return value;
     }
   } catch (e) {}
+};
+
+export const removeItem = key => {
+  AsyncStorage.removeItem(key);
 };

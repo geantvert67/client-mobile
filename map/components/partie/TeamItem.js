@@ -4,9 +4,6 @@ import {stylesGame, stylesMap} from '../../css/style';
 import {View, Dimensions} from 'react-native';
 import {secondsToDuration} from '../../utils/calcul';
 
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
-
 import {
   Collapse,
   CollapseHeader,

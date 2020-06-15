@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const DESC_ITEMS = {
   // Description des items
 
@@ -9,7 +7,8 @@ export const DESC_ITEMS = {
   'Noyau protecteur':
     'Génère un dôme de protection qui protège le joueur contre les effets nocifs des items',
 
-  'Portail de transfert': 'Transfère un item à un joueur allié',
+  'Portail de transfert':
+    'Transfère un item à un joueur allié. (Uniquement utilisable si vous possédez un item transférable et des alliés qui ont une place dans leur inventaire)',
 
   Intercepteur:
     'Réduit pendant une certaine durée le rayon de visibilité des éléments que peuvent percevoir les ennemis',
