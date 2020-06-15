@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useAuth} from '../../utils/auth';
 import {Marker, Callout} from 'react-native-maps';
 import {useSocket} from '../../utils/socket';
@@ -14,7 +14,7 @@ import {inRadius} from '../../utils/calcul';
 import {Popup} from '../Toast';
 
 import {stylesMap} from '../../css/style';
-import MarkersItem from './MarkersItem';
+import ItemList from './MarkersItem';
 
 /**
  * Composant Markers :
@@ -55,7 +55,7 @@ const Markers = ({
       />
       <UnknownList unknowns={unknowns} />
       <TeamMarkerList teamMarkers={teamMarkers} />
-      <MarkersItem items={items} isImmobilized={isImmobilized} />
+      <ItemList items={items} isImmobilized={isImmobilized} />
     </>
   );
 };
@@ -168,10 +168,6 @@ const TeamMarkerList = ({teamMarkers}) => {
 };
 
 const TeamMarker = ({marker}) => {
-  useEffect(() => {
-    console.log('update du marker');
-  }, [marker]);
-
   const {socket} = useSocket();
 
   const deleteMarker = marker => {
