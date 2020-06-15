@@ -54,7 +54,7 @@ const Markers = ({
         isImmobilized={isImmobilized}
       />
       <UnknownList unknowns={unknowns} />
-      <TeamMarker teamMarkers={teamMarkers} />
+      <TeamMarkerList teamMarkers={teamMarkers} />
       <MarkersItem items={items} isImmobilized={isImmobilized} />
     </>
   );
@@ -144,10 +144,6 @@ const UnknownList = ({unknowns}) => {
 };
 
 const Unknown = ({unknown}) => {
-  useEffect(() => {
-    console.log('update du unknown');
-  }, [unknown]);
-
   return (
     <Marker
       title="Inconnu"
@@ -164,7 +160,18 @@ const Unknown = ({unknown}) => {
   );
 };
 
-const TeamMarker = ({teamMarkers}) => {
+const TeamMarkerList = ({teamMarkers}) => {
+  return (
+    teamMarkers.length > 0 &&
+    teamMarkers.map(m => <TeamMarkerMemo key={m.id} marker={m} />)
+  );
+};
+
+const TeamMarker = ({marker}) => {
+  useEffect(() => {
+    console.log('update du marker');
+  }, [marker]);
+
   const {socket} = useSocket();
 
   const deleteMarker = marker => {
@@ -173,32 +180,27 @@ const TeamMarker = ({teamMarkers}) => {
   };
 
   return (
-    teamMarkers.length > 0 &&
-    teamMarkers.map(m => {
-      return (
-        <Marker
-          coordinate={{
-            latitude: m.coordinates[0],
-            longitude: m.coordinates[1],
-          }}>
-          {m.isPositive ? (
-            <MarkerPositive width="30" height="52.5" fill="green" />
-          ) : (
-            <MarkerNegative width="30" height="52.5" fill="red" />
-          )}
-          <Callout
-            style={stylesMap.callout}
-            tooltip={true}
-            onPress={() => deleteMarker(m)}>
-            <View>
-              <TouchableOpacity>
-                <Text style={{color: 'red'}}>Supprimer</Text>
-              </TouchableOpacity>
-            </View>
-          </Callout>
-        </Marker>
-      );
-    })
+    <Marker
+      coordinate={{
+        latitude: marker.coordinates[0],
+        longitude: marker.coordinates[1],
+      }}>
+      {marker.isPositive ? (
+        <MarkerPositive width="30" height="52.5" fill="green" />
+      ) : (
+        <MarkerNegative width="30" height="52.5" fill="red" />
+      )}
+      <Callout
+        style={stylesMap.callout}
+        tooltip={true}
+        onPress={() => deleteMarker(marker)}>
+        <View>
+          <TouchableOpacity>
+            <Text style={{color: 'red'}}>Supprimer</Text>
+          </TouchableOpacity>
+        </View>
+      </Callout>
+    </Marker>
   );
 };
 
@@ -208,6 +210,10 @@ const FlagMarker = React.memo(Flag, (prevProps, nextProps) => {
 
 const UnknownMarker = React.memo(Unknown, (prevProps, nextProps) => {
   return prevProps.unknown.nbUpdates === nextProps.unknown.nbUpdates;
+});
+
+const TeamMarkerMemo = React.memo(TeamMarker, (prevProps, nextProps) => {
+  return prevProps.marker.nbUpdates === nextProps.marker.nbUpdates;
 });
 
 export default Markers;
