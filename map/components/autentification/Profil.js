@@ -64,43 +64,47 @@ const Profil = () => {
             />
           </View>
           <View>
-            <PieChart
-              data={[
-                {
-                  name: 'Victoire',
-                  population: statistics.Statistic.nbWins,
-                  color: '#68B684',
-                  legendFontColor: '#7F7F7F',
-                  legendFontSize: 15,
-                },
-                {
-                  name: 'Egalité',
-                  population:
-                    statistics.Statistic.nbGames -
-                    statistics.Statistic.nbLosses -
-                    statistics.Statistic.nbWins,
-                  color: '#D2D2D2',
-                  legendFontColor: '#7F7F7F',
-                  legendFontSize: 15,
-                },
-                {
-                  name: 'Défaite',
-                  population: statistics.Statistic.nbLosses,
-                  color: '#EB4646',
-                  legendFontColor: '#7F7F7F',
-                  legendFontSize: 15,
-                },
-              ]}
-              width={Dimensions.get('window').width}
-              height={220}
-              chartConfig={chartConfig}
-              accessor="population"
-              backgroundColor="transparent"
-              paddingLeft="15"
-              absolute
-            />
+            {statistics.Statistic.nbGames > 0 && (
+              <View style={{marginBottom: 20, marginTop: 20}}>
+                <PieChart
+                  data={[
+                    {
+                      name: 'Victoire',
+                      population: statistics.Statistic.nbWins,
+                      color: '#68B684',
+                      legendFontColor: '#7F7F7F',
+                      legendFontSize: 15,
+                    },
+                    {
+                      name: 'Egalité',
+                      population:
+                        statistics.Statistic.nbGames -
+                        statistics.Statistic.nbLosses -
+                        statistics.Statistic.nbWins,
+                      color: '#D2D2D2',
+                      legendFontColor: '#7F7F7F',
+                      legendFontSize: 15,
+                    },
+                    {
+                      name: 'Défaite',
+                      population: statistics.Statistic.nbLosses,
+                      color: '#EB4646',
+                      legendFontColor: '#7F7F7F',
+                      legendFontSize: 15,
+                    },
+                  ]}
+                  width={Dimensions.get('window').width}
+                  height={220}
+                  chartConfig={chartConfig}
+                  accessor="population"
+                  backgroundColor="transparent"
+                  paddingLeft="15"
+                  absolute
+                />
+              </View>
+            )}
           </View>
-          <View style={{marginTop: 40}}>
+          <View>
             <StatItem
               name="Cristaux capturés"
               value={statistics.Statistic.nbFlags}

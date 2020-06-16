@@ -60,15 +60,16 @@ const Signin = () => {
         <Text style={stylesSigninSignup.submitButtonText}>Se connecter</Text>
       </TouchableOpacity>
 
-      <Text style={stylesSigninSignup.textRegister}>Pas encore inscrit ?</Text>
-
-      <Button
-        style={stylesSigninSignup.btnRegister}
-        onPress={() => {
-          Actions.Signup();
-        }}>
-        <Text style={stylesSigninSignup.btnRegisterColor}>S'inscrire</Text>
-      </Button>
+      <Text style={stylesSigninSignup.textRegister}>
+        Pas encore inscrit ?{' '}
+        <Text
+          style={stylesSigninSignup.btnRegisterColor}
+          onPress={() => {
+            Actions.Signup();
+          }}>
+          S'inscrire
+        </Text>
+      </Text>
     </View>
   );
 };
