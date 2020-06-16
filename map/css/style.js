@@ -21,8 +21,6 @@ export const stylesSigninSignup = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-
-    elevation: 20,
   },
   submitButton: {
     backgroundColor: '#68B684',
