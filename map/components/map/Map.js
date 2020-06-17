@@ -109,6 +109,8 @@ const Map = ({playerTeam, isVisited = false, gameId = null}) => {
   }, [region]);
 
   useEffect(() => {
+    const popupPosition =
+      config.gameMode === 'SUPREMACY' ? Toast.positions.TOP : 60;
     player &&
       !notif &&
       socket.on('getNotification', notifs => {
@@ -120,7 +122,7 @@ const Map = ({playerTeam, isVisited = false, gameId = null}) => {
           ? Popup(
               privateNotif[0].message,
               'rgba(38,41,47, 0.5)',
-              Toast.positions.TOP,
+              popupPosition,
               Toast.durations.LONG,
             )
           : notifs.map(
@@ -130,7 +132,7 @@ const Map = ({playerTeam, isVisited = false, gameId = null}) => {
                 Popup(
                   n.message,
                   'rgba(38,41,47, 0.5)',
-                  Toast.positions.TOP,
+                  popupPosition,
                   Toast.durations.LONG,
                 ),
             );

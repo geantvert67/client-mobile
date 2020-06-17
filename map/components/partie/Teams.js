@@ -53,15 +53,6 @@ const Teams = () => {
       setTeams(t);
     });
 
-    socket.on('disconnect', function() {
-      Actions.Menu(),
-        Popup(
-          'Vous avez été déconnecté du serveur',
-          'rgba(255, 0, 0, 0.5)',
-          -70,
-        );
-    });
-
     return () => {
       socket && socket.connected && socket.close();
     };
